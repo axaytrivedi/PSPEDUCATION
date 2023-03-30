@@ -76,9 +76,9 @@
 </div>
 
 
-<script src="{{ URL::asset('plugins/jquery/jquery.min.js') }}"></script>
+<!-- <script src="{{ URL::asset('plugins/jquery/jquery.min.js') }}"></script>
 <script src="{{ URL::asset('plugins/jquery-validation/jquery.validate.min.js') }}"></script>
-<script src="{{ URL::asset('plugins/jquery-validation/additional-methods.min.js') }}"></script>
+<script src="{{ URL::asset('plugins/jquery-validation/additional-methods.min.js') }}"></script> -->
 
 <script type="text/javascript">
     $(document).ready(function() {
