@@ -47,18 +47,18 @@ class FacultyAttendanceController extends Controller
         $InTime = $request->InTime;
         $OutTime = $request->OutTime;
         $AttendanceStatus = $request->AttendanceStatus;
-        // dd($CalanderDate);
 
-        for ($i=0; $i < $checkId; $i++) { 
+        for ($i=0; $i < sizeof($checkId); $i++) { 
                 $create = FacultyAttendance::create([
-                'id'=>$checkId,
-                'FacultyCode' => $FacultyCode,
+                'id'=>$checkId[$i],
+                'FacultyCode' => $FacultyCode[$i],
                 'CalanderDate' => $CalanderDate,
-                'InTime' => $InTime,
-                'OutTime' => $OutTime,
-                'AttendanceStatus' => $AttendanceStatus
+                'InTime' => $InTime[$i],
+                'OutTime' => $OutTime[$i],
+                'AttendanceStatus' => $AttendanceStatus[$i]
             ]);
         }
+        
         return redirect()->route('facultyAttendance.index')->with('msg','Created Successfuly');
         
         // $request->validate([
