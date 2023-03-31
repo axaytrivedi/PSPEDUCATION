@@ -13,7 +13,7 @@
         {!! Session::has('msg') ? Session::get("msg") : '' !!}
     </div>
       <div class="table-responsive">
-         <table id="myDataTable" class=" table-responsive table table-hover align-middle mb-0" >
+      <table id="myDataTable" class="table table-hover align-middle mb-0" style="width: 100%;">
             <thead>
                <tr>
                   <th>No</th>

@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Student;
 use Illuminate\Http\Request;
-
+use App\Models\ParameterMaster;
 class StudentController extends Controller
 {
     /**
@@ -26,7 +26,10 @@ class StudentController extends Controller
     public function create()
     {
         $students = Student::latest();
-        return view('Student.create',compact('students'));
+        $batchCode = ParameterMaster::where('Parameter','BatchList')->get(['ParaCode','ParaDescription']); 
+        $CourseList = ParameterMaster::where('Parameter','CourseList')->get(['ParaCode','ParaDescription']); 
+
+        return view('Student.create',compact('students','batchCode','CourseList'));
     }
 
     /**
@@ -39,17 +42,16 @@ class StudentController extends Controller
     {
         $request->validate([
             
-            'SchoolName' => 'required',
-            'AddressLine1' => 'required',
-            'AddressLine2' => 'required',
-            'AddressLine3' => 'required',
-            'City' => 'required',
+            "StudentName"=> 'required|unique:student,id,deleted_at',
+            'DOB' => 'required',
+            'DateOfJoining' => 'required',
+
             ]);
 
         $create = Student::create([
             'id'=>$request->id,
-            'StudentCode' => $request->StudentCode,
-            'RollNo' => $request->RollNo,
+            'StudentCode' => StudentCode(),
+            'RollNo' => StudentRoll(),
             'StudentName' => $request->StudentName,
             'DOB' => $request->DOB,
             'DateOfJoining' => $request->DateOfJoining,
@@ -57,6 +59,9 @@ class StudentController extends Controller
             'CourceCode' => $request->CourceCode,
             'BatchCode' => $request->BatchCode,
             'AcademinSession' => $request->AcademinSession,
+            'AddressLine1'=>$request->AddressLine1,
+            'AddressLine2'=>$request->AddressLine2,
+            'AddressLine3'=>$request->AddressLine3,
             'Status' => $request->Status,
         ]);
         return redirect()->route('student.index')->with('msg','Created Successfuly');
@@ -85,7 +90,10 @@ class StudentController extends Controller
     public function edit($id)
     {
         $edit_students = Student::find($id);
-        return view('Student.create',compact('edit_students'));
+        $batchCode = ParameterMaster::where('Parameter','BatchList')->get(['ParaCode','ParaDescription']); 
+        $CourseList = ParameterMaster::where('Parameter','CourseList')->get(['ParaCode','ParaDescription']); 
+
+        return view('Student.create',compact('edit_students','batchCode','CourseList'));
     }
 
     /**
@@ -99,9 +107,6 @@ class StudentController extends Controller
     {
 
         $request->validate([
-        
-            'StudentCode' => 'required',
-            'RollNo' => 'required',
             'StudentName' => 'required',
             'DOB' => 'required',
             'DateOfJoining' => 'required',
@@ -113,7 +118,7 @@ class StudentController extends Controller
 
         ]);
         $students = Student::find($id);
-        $students->StudentCode = $request->StudentCode;
+        // $students->StudentCode = $request->StudentCode;
         $students->RollNo = $request->RollNo;
         $students->StudentName = $request->StudentName;
         $students->DOB = $request->DOB;
@@ -123,6 +128,9 @@ class StudentController extends Controller
         $students->BatchCode = $request->BatchCode;
         $students->AcademinSession = $request->AcademinSession;
         $students->Status = $request->Status;
+        $students->AddressLine1=$request->AddressLine1;
+        $students->AddressLine2=$request->AddressLine2;
+        $students->AddressLine3=$request->AddressLine3;
         $students->save();
         return redirect()->route('student.index')->with('msg','Updated Successfuly.');
     }

@@ -30,17 +30,17 @@ class ParameterMasterController extends Controller
      
         $filter = $request->filter;
         
-        $ParameterMaster = ParameterMaster::where('ParaID',$filter)->first();
-        if($ParameterMaster->Parameter =="SubCategory")
+          $ParameterMaster = ParameterMaster::where('ParaID',$filter)->first();
+        if($ParameterMaster->ParaDescription =="SubjectsList")
         {
 
-             $category = ParameterMaster::where('Parameter',"Category")->get(['ParaID','ParaDescription']);
+             $SubjectsList = ParameterMaster::where('Parameter',"CourseList")->get(['ParaID','ParaDescription']);
         }
         else
         {
-            $category =[];
+            $SubjectsList =[];
         }
-        return view("parameter.create",compact('ParameterMaster','category'));
+        return view("parameter.create",compact('ParameterMaster','SubjectsList'));
     }
     public function create()
     {
@@ -57,14 +57,18 @@ class ParameterMasterController extends Controller
     public function store(Request $request)
     {
 
+        
  
-        $ParaFilter1 = $request->ParaFilter1;
+        $filter = $request->filter;
+        $parameter = $request->ParaFilter1;
+    
         $ParaDescription = $request->ParaDescription;
         $Validity = $request->Validity;
         $Validity = $request->Validity;
         $file = $request->file;
-
+        $ParaCode= $request->ParaCode;
      
+
         if(!empty($file) && isset($file))
         {  
           
@@ -80,8 +84,9 @@ class ParameterMasterController extends Controller
         
         ParameterMaster::create([
                 "ParaID"=>paraidCreate(),
-                'ParaFilter1'=> (isset($ParaFilter1))? $ParaFilter1 : null,
-         
+                "Parameter"=>$parameter,
+                'ParaFilter1'=> (isset($filter))? $filter : null,
+                "ParaCode"=>$ParaCode,
                 'ParaDescription'=>ucfirst($ParaDescription),
                 'ParaValue'=>$CategoryDesignImge,
                 'Validity'=>$Validity,
@@ -140,11 +145,11 @@ class ParameterMasterController extends Controller
     {
         $paraid = $request->id;
 
-        $ParameterMaster = ParameterMaster::where('ParaID',$paraid)->first('ParaDescription');
+         $ParameterMaster = ParameterMaster::where('ParaID',$paraid)->first('ParaDescription');
 
 
 
-             $MailParameterMaster = ParameterMaster::where('ParaFilter1',trim($ParameterMaster->ParaDescription))->
+             $MailParameterMaster = ParameterMaster::where('Parameter',trim($ParameterMaster->ParaDescription))->
              where('Validity',"Active")->get();
              $html = view('parameter.getfillterwisedata',compact('MailParameterMaster'))->render();
              return response()->json(array('success'=> true, 'html'=>$html));

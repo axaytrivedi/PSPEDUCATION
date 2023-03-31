@@ -5,7 +5,6 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=Edge">
-    <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>::eBazar::  Dashboard </title>
     <link rel="icon" href="favicon.ico" type="image/x-icon"> <!-- Favicon-->
@@ -38,10 +37,11 @@
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     <!-- Jquery Page Js -->
+
+
+
     <link href="http://code.jquery.com/ui/1.10.2/themes/smoothness/jquery-ui.css" rel="Stylesheet">
-    <script src="http://code.jquery.com/ui/1.10.2/jquery-ui.js" ></script>
-
-
+    <script src="{{URL::asset('assets/js/jq-ui.js')}}"></script>
 
 </head>
 <body>

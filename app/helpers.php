@@ -1,5 +1,7 @@
 <?php
 use Spatie\Permission\Models\Role;
+use App\Models\FacultyAttendance;
+use App\Models\StudentAttendance;
 function checkRole($id)
 {
 
@@ -77,7 +79,7 @@ function FacultyCode()
     }
 
 
-    $get_perfectLast_id =  'PSP-'.$get_perfectLast_id;
+    $get_perfectLast_id =  'PSPF-'.$get_perfectLast_id;
 
     return $get_perfectLast_id = str_pad($get_perfectLast_id, 3, '0', STR_PAD_LEFT);
 
@@ -93,6 +95,54 @@ function ShowNewDateFormat($date)
     if($date !=""){ return date("d-m-Y",strtotime($date)); }else { return false; }
 }
 
+
+function StudentCode()
+{
+    $last = DB::table('student')->latest('id')->first('StudentCode');
+    $get_perfectLast_id=0000;
+    if(!empty($last))
+    {
+         $last = explode('-',$last->StudentCode);
+
+        $code = $last[1];
+        $get_perfectLast_id  = $code;
+        $get_perfectLast_id++;
+    }
+     if($get_perfectLast_id == 0000)
+    {
+        $get_perfectLast_id=0001;
+    }
+
+
+    $get_perfectLast_id =  'PSPS-'.$get_perfectLast_id;
+
+    return $get_perfectLast_id = str_pad($get_perfectLast_id, 3, '0', STR_PAD_LEFT);
+
+}
+function StudentRoll()
+{
+    $last = DB::table('student')->latest('id')->first('RollNo');
+    $get_perfectLast_id=0000;
+    if(!empty($last))
+    {
+         $last = explode('-',$last->RollNo);
+
+        $code = $last[1];
+        $get_perfectLast_id  = $code;
+        $get_perfectLast_id++;
+    }
+     if($get_perfectLast_id == 0000)
+    {
+        $get_perfectLast_id=0001;
+    }
+
+
+    $get_perfectLast_id =  'ROLL-'.$get_perfectLast_id;
+
+    return $get_perfectLast_id = str_pad($get_perfectLast_id, 3, '0', STR_PAD_LEFT);
+
+}
+
 function getcountry($country){
 	$getcountry = DB::table('countries')->select('name')->where('id',$country)->first();
     return $getcountry->name;
@@ -104,4 +154,31 @@ function getstate($state){
 function getcities($cities){
 	$getcities = DB::table('cities')->select('name')->where('id',$cities)->first();
     return $getcities->name;
+}
+
+function FacultyAttendanceget($id,$date)
+{
+
+
+    try{
+          $facultyatt = FacultyAttendance::where('FacultyCode',$id)->where('CalanderDate',"=",$date)->first(['FacultyCode','InTime','OutTime','AttendanceStatus']);
+
+    }
+    catch(Exception $e) {
+        $facultyatt =  " "; 
+      }
+      return $facultyatt;
+}
+
+function StudentAttendanceget($id,$date)
+{
+
+    try{
+          $StudentCode = StudentAttendance::where('StudentCode',$id)->where('LectureDate',"=",$date)->first(['StudentCode','InTime','OutTime','AttendanceStatus']);
+
+    }
+    catch(Exception $e) {
+        $StudentCode =  " "; 
+      }
+      return $StudentCode;
 }

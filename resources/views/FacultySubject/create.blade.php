@@ -26,34 +26,63 @@
                                              <h3 class="card-title">{{isset($edit_facultysub)?'Edit':"Add"}} Faculty Subject</h3>
                                              <a href="{{route('facultySubject.index')}}" class=" btn  my_btn  ml-auto"> Back</a>
                                          </div>
-                                         <div class="col-md-6">
-                                                <label for="FacultyCode" class="form-label">FacultyCode</label>
-                                              
-                                                <select type="text" class="form-control" id="FacultyCode"  name="FacultyCode">
+                                         <div class="col-md-6 form-group">
+                                                <label for="FacultyCode" class="form-label">FacultyCode/Name</label>
+                                   
+                                                <select class="form-control" id="FacultyCode"  name="FacultyCode">
                                                     <option selected disabled>-- Select Faculty Code/Name --</option>
                                                     @foreach($facultys as $fact)
-                                                     <option value="{{$fact->id}}" {{ old('FacultyCode', isset($edit_facultysub->FacultyCode) && $fact->id ?  'selected' : '' ) }}"> {{$fact->FacultyCode}} / {{$fact->firstName}} </option>
+                                                    
+                                                     <option value="{{$fact->FacultyCode}}"
+                                                     @if(isset($edit_facultysub->FacultyCode) &&$edit_facultysub->FacultyCode == $fact->FacultyCode  ) selected @endif 
+                                                     > {{$fact->FacultyCode}} / {{$fact->firstName}} </option>
+
+                                                    @endforeach
+                                                </select>
+                                                
+                                            </div>
+                                            <div class="col-md-6 form-group">
+                                                <label for="CourseCode" class="form-label">CourceCode/CourseName</label>
+                                            
+                                                <select  name="CourceCode"  class="form-control" id="CourceCode" >
+                                                    <option selected disabled>-- Select Faculty Code/Name --</option>
+                                                    @foreach($Coursedata as $c)
+                                                     <option value="{{$c->ParaDescription}}" {{ old('CourceCode')}}
+                                                     @if(isset($edit_facultysub->CourceCode) && $edit_facultysub->CourceCode == $c->ParaDescription  ) selected @endif 
+
+                                                     > {{$c->ParaID}} / {{$c->ParaDescription}} </option>
 
                                                     @endforeach
                                                 </select>
                                             </div>
-                                            <div class="col-md-6">
-                                                <label for="CourseCode" class="form-label">CourceCode</label>
-                                                <input type="text" class="form-control" id="CourceCode" 
-                                                name="CourceCode" value="{{ old('CourceCode', isset($edit_facultysub->CourceCode) ?  $edit_facultysub->CourceCode  : '' ) }}" >
-                                            </div>
                                            
-                                            <div class="col-md-6">
-                                                <label  class="form-label">SubjectCode</label>
-                                                <input type="text" class="form-control" id="SubjectCode" 
-                                                name="SubjectCode" value="{{ old('SubjectCode', isset($edit_facultysub->SubjectCode) ?  $edit_facultysub->SubjectCode  : '' ) }}">
+                                            <div class="col-md-6 form-group">
+                                                <label  class="form-label">SubjectCode / Name</label>
+                                                
+                                                <select multiple name="SubjectCode[]" class="form-control" id="SubjectCode" >
+                                                @if(isset($edit_facultysub->CourceCode))
+                                                    @foreach($SubjectCode as $c)
+                                                     <option value="{{$c->ParaDescription}}" {{ old('SubjectCode')}}
+                                                    
+                                                     @if(isset($edit_facultysub->CourceCode) && in_array($c->ParaDescription,explode(",",$edit_facultysub->SubjectCode)))
+                                                     selected
+                                                     @endif
+
+                                                     >  {{$c->ParaDescription}} </option>
+
+                                                    @endforeach
+                                                @endif
+
+                                                
+                                                </select> 
+
                                             </div>
-                                            <div class="col-md-6">
+                                            <div class="col-md-6 form-group">
                                                 <label  class="form-label">EffFrom</label>
                                                 <input type="date" class="form-control" id="EffFrom" 
                                                 name="EffFrom" value="{{ old('EffFrom', isset($edit_facultysub->EffFrom) ?  $edit_facultysub->EffFrom  : '' ) }}">
                                             </div>
-                                            <div class="col-md-6">
+                                            <div class="col-md-6 form-group">
                                                 <label  class="form-label">EffUpto</label>
                                                 <input type="date" class="form-control" id="EffUpto" 
                                                 name="EffUpto" value="{{ old('EffUpto', isset($edit_facultysub->EffUpto) ?  $edit_facultysub->EffUpto  : '' ) }}">
@@ -69,6 +98,26 @@
 <script>
 
     $("#FacultyCode").select2();
+    $("#CourceCode").select2();
+    $("#SubjectCode").select2({  placeholder: "Select Subject Code/Name", allowClear: true});
+
+    
+    $("#CourceCode").on("change",function(){
+        var id= $(this).val();
+        $.post("{{route('GetsubjectCode')}}",{"id":id,_token:"{{csrf_token()}}"},function(ak){
+
+            $("#SubjectCode").html(" ");
+            var row="";
+            if(isNaN(ak))
+            {
+                
+                $.each(ak,function(i,v){
+                    row+="<option value="+v.ParaDescription+">"+v.ParaDescription+"</option>";
+                });
+            }
+             $("#SubjectCode").html(row);
+        });
+    });
 $('#facultysubform').validate({
     rules: {
         FacultyCode: {
@@ -89,10 +138,10 @@ $('#facultysubform').validate({
     },
     messages: {
         FacultyCode: {
-            required: "Please enter FacultyCode "
+            required: "Please Select FacultyCode "
         },
         CourceCode: {
-            required: "Please enter CourceCode "
+            required: "Please Select CourceCode "
         },
         SubjectCode: {
             required: "Please enter SubjectCode "

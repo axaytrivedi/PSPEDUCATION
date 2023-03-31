@@ -9,7 +9,26 @@
         <form method="post" id="parameterid" action="{{route('parameter.store')}}" enctype='multipart/form-data'>
             <div class="row g-3 align-items-center">
             @csrf
-           
+            
+            @if(!empty($SubjectsList))
+                <div class="col-md-3">
+                    <label  class="form-label">Category Name</label>
+                    <div class="input-group  form-group mb-3">
+                   
+                    <select class="form-group form-control" id="filter" name="filter">
+                                            <option disabled selected>-- Select SubjectsList --</option>
+                                            @foreach($SubjectsList as $p)
+                                            <option value="{{$p->ParaDescription}}">{{$p->ParaDescription}}</option>
+
+                                            @endforeach
+                                        </select>
+                                        
+                            @if($errors->has('category'))
+                                <div class="error">{{ $errors->first('category') }}</div>
+                            @endif
+                    </div>
+                </div>
+                @endif
                 <div class="col-md-3">
                     <label  class="form-label"> Name </label>
                     <div class="input-group  form-group mb-3">
@@ -19,6 +38,18 @@
                         <input type="text" name="ParaDescription" class="form-control allowCharcterOnly">
                             @if($errors->has('ParaDescription'))
                                 <div class="error">{{ $errors->first('ParaDescription') }}</div>
+                            @endif
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <label  class="form-label"> Code </label>
+                    <div class="input-group  form-group mb-3">
+                   
+                    <input type="hidden" value=" {{$ParameterMaster->ParaCode}}"name="ParaCode" class="form-control ">
+
+                        <input type="text" name="ParaCode" class="form-control ">
+                            @if($errors->has('ParaDescription'))
+                                <div class="error">{{ $errors->first('ParaCode') }}</div>
                             @endif
                     </div>
                 </div>

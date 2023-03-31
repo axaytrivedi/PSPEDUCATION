@@ -12,5 +12,6 @@ class Student extends Model
     protected $fillable = [
         'StudentCode', 'RollNo','StudentName', 'DOB','DateOfJoining', 'Gender'
         ,'CourceCode','BatchCode','AcademinSession','Status',
+        'AddressLine1','AddressLine2','AddressLine3',
     ];
 }

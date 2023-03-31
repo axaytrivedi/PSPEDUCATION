@@ -92,17 +92,25 @@
                                                                 <td>
                                                                     <select class="form-select" aria-label="Default select example" id="AttendanceStatus" name="AttendanceStatus[]">
                                                                         <option selected value="">--Attandance Status--</option>
-                                                                        <option value="Half Day" >Half Day</option>
-                                                                        <option value="Full Day" >Full Day</option>
-                                                                        <option value="Absence" >Absence</option>
+                                                                        <option value="Half Day" 
+                                                                        {{ old('AttendanceStatus', isset($values)  && isset(FacultyAttendanceget($values->FacultyCode,date('Y-m-d'))->AttendanceStatus) ?  FacultyAttendanceget($values->FacultyCode,date('Y-m-d'))->AttendanceStatus  : '')=='Half Day' ? 'selected' : '' }} 
+                                                                       >Half Day</option>
+                                                                        <option value="Full Day" 
+                                                                        {{ old('AttendanceStatus', isset($values)  && isset(FacultyAttendanceget($values->FacultyCode,date('Y-m-d'))->AttendanceStatus) ?  FacultyAttendanceget($values->FacultyCode,date('Y-m-d'))->AttendanceStatus  : '')=='Full Day' ? 'selected' : '' }} 
+                                                                        >Full Day</option>
+                                                                        <option value="Absence"
+                                                                        
+                                                                        {{ old('AttendanceStatus', isset($values)  && isset(FacultyAttendanceget($values->FacultyCode,date('Y-m-d'))->AttendanceStatus) ?  FacultyAttendanceget($values->FacultyCode,date('Y-m-d'))->AttendanceStatus  : '')=='Absence' ? 'selected' : '' }} 
+                                                                        >Absence</option>
 
-                                                                        <!-- {{ old('AttendanceStatus', isset($values) ?  $values->AttendanceStatus  : '')=='Half Day' ? 'selected' : '' }}
+                                                                        <!-- 
                                                                         {{ old('AttendanceStatus', isset($values) ?  $values->AttendanceStatus  : '')=='Full Day' ? 'selected' : '' }}
                                                                         {{ old('AttendanceStatus', isset($values) ?  $values->AttendanceStatus  : '')=='Absence' ? 'selected' : '' }} -->
                                                                     </select>
                                                                 </td>
-                                                                <td><input type="time" class="form-control" id="InTime" name="InTime[]" value=""></td>
-                                                                <td><input type="time" class="form-control" id="OutTime" name="OutTime[]" value=""></td>
+                                                                <td><input type="time" class="form-control" id="InTime" name="InTime[]" value="@if(isset(FacultyAttendanceget($values->FacultyCode,date('Y-m-d'))->InTime)){{FacultyAttendanceget($values->FacultyCode,date('Y-m-d'))->InTime}}@endif"> </td>
+                                                                <td><input type="time" class="form-control" id="OutTime" name="OutTime[]" value="@if(isset(FacultyAttendanceget($values->FacultyCode,date('Y-m-d'))->OutTime)){{FacultyAttendanceget($values->FacultyCode,date('Y-m-d'))->OutTime}}@endif"></td>
+
                                                             </tr>
                                                             @endforeach
                                                         

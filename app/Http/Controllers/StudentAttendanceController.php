@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\StudentAttendance;
 use Illuminate\Http\Request;
+use App\Models\Student;
+use App\Models\ParameterMaster;
+
 
 class StudentAttendanceController extends Controller
 {
@@ -15,7 +18,12 @@ class StudentAttendanceController extends Controller
     public function index()
     {
         $studentatt = StudentAttendance::all();
-        return view('StudentAttendance.index',compact('studentatt'));
+
+        
+        $CourseList = ParameterMaster::where('Parameter','CourseList')->get(['ParaCode','ParaDescription']); 
+
+        $Student=Student::whereIn('status',['OnRoll','Promoted'])->get();
+        return view('StudentAttendance.index',compact('studentatt','Student','CourseList'));
     }
 
     /**
@@ -38,6 +46,17 @@ class StudentAttendanceController extends Controller
     public function store(Request $request)
     {       
 
+
+
+        
+        $checkId = $request->checks;
+        $StudentCode = $request->StudentCode;
+        $CalanderDate = $request->CalanderDate;
+        $InTime = $request->InTime;
+        $OutTime = $request->OutTime;
+        $AttendanceStatus = $request->AttendanceStatus;
+
+    
         $request->validate([
             'LectureCode' => 'required',
             'LectureDate' => 'required',
@@ -46,13 +65,16 @@ class StudentAttendanceController extends Controller
         
             ]);
 
-        $create = StudentAttendance::create([
-            'id'=>$request->id,
-            'LectureCode' => $request->LectureCode,
-            'LectureDate' => $request->LectureDate,
-            'StudentCode' => $request->StudentCode,
-            'AttendanceStatus' => $request->AttendanceStatus,
-        ]);
+            for ($i=0; $i < sizeof($checkId); $i++) { 
+                $create = StudentAttendance::create([
+                'id'=>$checkId[$i],
+                'StudentCode' => $StudentCode[$i],
+                'LectureDate' => $CalanderDate,
+                'InTime' => $InTime[$i],
+                'OutTime' => $OutTime[$i],
+                'AttendanceStatus' => $AttendanceStatus[$i]
+            ]);
+        }
         return redirect()->route('studentAttendance.index')->with('msg','Created Successfuly');
     }
 

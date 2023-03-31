@@ -128,19 +128,19 @@
                                                         <input type="file" class="form-control custom-file-input" id="check_img" name="image">
                                                         <label class="custom-file-label form-control" for="image">Choose file</label>
                                                     </div>
-                                                    <input type="hidden" name="image_2" @if(!empty($edit_users->Image)) value="{{$edit_users->Image}}" @endif>
+                                                    <input type="hidden" name="image_2" @if(!empty($edit_facultys->image)) value="{{$edit_facultys->image}}" @endif>
                                                             
                                                         
                                                         @php
                                                         $img="no_preview.png";
-                                                            
-                                                                if(isset($edit_users->Image))
+                                                      
+                                                                if(isset($edit_facultys->image))
                                                                 {
-                                                                    $filename =  public_path('Admin/Users/'. $edit_users->Image);
+                                                                    $filename =  public_path('Admin/Users/'. $edit_facultys->image);
     
-                                                                    if($edit_users->Image != '' && file_exists($filename))
+                                                                    if($edit_facultys->image != '' && file_exists($filename))
                                                                     {
-                                                                        $img='Users/'.$edit_users->Image;
+                                                                        $img='Users/'.$edit_facultys->image;
                                                                         
                                                                     }
                                                                 }

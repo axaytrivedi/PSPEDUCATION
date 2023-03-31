@@ -14,9 +14,6 @@ use App\Http\Controllers\Admin\ProfileController;
 use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\Admin\UserControllers;
 use App\Http\Controllers\Admin\Module\ModuleController;
-
-use App\Http\Controllers\Reports\StudentListReportController;
-
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -75,13 +72,16 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
     Route::post('/Module/Store/',[App\Http\Controllers\Admin\Module\ModuleController::class, 'store'])->name('Module.store');
     Route::get('/Module/{id}',[App\Http\Controllers\Admin\Module\ModuleController::class, 'index'])->name('Module.permission');
     Route::post('/Module/permission/',[App\Http\Controllers\Admin\Module\ModuleController::class, 'GivePermission'])->name('Module.GivePermission');
+    Route::post('GetsubjectCode', [FacultySubjectController::class,'GetsubjectCode'])->name('GetsubjectCode');
 
-    // By Krunal 30-30-2023
-    Route::get('/get_countries', 'App\Http\Controllers\SchoolDetailsController@get_countries')->name('school.get_countries');
-    Route::post('/get_state', 'App\Http\Controllers\SchoolDetailsController@get_state')->name('school.get_state');
-    Route::post('/get_city', 'App\Http\Controllers\SchoolDetailsController@get_city')->name('school.get_city');
 
-    // Reports Controller
-    Route::resource('studentList',App\Http\Controllers\Reports\StudentListReportController::class);
-    Route::post('/studentList/getStudentData', [App\Http\Controllers\Reports\StudentListReportController::class,'getStudentData'])->name('studentList.getStudentData');
 
+        // By Krunal 30-30-2023
+        Route::get('/get_countries', 'App\Http\Controllers\SchoolDetailsController@get_countries')->name('school.get_countries');
+        Route::post('/get_state', 'App\Http\Controllers\SchoolDetailsController@get_state')->name('school.get_state');
+        Route::post('/get_city', 'App\Http\Controllers\SchoolDetailsController@get_city')->name('school.get_city');
+    
+        // Reports Controller
+        Route::resource('studentList',App\Http\Controllers\Reports\StudentListReportController::class);
+        Route::post('/studentList/getStudentData', [App\Http\Controllers\Reports\StudentListReportController::class,'getStudentData'])->name('studentList.getStudentData');
+    

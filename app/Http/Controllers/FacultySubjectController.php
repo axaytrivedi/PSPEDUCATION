@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\FacultySubject;
 use Illuminate\Http\Request;
 use App\Models\Faculty;
-
+use App\Models\ParameterMaster;
 class FacultySubjectController extends Controller
 {
     /**
@@ -28,7 +28,8 @@ class FacultySubjectController extends Controller
     {
         $facultysub = FacultySubject::latest();
         $facultys = Faculty::where('Status','OnRoll')->get();
-        return view('FacultySubject.create',compact('facultysub','facultys'));
+        $Coursedata = ParameterMaster::where('Parameter','CourseList')->get(); 
+        return view('FacultySubject.create',compact('facultysub','facultys','Coursedata'));
     }
 
     /**
@@ -39,6 +40,8 @@ class FacultySubjectController extends Controller
      */
     public function store(Request $request)
     {
+
+        
         $request->validate([
             'FacultyCode' => 'required',
             'CourceCode' => 'required',
@@ -51,7 +54,7 @@ class FacultySubjectController extends Controller
             'id'=>$request->id,
             'FacultyCode' => $request->FacultyCode,
             'CourceCode' => $request->CourceCode,
-            'SubjectCode' => $request->SubjectCode,
+            'SubjectCode' =>implode(",", $request->SubjectCode),
             'EffFrom' => $request->EffFrom,
             'EffUpto' => $request->EffUpto,
         ]);
@@ -79,7 +82,13 @@ class FacultySubjectController extends Controller
     public function edit($id)
     {
         $edit_facultysub = FacultySubject::find($id);
-        return view('Faculty.create',compact('edit_facultysub'));
+
+        $facultys = Faculty::where('Status','OnRoll')->get();
+        $Coursedata = ParameterMaster::where('Parameter','CourseList')->get(); 
+         $SubjectCode = ParameterMaster::whereIn('ParaDescription',explode(",",$edit_facultysub->SubjectCode))->get(['ParaID','ParaDescription']); 
+
+      
+        return view('FacultySubject.create',compact('edit_facultysub','facultys','Coursedata','SubjectCode'));
     }
 
     /**
@@ -102,7 +111,7 @@ class FacultySubjectController extends Controller
         $facultysub = FacultySubject::find($id);
         $facultysub->FacultyCode = $request->FacultyCode;
         $facultysub->CourceCode = $request->CourceCode;
-        $facultysub->SubjectCode = $request->SubjectCode;
+        $facultysub->SubjectCode = implode(",", $request->SubjectCode);
         $facultysub->EffFrom = $request->EffFrom;
         $facultysub->EffUpto = $request->EffUpto;
         $facultysub->save();
@@ -121,5 +130,12 @@ class FacultySubjectController extends Controller
        
         return redirect()->route('facultySubject.index')
                         ->with('success','deleted successfully');
+    }
+    public function GetsubjectCode(Request $request)
+    {
+         $ParaFilter1= $request->id;
+         return $Coursedata = ParameterMaster::where('ParaFilter1',$ParaFilter1)->get(); 
+
+         
     }
 }

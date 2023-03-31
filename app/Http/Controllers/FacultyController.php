@@ -98,7 +98,7 @@ class FacultyController extends Controller
 
 
 
-           
+   
         $create = Faculty::create([
             'id'=>$request->id,
             'FacultyCode' => FacultyCode(),
@@ -112,7 +112,7 @@ class FacultyController extends Controller
             'WorkingStartTime' => $request->WorkingStartTime,
             'WorkingEndTime' => $request->WorkingEndTime,
             'email'=>$request->email,
-            'image'=>$img,
+            'image'=>$filename,
             'Role'=>$request->Role,
             'Status' => $request->Status,
         ]);
@@ -123,7 +123,7 @@ class FacultyController extends Controller
                             'Role'=>$request->Role,
                             'email'=>$request->email,
                             'password'=>Hash::make($request->password),
-                            'image'=>$img,
+                            'Image'=>$filename,
                             'user_status'=>"Active",
                         ]);
         }
@@ -182,7 +182,8 @@ class FacultyController extends Controller
         $facultys = Faculty::find($id);
         $facultys->FacultyCode = FacultyCode();
         $facultys->Title = $request->Title;
-        $facultys->FacultyName = $request->FacultyName;
+        $facultys->firstName = $request->firstName;
+        $facultys->lastName = $request->lastName;
         $facultys->DOB = $request->DOB;
         $facultys->DateOfJoining = $request->DateOfJoining;
         $facultys->Gender = $request->Gender;

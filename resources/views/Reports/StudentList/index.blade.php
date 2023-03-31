@@ -118,6 +118,7 @@
                     data: {
                         courseCode: courseCode,
                         batchCode: batchCode,
+                        _token:"{{csrf_token()}}",
                     },
                     //cache: false,
                     success: function(data) {
