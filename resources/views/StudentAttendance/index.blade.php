@@ -30,7 +30,7 @@
                                         </div>
                                         <div class="col-md-3">
                                         <div class="form-group">
-                                                <label><strong>Course Code :</strong></label>
+                                                <label><strong>  Course List :</strong></label>
                                                 <select id='courseCode' name="courseCode"class="form-control" style="width: 200px">
                                                     <option value="">--Select Course Code--</option>
                                                     @foreach ($CourseList as $code)
@@ -42,7 +42,7 @@
                                         </div>
 
                                         </div>
-                                        CourseList
+                                      
                                     </div>
                                     <div class="row g-3 mb-3">
                                         <div class="col-md-12">

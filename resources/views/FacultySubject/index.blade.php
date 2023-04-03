@@ -12,8 +12,8 @@
                                     </div>
                                 </div>
                                 <div class="card-body">
-                                    <div class="table-responsive">
-                                        <table class="table table-hover">
+                             
+                                    <table id="myDataTable" class="table table-hover align-middle mb-0" style="width: 100%;">
                                             <thead>
                                             <tr>
                                                 <th>No</th>
@@ -30,7 +30,7 @@
                                                 <tr>
                                                     <td>{{ $loop->iteration }}</td>
                                                     <td>{{ $values->FacultyCode }}</td>
-                                                    <td>{{ $values->CourceCode }}</td>
+                                                    <td>{{ $values->CourseCode }}</td>
                                                     <td>{{ $values->SubjectCode }}</td>
                                                     <td>{{ ShowNewDateFormat($values->EffFrom) }}</td>
                                                     <td>{{ ShowNewDateFormat($values->EffUpto) }}</td>
@@ -50,6 +50,6 @@
                                             </tbody>
                                         </table>
                                     </div>
-                                </div>
+                                
                             </div>
 @endsection

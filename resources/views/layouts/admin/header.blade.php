@@ -30,19 +30,19 @@
                                     School Details
                                 </a>
                                 <a class="ms-link"
-                                    href="{{ url("student") }}" class="nav-link {{ (request()->is('Student') || 
+                                    href="{{ url('student') }}" class="nav-link {{ (request()->is('Student') || 
                                     request()->is('Student/create') || request()->is('Student/*/edit') || 
                                     request()->is('Student/*')) ? 'active' : '' }}">
                                     Student
                                 </a>
                                 <a class="ms-link"
-                                    href="{{ url("faculty") }}" class="nav-link {{ (request()->is('Faculty') || 
+                                    href="{{ url('faculty') }}" class="nav-link {{ (request()->is('Faculty') || 
                                     request()->is('Faculty/create') || request()->is('Faculty/*/edit') || 
                                     request()->is('Faculty/*')) ? 'active' : '' }}">
                                     Faculty
                                 </a>
                                 <a class="ms-link"
-                                    href="{{ url("facultySubject") }}" class="nav-link {{ (request()->is('FacultySubject') || 
+                                    href="{{ url('facultySubject') }}" class="nav-link {{ (request()->is('FacultySubject') || 
                                     request()->is('FacultySubject/create') || request()->is('FacultySubject/*/edit') || 
                                     request()->is('FacultySubject/*')) ? 'active' : '' }}">
                                     Faculty Subject
@@ -60,7 +60,7 @@
                                     Student Attendance
                                 </a>
                                 <a class="ms-link"
-                                    href="{{ url("schedule") }}" class="nav-link {{ (request()->is('Schedule') || 
+                                    href="{{ url('schedule') }}" class="nav-link {{ (request()->is('Schedule') || 
                                     request()->is('Schedule/create') || request()->is('Schedule/*/edit') || 
                                     request()->is('Schedule/*')) ? 'active' : '' }}">
                                     Schedule
@@ -81,7 +81,7 @@
                                 <li><a class="ms-link {{ (request()->is('studentList') || request()->is('studentList/*')) ? 'active' : '' }}" href="{{ url("studentList") }}">Student List</a></li>
                                 <li><a class="ms-link" href="">Faculty List</a></li>
                                 <li><a class="ms-link" href="">Faculty Total Working Hours</a></li>
-                                <li><a class="ms-link" href="">Student Attendance</a></li>
+                                <!-- <li><a class="ms-link" href="">Student Attendance</a></li> -->
                                 <li><a class="ms-link" href="">Lecture Attendance</a></li>
                             </ul>
                     </li>

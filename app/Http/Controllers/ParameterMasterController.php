@@ -31,16 +31,23 @@ class ParameterMasterController extends Controller
         $filter = $request->filter;
         
           $ParameterMaster = ParameterMaster::where('ParaID',$filter)->first();
-        if($ParameterMaster->ParaDescription =="SubjectsList")
+        if($ParameterMaster->ParaDescription =="BatchList")
+        {
+            $CourseList = ParameterMaster::where('Parameter',"CourseList")->get(['ParaID','ParaDescription']);
+       
+        }
+         else if($ParameterMaster->ParaDescription =="SubjectsList")
         {
 
-             $SubjectsList = ParameterMaster::where('Parameter',"CourseList")->get(['ParaID','ParaDescription']);
+             $CourseList = ParameterMaster::where('Parameter',"CourseList")->get(['ParaID','ParaDescription']);
+    
         }
         else
         {
-            $SubjectsList =[];
+            $CourseList=[];
+        
         }
-        return view("parameter.create",compact('ParameterMaster','SubjectsList'));
+        return view("parameter.create",compact('ParameterMaster','CourseList'));
     }
     public function create()
     {

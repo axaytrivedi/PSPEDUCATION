@@ -50,15 +50,30 @@ class FacultySubjectController extends Controller
             'EffUpto' => 'required',
             ]);
 
-        $create = FacultySubject::create([
-            'id'=>$request->id,
-            'FacultyCode' => $request->FacultyCode,
-            'CourceCode' => $request->CourceCode,
-            'SubjectCode' =>implode(",", $request->SubjectCode),
-            'EffFrom' => $request->EffFrom,
-            'EffUpto' => $request->EffUpto,
-        ]);
-        return redirect()->route('facultySubject.index')->with('msg','Created Successfuly');
+        if(!empty($request->SubjectCode))
+        {
+            foreach($request->SubjectCode as  $d)
+            {
+
+                $create = FacultySubject::create([
+                    'id'=>$request->id,
+                    'FacultyCode' => $request->FacultyCode,
+                    'CourseCode' => $request->CourceCode,
+                    'SubjectCode' =>$d,
+                    'EffFrom' => $request->EffFrom,
+                    'EffUpto' => $request->EffUpto,
+                ]);
+            }
+            return redirect()->route('facultySubject.index')->with('msg','Created Successfuly');
+
+         
+        }
+        else
+        {
+            return redirect()->back()->with('msg','Oops No Subject Selected');
+
+        }
+       
     }
 
     /**
@@ -108,13 +123,36 @@ class FacultySubjectController extends Controller
             'EffUpto' => 'required',
 
         ]);
+
         $facultysub = FacultySubject::find($id);
-        $facultysub->FacultyCode = $request->FacultyCode;
-        $facultysub->CourceCode = $request->CourceCode;
-        $facultysub->SubjectCode = implode(",", $request->SubjectCode);
-        $facultysub->EffFrom = $request->EffFrom;
-        $facultysub->EffUpto = $request->EffUpto;
-        $facultysub->save();
+        $facultysub->delete();
+        
+
+        if(!empty($request->SubjectCode))
+        {
+            foreach($request->SubjectCode as  $d)
+            {
+
+                $create = FacultySubject::create([
+                    'id'=>$request->id,
+                    'FacultyCode' => $request->FacultyCode,
+                    'CourseCode' => $request->CourceCode,
+                    'SubjectCode' =>$d,
+                    'EffFrom' => $request->EffFrom,
+                    'EffUpto' => $request->EffUpto,
+                ]);
+            }
+            return redirect()->route('facultySubject.index')->with('msg','Created Successfuly');
+
+         
+        }
+        else
+        {
+            return redirect()->back()->with('msg','Oops No Subject Selected');
+
+        }
+  
+   
         return redirect()->route('facultySubject.index')->with('msg','Updated Successfuly.');
     }
 
@@ -133,8 +171,8 @@ class FacultySubjectController extends Controller
     }
     public function GetsubjectCode(Request $request)
     {
-         $ParaFilter1= $request->id;
-         return $Coursedata = ParameterMaster::where('ParaFilter1',$ParaFilter1)->get(); 
+          $ParaFilter1= $request->id;
+         return $Coursedata = ParameterMaster::where('Parameter',"SubjectsList")->where('ParaFilter1',$ParaFilter1)->get(); 
 
          
     }

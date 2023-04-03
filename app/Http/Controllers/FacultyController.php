@@ -112,6 +112,11 @@ class FacultyController extends Controller
             'WorkingStartTime' => $request->WorkingStartTime,
             'WorkingEndTime' => $request->WorkingEndTime,
             'email'=>$request->email,
+            'AddressLine1'=>$request->AddressLine1,
+            'AddressLine2'=>$request->AddressLine2,
+            'AddressLine3'=>$request->AddressLine3,
+            'MobileNo'=>$request->MobileNo,
+
             'image'=>$filename,
             'Role'=>$request->Role,
             'Status' => $request->Status,
@@ -190,6 +195,11 @@ class FacultyController extends Controller
         $facultys->Qualification = $request->Qualification;
         $facultys->WorkingStartTime = $request->WorkingStartTime;
         $facultys->WorkingEndTime = $request->WorkingEndTime;
+        $facultys->email=$request->email;
+        $facultys->AddressLine1=$request->AddressLine1;
+        $facultys->AddressLine2=$request->AddressLine2;
+        $facultys->AddressLine3=$request->AddressLine3;
+        $facultys->MobileNo=$request->MobileNo;
         $facultys->Status = $request->Status;
         $facultys->save();
         return redirect()->route('faculty.index')->with('msg','Updated Successfuly.');

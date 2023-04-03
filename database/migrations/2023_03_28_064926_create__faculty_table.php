@@ -22,6 +22,13 @@ class CreateFacultyTable extends Migration
             $table->string('DateOfJoining')->nullable();
             $table->string('Gender')->nullable()->length(6);
             $table->string('Qualification')->nullable()->length(50);
+
+            $table->string('email')->nullable()->length(50);
+            $table->string('MobileNo')->nullable()->length(50);
+            $table->string('AddressLine1')->nullable()->length(50);
+            $table->string('AddressLine2')->nullable()->length(50);
+            $table->string('AddressLine3')->nullable()->length(50);
+
             $table->string('WorkingStartTime')->nullable();
             $table->string('WorkingEndTime')->nullable();
             $table->string('Status')->nullable()->length(12);

@@ -39,7 +39,8 @@ class FacultyAttendanceController extends Controller
      */
     public function store(Request $request)
     {
-        // dd($request->all());
+        $attendance_id= $request->attendance_id;
+
 
         $checkId = $request->checks;
         $FacultyCode = $request->FacultyCode;
@@ -48,17 +49,54 @@ class FacultyAttendanceController extends Controller
         $OutTime = $request->OutTime;
         $AttendanceStatus = $request->AttendanceStatus;
 
-        for ($i=0; $i < sizeof($checkId); $i++) { 
-                $create = FacultyAttendance::create([
-                'id'=>$checkId[$i],
-                'FacultyCode' => $FacultyCode[$i],
-                'CalanderDate' => $CalanderDate,
-                'InTime' => $InTime[$i],
-                'OutTime' => $OutTime[$i],
-                'AttendanceStatus' => $AttendanceStatus[$i]
-            ]);
+     
+        // for ($i=0; $i < sizeof($checkId); $i++) { 
+
+
+           
+        //     dd(sizeof($checkId));
+        //         $create = FacultyAttendance::create([
+        //         'FacultyCode' => $FacultyCode[$i],
+        //         'CalanderDate' => $CalanderDate,
+        //         'InTime' => $InTime[$i],
+        //         'OutTime' => $OutTime[$i],
+        //         'AttendanceStatus' => $AttendanceStatus[$i]
+        //     ]);
+        // }
+        foreach($checkId as $key=>$data)
+        {
+               
+          
+            if(array_key_exists($key,$checkId))
+            {
+                if(array_key_exists($key,$attendance_id) && !empty($attendance_id[$key]))
+                {
+                  
+                    $create = FacultyAttendance::where('id',$attendance_id[$key])->update([
+                        'FacultyCode' => $FacultyCode[$key],
+                        'CalanderDate' => $CalanderDate,
+                        'InTime' => $InTime[$key],
+                        'OutTime' => $OutTime[$key],
+                        'AttendanceStatus' => $AttendanceStatus[$key]
+                    ]);
+                }
+                else
+                {
+                    
+                  
+                    $create = FacultyAttendance::create([
+                        'FacultyCode' => $FacultyCode[$key],
+                        'CalanderDate' => $CalanderDate,
+                        'InTime' => $InTime[$key],
+                        'OutTime' => $OutTime[$key],
+                        'AttendanceStatus' => $AttendanceStatus[$key]
+                    ]);
+                }
+
+               
+            }
         }
-        
+       
         return redirect()->route('facultyAttendance.index')->with('msg','Created Successfuly');
         
         // $request->validate([

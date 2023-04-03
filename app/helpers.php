@@ -161,7 +161,7 @@ function FacultyAttendanceget($id,$date)
 
 
     try{
-          $facultyatt = FacultyAttendance::where('FacultyCode',$id)->where('CalanderDate',"=",$date)->first(['FacultyCode','InTime','OutTime','AttendanceStatus']);
+          $facultyatt = FacultyAttendance::where('FacultyCode',$id)->where('CalanderDate',"=",$date)->first(['id as Att_id','FacultyCode','InTime','OutTime','AttendanceStatus']);
 
     }
     catch(Exception $e) {
@@ -174,7 +174,7 @@ function StudentAttendanceget($id,$date)
 {
 
     try{
-          $StudentCode = StudentAttendance::where('StudentCode',$id)->where('LectureDate',"=",$date)->first(['StudentCode','InTime','OutTime','AttendanceStatus']);
+         return  $StudentCode = StudentAttendance::where('StudentCode',$id)->where('LectureDate',"=",$date)->first();
 
     }
     catch(Exception $e) {

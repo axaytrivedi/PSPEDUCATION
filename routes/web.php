@@ -74,6 +74,11 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
     Route::post('/Module/permission/',[App\Http\Controllers\Admin\Module\ModuleController::class, 'GivePermission'])->name('Module.GivePermission');
     Route::post('GetsubjectCode', [FacultySubjectController::class,'GetsubjectCode'])->name('GetsubjectCode');
 
+    //Get 
+    Route::post('getSubjectWiseFacultyinShedule', [ScheduleController::class,'GetSubjectWiseFacultyinShedule'])->name('getSubjectWiseFacultyinShedule');
+    Route::post('getCourseWiseBatch', [ScheduleController::class,'GetCourseWiseBatch'])->name('getCourseWiseBatch');
+
+    
 
 
         // By Krunal 30-30-2023
@@ -85,3 +90,4 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
         Route::resource('studentList',App\Http\Controllers\Reports\StudentListReportController::class);
         Route::post('/studentList/getStudentData', [App\Http\Controllers\Reports\StudentListReportController::class,'getStudentData'])->name('studentList.getStudentData');
     
+        

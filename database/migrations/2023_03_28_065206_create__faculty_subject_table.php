@@ -16,7 +16,7 @@ class CreateFacultySubjectTable extends Migration
         Schema::create('FacultySubject', function (Blueprint $table) {
             $table->id();
             $table->string('FacultyCode')->nullable()->length(12);
-            $table->string('CourceCode')->nullable()->length(12);
+            $table->string('CourseCode')->nullable()->length(12);
             $table->string('SubjectCode')->nullable()->length(12);
             $table->string('EffFrom')->nullable();
             $table->string('EffUpto')->nullable();

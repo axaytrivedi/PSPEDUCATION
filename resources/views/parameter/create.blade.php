@@ -9,15 +9,15 @@
         <form method="post" id="parameterid" action="{{route('parameter.store')}}" enctype='multipart/form-data'>
             <div class="row g-3 align-items-center">
             @csrf
-            
-            @if(!empty($SubjectsList))
+
+            @if(!empty($CourseList))
                 <div class="col-md-3">
-                    <label  class="form-label">Category Name</label>
+                    <label  class="form-label">Select Course Name</label>
                     <div class="input-group  form-group mb-3">
                    
                     <select class="form-group form-control" id="filter" name="filter">
-                                            <option disabled selected>-- Select SubjectsList --</option>
-                                            @foreach($SubjectsList as $p)
+                                            <option disabled selected>-- Select Course  --</option>
+                                            @foreach($CourseList as $p)
                                             <option value="{{$p->ParaDescription}}">{{$p->ParaDescription}}</option>
 
                                             @endforeach
@@ -28,7 +28,8 @@
                             @endif
                     </div>
                 </div>
-                @endif
+            @endif
+            
                 <div class="col-md-3">
                     <label  class="form-label"> Name </label>
                     <div class="input-group  form-group mb-3">

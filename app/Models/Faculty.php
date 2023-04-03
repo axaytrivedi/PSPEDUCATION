@@ -14,5 +14,9 @@ class Faculty extends Model
         ,'Qualification','WorkingStartTime','WorkingEndTime','Status',"Role",
         "email",
         "image",
+        'MobileNo',
+        'AddressLine1',
+        'AddressLine2',
+        'AddressLine3',
     ];
 }

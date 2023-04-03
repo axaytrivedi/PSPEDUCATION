@@ -92,6 +92,11 @@
                                                 <input type="text" class="form-control" id="email" 
                                                 name="email" value="{{ old('email', isset($edit_facultys->email) ?  $edit_facultys->email  : '' ) }}">
                                             </div>
+                                            <div class="col-md-6 form-group">
+                                                <label  class="form-label">Mobile No</label>
+                                                <input type="text" class="form-control" id="MobileNo" 
+                                                name="MobileNo" value="{{ old('MobileNo', isset($edit_facultys->MobileNo) ?  $edit_facultys->MobileNo  : '' ) }}">
+                                            </div>
                                             @if(!isset($edit_facultys->id))
                                                 <div class="col-md-6 form-group">
                                                     <label  class="form-label">Password *</label>
@@ -114,6 +119,22 @@
                                                 <label  class="form-label">WorkingEndTime</label>
                                                 <input type="time" class="form-control" id="WorkingEndTime" 
                                                 name="WorkingEndTime" value="{{ old('WorkingEndTime', isset($edit_facultys->WorkingEndTime) ?  $edit_facultys->WorkingEndTime  : '' ) }}">
+                                            </div>
+
+                                            <div class="col-md-6 form-group">
+                                                <label  class="form-label">AddressLine 1</label>
+                                                <input type="text" class="form-control" id="AddressLine1" 
+                                                name="AddressLine1" value="{{ old('AddressLine1', isset($edit_facultys->AddressLine1) ?  $edit_facultys->AddressLine1  : '' ) }}">
+                                            </div>
+                                            <div class="col-md-6 form-group">
+                                                <label  class="form-label">AddressLine  2</label>
+                                                <input type="text" class="form-control" id="AddressLine2" 
+                                                name="AddressLine2" value="{{ old('AddressLine2', isset($edit_facultys->AddressLine2) ?  $edit_facultys->AddressLine2  : '' ) }}">
+                                            </div>
+                                            <div class="col-md-6 form-group">
+                                                <label  class="form-label">AddressLine  3</label>
+                                                <input type="text" class="form-control" id="AddressLine3" 
+                                                name="AddressLine3" value="{{ old('AddressLine3', isset($edit_facultys->AddressLine3) ?  $edit_facultys->AddressLine3  : '' ) }}">
                                             </div>
                                             <div class="col-md-6 form-group">
                                                 <label  class="form-label">Status</label>

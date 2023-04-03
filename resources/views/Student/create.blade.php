@@ -117,6 +117,7 @@
                                                     <option value="Short-Left">Short-Left</option>
                                                     <option value="Completed">Completed</option>
                                                     <option value="Promoted">Promoted</option>
+                                                    <option value="PassOut">Pass Out</option>
                                                 </select>
                                             </div>
                                          

@@ -11,7 +11,7 @@ class Schedule extends Model
     public $table='schedule';
 
     protected $fillable = [
-        'LectureCode', 'CourceCode','BatchCode', 'DateOfWeek','Session','TimingFrom','TimingUpto','',
+        'dayname','location','LectureCode', 'CourceCode','BatchCode', 'date','Session','TimingFrom','TimingUpto','',
         'SubjectCode','FacultyCode','Venue','EffFrom','EffUpto',
     ];
 }

@@ -16,11 +16,16 @@ class CreateScheduleTable extends Migration
         Schema::create('Schedule', function (Blueprint $table) {
             $table->id();
             $table->string('LectureCode')->nullable()->length(12);
+
+            $table->string('location')->nullable()->length(50);
             $table->string('CourceCode')->nullable()->length(12);
             $table->string('BatchCode')->nullable()->length(12);
             $table->string('DateOfWeek')->nullable()->length(6);
+            $table->string('dayname')->nullable()->length(50);
+
             $table->string('Session')->nullable()->length(12);
             $table->string('TimingFrom')->nullable();
+            
             $table->string('TimingUpto')->nullable();
             $table->string('SubjectCode')->nullable()->length(12);
             $table->string('FacultyCode')->nullable()->length(12);

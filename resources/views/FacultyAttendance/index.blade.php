@@ -86,7 +86,9 @@
                                                         <tbody>
                                                             @foreach($facultys as $k=>$values)
                                                             <tr>
-                                                                <td><input type="checkbox" class="checkbox" data-id="{{$values->id}}" name="checks[]"></td>
+                                                                <input type="hidden" name="attendance_id[]" 
+                                                             @if(isset(FacultyAttendanceget($values->FacultyCode,date('Y-m-d'))->Att_id))  value="{{FacultyAttendanceget($values->FacultyCode,date('Y-m-d'))->Att_id}}" @endif>
+                                                                <td><input type="checkbox" class="checkbox" data-id="{{$values->id}}" name="checks[{{$k}}][]"></td>
                                                                 <td>{{ $loop->iteration }}</td>
                                                                 <td><strong><input type="hidden" class="form-control" id="FacultyCode" name="FacultyCode[]" value="{{ $values->FacultyCode }}">{{ $values->FacultyCode }} - {{ $values->firstName }}</strong></td>
                                                                 <td>
@@ -108,7 +110,7 @@
                                                                         {{ old('AttendanceStatus', isset($values) ?  $values->AttendanceStatus  : '')=='Absence' ? 'selected' : '' }} -->
                                                                     </select>
                                                                 </td>
-                                                                <td><input type="time" class="form-control" id="InTime" name="InTime[]" value="@if(isset(FacultyAttendanceget($values->FacultyCode,date('Y-m-d'))->InTime)){{FacultyAttendanceget($values->FacultyCode,date('Y-m-d'))->InTime}}@endif"> </td>
+                                                                <td><input type="time" class="form-control" id="InTime" name="InTime[]" @if(isset(FacultyAttendanceget($values->FacultyCode,date('Y-m-d'))->InTime))  value="{{FacultyAttendanceget($values->FacultyCode,date('Y-m-d'))->InTime}}" @else value="" @endif> </td>
                                                                 <td><input type="time" class="form-control" id="OutTime" name="OutTime[]" value="@if(isset(FacultyAttendanceget($values->FacultyCode,date('Y-m-d'))->OutTime)){{FacultyAttendanceget($values->FacultyCode,date('Y-m-d'))->OutTime}}@endif"></td>
 
                                                             </tr>

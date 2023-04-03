@@ -44,13 +44,12 @@
                                             <div class="col-md-6 form-group">
                                                 <label for="CourseCode" class="form-label">CourceCode/CourseName</label>
                                             
-                                                <select  name="CourceCode"  class="form-control" id="CourceCode" >
+                                          
+                                                <select  name="CourceCode"  class="form-control CourseCode" id="CourseCode" >
                                                     <option selected disabled>-- Select Faculty Code/Name --</option>
                                                     @foreach($Coursedata as $c)
                                                      <option value="{{$c->ParaDescription}}" {{ old('CourceCode')}}
-                                                     @if(isset($edit_facultysub->CourceCode) && $edit_facultysub->CourceCode == $c->ParaDescription  ) selected @endif 
-
-                                                     > {{$c->ParaID}} / {{$c->ParaDescription}} </option>
+                                                     @if(isset($edit_facultysub->CourseCode) && $edit_facultysub->CourseCode == $c->ParaDescription  ) selected @endif > {{$c->ParaID}} / {{$c->ParaDescription}} </option>
 
                                                     @endforeach
                                                 </select>
@@ -60,11 +59,11 @@
                                                 <label  class="form-label">SubjectCode / Name</label>
                                                 
                                                 <select multiple name="SubjectCode[]" class="form-control" id="SubjectCode" >
-                                                @if(isset($edit_facultysub->CourceCode))
+                                                @if(isset($edit_facultysub->SubjectCode))
                                                     @foreach($SubjectCode as $c)
                                                      <option value="{{$c->ParaDescription}}" {{ old('SubjectCode')}}
                                                     
-                                                     @if(isset($edit_facultysub->CourceCode) && in_array($c->ParaDescription,explode(",",$edit_facultysub->SubjectCode)))
+                                                     @if(isset($edit_facultysub->SubjectCode) && in_array($c->ParaDescription,explode(",",$edit_facultysub->SubjectCode)))
                                                      selected
                                                      @endif
 
@@ -96,14 +95,16 @@
                                  </div>
                              </div>
 <script>
+$( document ).ready(function() {
 
     $("#FacultyCode").select2();
     $("#CourceCode").select2();
     $("#SubjectCode").select2({  placeholder: "Select Subject Code/Name", allowClear: true});
 
     
-    $("#CourceCode").on("change",function(){
+    $(".CourseCode").on("change",function(){
         var id= $(this).val();
+        
         $.post("{{route('GetsubjectCode')}}",{"id":id,_token:"{{csrf_token()}}"},function(ak){
 
             $("#SubjectCode").html(" ");
@@ -118,54 +119,55 @@
              $("#SubjectCode").html(row);
         });
     });
-$('#facultysubform').validate({
-    rules: {
-        FacultyCode: {
-            required: true
+    $('#facultysubform').validate({
+        rules: {
+            FacultyCode: {
+                required: true
+            },
+            CourceCode: {
+                required: true
+            },
+            SubjectCode: {
+                required: true
+            },
+            EffFrom: {
+                required: true
+            },
+            EffUpto: {
+                required: true
+            },
         },
-        CourceCode: {
-            required: true
-        },
-        SubjectCode: {
-            required: true
-        },
-        EffFrom: {
-            required: true
-        },
-        EffUpto: {
-            required: true
-        },
-    },
-    messages: {
-        FacultyCode: {
-            required: "Please Select FacultyCode "
-        },
-        CourceCode: {
-            required: "Please Select CourceCode "
-        },
-        SubjectCode: {
-            required: "Please enter SubjectCode "
-        },
+        messages: {
+            FacultyCode: {
+                required: "Please Select FacultyCode "
+            },
+            CourceCode: {
+                required: "Please Select CourceCode "
+            },
+            SubjectCode: {
+                required: "Please enter SubjectCode "
+            },
 
-        EffFrom: {
-            required: "Please enter EffFrom "
+            EffFrom: {
+                required: "Please enter EffFrom "
+            },
+            EffUpto: {
+                required: "Please enter EffUpto "
+            },
+        
         },
-        EffUpto: {
-            required: "Please enter EffUpto "
+        errorElement: 'span',
+        errorPlacement: function(error, element) {
+            error.addClass('invalid-feedback');
+            element.closest('.form-group').append(error);
         },
-     
-    },
-    errorElement: 'span',
-    errorPlacement: function(error, element) {
-        error.addClass('invalid-feedback');
-        element.closest('.form-group').append(error);
-    },
-    highlight: function(element, errorClass, validClass) {
-        $(element).addClass('is-invalid');
-    },
-    unhighlight: function(element, errorClass, validClass) {
-        $(element).removeClass('is-invalid');
-    }
+        highlight: function(element, errorClass, validClass) {
+            $(element).addClass('is-invalid');
+        },
+        unhighlight: function(element, errorClass, validClass) {
+            $(element).removeClass('is-invalid');
+        }
+    });
 });
 </script>
  @endsection
