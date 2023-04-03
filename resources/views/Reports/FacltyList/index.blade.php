@@ -3,76 +3,54 @@
 <div class="card mb-3">
     <div class="card-header py-3  bg-transparent border-bottom-0">
         <div>
-            <h6 class="mb-0 fw-bold ">Student List Report</h6> 
+            <h6 class="mb-0 fw-bold ">Faculty List Report</h6> 
             <hr>
             <form id="submit_Form">
                 @csrf  
-                <div class="row">
-                    <div class="col-md-4">
-                        <div class="form-group">
-                            <label><strong>Course Code :</strong></label>
-                            <select id='courseCode' name="courseCode"class="form-control" style="width: 200px">
-                                <option value="">--Select Course Code--</option>
-                                @foreach ($courseCode as $code)
-                                <option value="{{ $code->CourceCode }}">
-                                    {{ $code->CourceCode }}
-                                </option>
-                                @endforeach
-                            </select>
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="form-group">
-                            <label><strong>Batch Code :</strong></label>
-                            <select id='studentBatchCode'name="studentBatchCode" class="form-control" style="width: 200px">
-                                <option value="">--Select Course Code--</option>
-                                @foreach ($batchName as $bCode)
-                                <option value="{{ $bCode->BatchCode }}">
-                                    {{ $bCode->BatchCode }}
-                                </option>
-                                @endforeach
-                            </select>
-                        </div>
-                    </div>
+                <!-- <div class="row">
                     <div class="col-md-4">
                         <button style="margin-top: 21px;" type="submit" class="btn btn-success" name="search" id="search">Search</button>
-                        
                     </div>
-                    
-                </div>
+                </div> -->
                 <div class="row">
-                    <div class="col-md-2 ms-auto" id="accessButtons" style="display: none;">
+                    <div class="col-md-2 ms-auto" id="accessButtons" >
                         <button style="margin-top: 21px;" id="Excel" type="button" class="btn btn-success text-white" title="excel"><i class="icofont-file-excel fs-5"></i></button>
                         <button style="margin-top: 21px;" id="PDF" type="button" class="btn btn-danger text-white" title="pdf"><i class="icofont-file-pdf fs-5"></i></button>
                         <button style="margin-top: 21px;" id="Print" type="button" class="btn btn-warning" title="print"><i class="icofont-print fs-5"></i></button>
                     </div>
                 </div>
-                    
             </form>
         </div>
     </div>
     <div class="card-body" id="report">
         <div class="table-responsive" id="printThis">
-            <table class="table table-hover" id="StudentListReport">
+            <table class="table table-hover" id="FacultyListReport">
                 <thead>
                 <tr>
                     <th>SrNo</th>
-                    <th>CourceCode</th>
-                    <th>BatchCode</th>
-                    <th>StudentCode</th>
-                    <th>RollNo</th>
-                    <th>StudentName</th>
+                    <th>Faculty Code</th>
+                    <th>Faculty Name</th>
+                    <th>Date of Joining</th>
+                    <th>Qualification</th>
                 </tr>
                 </thead>
                 <tbody id="tbldata">
-        
+                    @foreach($faculty as $key => $faculties)
+                    <tr>
+                        <td>{{$loop->iteration}}</td>
+                        <td>{{ $faculties->FacultyCode }}</td>
+                        <td>{{ $faculties->firstName }} {{ $faculties->lastName }}</td>
+                        <td>{{ $faculties->DateOfJoining }}</td>
+                        <td>{{ $faculties->Qualification }}</td>
+                    </tr>
+                    @endforeach
         
                 </tbody>
-                <tbody class="report_message" id="report_message"> 
+                <!-- <tbody class="report_message" id="report_message"> 
                     <tr>
                         <td colspan="6" style="text-align: center;">No record found</td>
                     </tr>
-                </tbody>
+                </tbody> -->
             </table>
         </div>
     </div>
@@ -117,7 +95,7 @@
                 
                 $.ajax({   
                     type: "POST",
-                    url : '{{route('studentList.getStudentData')}}',
+                    url : '{{route('facultyList.getFacultyData')}}',
                     data: {
                         courseCode: courseCode,
                         batchCode: batchCode,
@@ -213,7 +191,6 @@
     }
 </script>
 
-<!-- <script src="https://cdn.rawgit.com/rainabba/jquery-table2excel/1.1.0/dist/jquery.table2excel.min.js"></script> -->
 <script src="{{ URL::asset('assets/js/jquery.table2excel.min.js') }}"></script>
 <script>
     document.getElementById("Excel").addEventListener("click", function () {
@@ -221,7 +198,7 @@
         var atags ='';
         var atagArray=[];
 
-        var htmls = $('#StudentListReport tr').each(function(index, tr) {
+        var htmls = $('#FacultyListReport tr').each(function(index, tr) {
             $(tr).find('td').each (function (index, td) {
             $(td).find('a').each(function(i,atag){
                 // console.log( $(atag).html());
@@ -237,7 +214,7 @@
 
         // console.log(atagArray);
 
-        var response =  htmlToCSV(html, "Student_List.csv",atagArray);
+        var response =  htmlToCSV(html, "Faculty_List.csv",atagArray);
 
         $("#search").click();
     });
@@ -245,13 +222,11 @@
 </script>
 
 <!-- ExportToPDF -->
-<!-- <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.22/pdfmake.min.js"></script> -->
 <script src="{{ URL::asset('assets/js/pdfmake.min.js') }}"></script>
-<!-- <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.4.1/html2canvas.min.js"></script> -->
 <script src="{{ URL::asset('assets/js/html2canvas.min.js') }}"></script>
 <script type="text/javascript">
     $('#PDF').click(function () {
-        html2canvas($('#StudentListReport')[0], {
+        html2canvas($('#FacultyListReport')[0], {
             onrendered: function (canvas) {
                 var data = canvas.toDataURL();
                 var docDefinition = {
@@ -260,7 +235,7 @@
                         width: 500
                     }]
                 };
-                pdfMake.createPdf(docDefinition).download("Student_List.pdf");
+                pdfMake.createPdf(docDefinition).download("Faculty_List.pdf");
             }
         });
     });

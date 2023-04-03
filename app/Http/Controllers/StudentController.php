@@ -45,7 +45,26 @@ class StudentController extends Controller
             "StudentName"=> 'required|unique:student,id,deleted_at',
             'DOB' => 'required',
             'DateOfJoining' => 'required',
-
+            // 'StudentCode' => 'required',
+            // 'RollNo' => 'required',
+            'Gender' => 'required',
+            'CourceCode' => 'required',
+            'BatchCode' => 'required',
+            'AcademinSession' => 'required',
+            'AddressLine1' => 'required|regex:/^[a-zA-Z  *]*$/',
+            'AddressLine2' => 'required|regex:/^[a-zA-Z  *]*$/',
+            'AddressLine3' => 'required|regex:/^[a-zA-Z  *]*$/',
+            'Status' => 'required',
+            'mobile' => 'required|regex:/^(\+\d{1,3}[- ]?)?\d{10}$/',
+            'Title' => 'required',
+            'email' => 'required|regex:/^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+$/',
+            'prevclsname' => 'required',
+            'prevownername'=> 'required|regex:/^[a-zA-Z  *]*$/',
+            'prevownerno'=> 'required|regex:/^(\+\d{1,3}[- ]?)?\d{10}$/',
+            'classinfo'=>'required',
+            'courses'=> 'required',
+            'promoted'=> 'required',
+            'Title'=> 'required',
             ]);
 
         $create = Student::create([
@@ -63,6 +82,16 @@ class StudentController extends Controller
             'AddressLine2'=>$request->AddressLine2,
             'AddressLine3'=>$request->AddressLine3,
             'Status' => $request->Status,
+            'mobile' => $request->mobile,
+            'Title' => $request->Title,
+            'email' => $request->email,
+            'prevclsname' => $request->prevclsname,
+            'prevownername'=> $request->prevownername,
+            'prevownerno'=> $request->prevownerno,
+            'courses'=> $request->courses,
+            'promoted'=> $request->promoted,
+            'Title'=> $request->Title,
+            'classinfo' => $request->classinfo,
         ]);
         return redirect()->route('student.index')->with('msg','Created Successfuly');
     }
@@ -107,14 +136,27 @@ class StudentController extends Controller
     {
 
         $request->validate([
-            'StudentName' => 'required',
+            'StudentName' => 'required|regex:/^[a-zA-Z  *]*$/',
             'DOB' => 'required',
             'DateOfJoining' => 'required',
             'Gender' => 'required',
             'CourceCode' => 'required',
             'BatchCode' => 'required',
             'AcademinSession' => 'required',
+            'AddressLine1' => 'required|regex:/^[a-zA-Z  *]*$/',
+            'AddressLine2' => 'required|regex:/^[a-zA-Z  *]*$/',
+            'AddressLine3' => 'required|regex:/^[a-zA-Z  *]*$/',
             'Status' => 'required',
+            'mobile' => 'required|regex:/^(\+\d{1,3}[- ]?)?\d{10}$/',
+            'Title' => 'required',
+            'email' => 'required|regex:/^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+$/',
+            'prevclsname' => 'required',
+            'prevownername'=> 'required|regex:/^[a-zA-Z  *]*$/',
+            'prevownerno'=> 'required|regex:/^(\+\d{1,3}[- ]?)?\d{10}$/',
+            'classinfo'=>'required',
+            'courses'=> 'required',
+            'promoted'=> 'required',
+            'Title'=> 'required',
 
         ]);
         $students = Student::find($id);
@@ -131,6 +173,16 @@ class StudentController extends Controller
         $students->AddressLine1=$request->AddressLine1;
         $students->AddressLine2=$request->AddressLine2;
         $students->AddressLine3=$request->AddressLine3;
+        $students->mobile = $request->mobile;
+        $students->Title = $request->Title;
+        $students->email = $request->email;
+        $students->prevclsname = $request->prevclsname;
+        $students->prevownername = $request->prevownername;
+        $students->prevownerno = $request->prevownerno;
+        $students->classinfo = $request->classinfo;
+        $students->courses = $request->courses;
+        $students->promoted = $request->promoted;
+        $students->Title = $request->Title;
         $students->save();
         return redirect()->route('student.index')->with('msg','Updated Successfuly.');
     }
@@ -154,15 +206,5 @@ class StudentController extends Controller
         return view('Student.studentlist',compact('students'));
     }
 
-    public function getfilteredStudent(Request $request)
-    {
-        $studentCode= $request->studentCode;
-        $studentBatchCode= $request->studentBatchCode;
-
-        // dd($studentCode,  $studentBatchCode);
-        $students = Student::where('CourceCode',$studentCode)->where('BatchCode',$studentBatchCode)
-        ->where('Status',"OnRoll")->get();
-       
-        return view('Student.index',compact('studentCode','studentBatchCode','students'));
-    }
+  
 }
