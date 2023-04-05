@@ -25,7 +25,7 @@
                                 <div class="col-md-6">
                                 <div class="form-group">
                                     <label>Role Name <span class="required">*</span></label>
-                                    <input type="text"  class="form-control" name="role_name" value="{{$edit_role->name}}" maxlength="10" minlength="3"  />
+                                    <input type="text"  class="form-control allowCharcterOnly" name="role_name" value="{{$edit_role->name}}" maxlength="10" minlength="3"  />
 
                                     </div>
                                 </div>

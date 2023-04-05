@@ -19,7 +19,7 @@
  
                              <div class="card mb-3">
                                  <div class="card-header py-3 d-flex justify-content-between bg-transparent border-bottom-0">
-                                     <h6 class="mb-0 fw-bold ">Schedule</h6> 
+                                     <h6 class="mb-0 fw-bold ">   @if(!empty($SchedulerHeader->id))Edit @else New  @endif Schedule</h6> 
                                  </div>
                                  <div class="card-body">
                                      @if ($errors->any())
@@ -35,8 +35,9 @@
                                          <div class="col-md-12">
                                              <div class="card">
                                                 <div class="card-body" style="overflow: scroll;">
-                                                    <form method="post" id="Schedule" action="{{route('schedule.store')}}" enctype='multipart/form-data'>
-                                                      @csrf 
+                                                    <form method="post" id="Schedule" action="{{(isset($SchedulerHeader->id))? route('schedule.update',$SchedulerHeader->id) :route('schedule.store')}}" enctype='multipart/form-data'>
+
+                                                      @if(!empty($SchedulerHeader->id)) @method('PATCH') @endif @csrf
                                                         <div class="row">
                                             
                                                             <div class="col-md-3">
@@ -45,7 +46,8 @@
                                                                 <select class="form-select  CourseList" name="CourseList"  id="CourseList"aria-label="Default select example">
                                                                                     <option selected="">--Course List--</option>
                                                                                     @foreach($CourseList as $subject)
-                                                                                    <option value="{{$subject->ParaDescription}}">{{$subject->ParaDescription}}</option>
+                                                                                    <option value="{{$subject->ParaDescription}}"
+                                                                                        @if(isset($SchedulerHeader->CourceCode) && $SchedulerHeader->CourceCode == $subject->ParaDescription)  selected @endif>{{$subject->ParaDescription}}</option>
                                                                                     @endforeach
                                                                 </select>
                                                             </div>
@@ -53,302 +55,387 @@
                                                             
                                                                 <label for="CourseList" class="form-label">Select Batch </label>
                                                                 <select class="form-select BatchList" name="BatchList" id="BatchList"aria-label="Default select example">
-                                                                        <option selected="">--Batch List--</option>
+                                                                        <option disabled selected="">--Batch List--</option>
+                                                                         @if(!empty($BatchList) && isset($SchedulerHeader->BatchCode))
+                                                                            @foreach($BatchList as $batchlist)
+                                                                            <option value="{{$subject->ParaDescription}}"
+                                                                                        @if(isset($SchedulerHeader->BatchCode) && $SchedulerHeader->BatchCode == $batchlist->ParaDescription)  selected @endif>{{$batchlist->ParaDescription}}</option>
+                                                                            @endforeach
+                                                                        @endif
                                                                 </select>
                                                             </div>
                                                             </div>
                                                             <hr>
                                                             <div class="row">
-                                                                <div class="col-md-12">
-                                                                    <table class="table table-hover align-middle mb-0" style="width: 100%;">
-                                                                        <thead>
-                                                                            <tr style="border-top:3px solid black;text-align: center;background: #dff0f5;" >
-                                                                                <th>DATE</th>
-                                                                                <?php
-                                                                                    $date1 = date('d-M');
-                                                                                    $day1 = date('D');
-                                                                                    $day2 = date('D', strtotime($day1. ' + 1 days'));
-                                                                                    if($day1 =="Sun")
-                                                                                    {
-                                                                                        $day1 = date('D', strtotime($day1. ' + 1 days'));
-                                                                                        $date1 = date('d-M', strtotime($date1. ' +1 days'));
-                                                                                    }      
-                                                                                ?>
-                                                                                    @for($i=0;$i<=6;$i++)
+                                                                @if(!empty($edit_schedule) && isset($SchedulerHeader->id))
+                                                                        <!-- Edit Mode On -->
 
-                                                                                        <th>
-                                                                                            {{date('d-M', strtotime($date1. ' +' .$i.' days'))}}
-                                                                                            <input type="hidden" name="HeaderDate[]" value="{{date('d-M', strtotime($date1. ' +' .$i.' days'))}}">
-                                                                                        </th>
-                                                                                    @endfor
-                                                                            
-                                                                                
-                                                                            </tr>
-                                                                            <tr style="border-bottom:3px solid black;text-align: center;background: #dff0f5;">
-                                                                                <th>DAY</th>
-                                                                                
-                                                                                    @for($i=0;$i<=6;$i++)
-                                                                                        <th> {{date('D', strtotime($day1. ' +' .$i.' days'))}}
-                                                                                        <input type="hidden" name="HeaderDay[]" value="{{date('D', strtotime($day1. ' +' .$i.' days'))}}">
+                                                                        <div class="col-md-12">
+                                                                            <table class="table table-hover align-middle mb-0" style="width: 100%;">
+                                                                                <thead>
+                                                                                    <input type="hidden" name="SchedulerHeaderId" value="{{$SchedulerHeader->id}}">
+                                                                                    <tr style="border-top:3px solid black;text-align: center;background: #dff0f5;" >
+                                                                                        <th>DATE</th>
+                                                                                        @foreach($collection['datearray'] as $date)
+                                                                                            <th>{{$date}}
+                                                                                                <input type="hidden" name="HeaderDate[]" value="{{$date}}">
+                                                                                            </th>
+                                                                                            
+                                                                                        @endforeach
+                                                                                        
+                                                                                    </tr>
+                                                                                    <tr style="border-bottom:3px solid black;text-align: center;background: #dff0f5;">
+                                                                                        <th>DAY</th>
+                                                                                        @foreach($collection['dayarray'] as $DAY)
+                                                                                            <th>{{$DAY}}
+                                                                                            <input type="hidden" name="HeaderDay[]" value="{{$DAY}}">
 
-                                                                                        </th>
-                                                                                    @endfor
-                                                                            </tr>
-                                                                        </thead>
-                                                                        <tbody>
-        
-                                                                        @for($i=1;$i<=4; $i++)
-                                                                            <tr>
-                                                                                <td><strong>TIME</strong></td>
-                                                                                <td class="time" >
-                                                                                    <div class="d-flex">
-                                                                                        <div class="col-md-6 " style="width:100px">
-                                                                                            <input type="time" name="dayStart[1][{{$i}}]" class="form-control w-100">
-                                                                                            <input type="hidden" name="=storeLocation[1][{{$i}}]" value="1_{{$i}}" class="form-control w-100">
+                                                                                            </th>
 
-                                                                                        </div>
+                                                                                        @endforeach
+                                                                                    </tr>
+                                                                                </thead>
+                                                                                <tbody>    
+                                                                                    <!-- Main Loop -->
+                                                                                @for($i=1;$i<=6; $i++)
+                                                                                    <tr>
+                                                                                         <td><strong>TIME</strong></td>
+                                                                                  
+                                                                                        <?php $row=1; ?>
+                                                                                                @for($j=0;$j<=6; $j++)
+                                                                                                    <td class="time" >
+                                                                                                        <div class="d-flex">
+                                                                                                            <div class="col-md-6 " style="width:100px">
+            
+                                                                                                                    @for($Mn=0;$Mn<=41; $Mn++)
+                                                                                                                        @if(!empty($collection['tableData'][$Mn]['id']) &&  $collection['tableData'][$Mn]['location'] == $i."_".$row)
+                                                                                                                            <input type="hidden" value ="{{$collection['tableData'][$Mn]['id']}}" name="id[{{$i}}][{{$row}}]">
+                                                                                                                        @endif
+                                                                                                                    @endfor
+                                                                                                                
+                                                                                                                <input type="time" 
+                                                                                                                @for($Mn=0;$Mn<=41; $Mn++)
+
+                                                                                                                    @if(!empty($collection['tableData'][$Mn]['TimingFrom']) &&  $collection['tableData'][$Mn]['location'] == $i."_".$row)
+                                                                                                                        value ="{{$collection['tableData'][$Mn]['TimingFrom']}}"
+                                                                                                                    @endif
+                                                                                                                @endfor
+                                                                                                            
+                                                                                                                    name="dayStart[{{$i}}][{{$row}}]" class="form-control w-100">
+                                                                                                                        <input type="hidden" name="storeLocation[{{$i}}]" value="{{$i}}_{{$row}}" class="form-control w-100">
+
+                                                                                                            </div>
+                                                                                                            <div class="col-md-6 ms-2">   
+                                                                                                                <input type="time" 
+                                                                                                                    
+                                                                                                                @for($Mn=0;$Mn<=41; $Mn++)
+
+                                                                                                                    @if(!empty($collection['tableData'][$Mn]['TimingUpto']) &&  $collection['tableData'][$Mn]['location'] == $i."_".$row)
+                                                                                                                        value ="{{$collection['tableData'][$Mn]['TimingUpto']}}"
+                                                                                                                    @endif
+                                                                                                                @endfor
+                                                                                                                name="dayend[{{$i}}][{{$row}}]"class="form-control w-100">
+                                                                                                            </div> 
+                                                                                                            
+                                                                                                        </div> 
+                                                                                                        
+        
+                                                                                                    </td>
+
+
+
+
+
+                                                                                                    <?php $row++; ?>
+                                                                                                @endfor
+                                                                                                
+                                                                                    </tr>
+                                                                                    <tr>
+                                                                                        <td><strong>SUB</strong></td>
+                                                                                            <?php $row1=1; $subjectarray=[]; ?>
+                                                                                            @for($j=0;$j<=6; $j++)
+
+                                                                                            <td>
+                                                                                                <input type="hidden" name="storeLocation[{{$i}}][{{$row1}}]" value="{{$i}}_{{$row1}}" class="form-control w-100">
+                                                                                                @for($Mn=0;$Mn<=41; $Mn++)
+                                                                                                                        @if(!empty($collection['tableData'][$Mn]['id']) &&  $collection['tableData'][$Mn]['location'] == $i."_".$row1)
+                                                                                                                            <input type="hidden" value ="{{$collection['tableData'][$Mn]['id']}}" name="id[{{$i}}][{{$row1}}]">
+                                                                                                                        @endif
+                                                                                                @endfor
+
+                                                                                                    <select class="form-select subject" name="subject[{{$i}}][{{$row1}}]" data-id="{{$i}}_{{$row1}}"  aria-label="Default select example">
+                                                                                                    <option disabled selected="">--Subject--</option>
+                                                                                                    
+                                                                                                        @foreach($SubjectsList as $subject)
+
+                                                                                                            @for($Mn=0;$Mn<=41; $Mn++)
+                                                                                                                
+                                                                                                                @if(!in_array($collection['tableData'][$Mn]['SubjectCode'],$subjectarray) && !empty($collection['tableData'][$Mn]['SubjectCode']) &&  $collection['tableData'][$Mn]['location'] == $i."_".$row1)
+                                                                                                                    <option  selected value="{{$collection['tableData'][$Mn]['SubjectCode']}}">{{$collection['tableData'][$Mn]['SubjectCode']}}</option>
+                                                                                                                    <?php  $subjectarray[]=$collection['tableData'][$Mn]['SubjectCode']; ?>
+
+                                                                                                                @endif
+                                                                                                                
+                                                                                                            @endfor
+                                                                                                            @if(!in_array($subject->ParaDescription,$subjectarray))
+
+                                                                                                            <option   value="{{$subject->ParaDescription}}">{{$subject->ParaDescription}}</option>
+                                                                                                             
+                                                                                                            @endif
+                                                                                                        
+                                                                                                        @endforeach
+                                                                                
+                                                                                             
+                                                                                        
+                                                                                                 
+                                                                                                    
+                                                                                                    </select>
+                                                                                            </td>
+                                                                                            <?php $row1++; ?>
+                                                                                            @endfor
+                                                                                       
+                                                                                    </tr>
+
+                                                                                    <tr>
+                                                                                        <td><strong>FACULTY</strong></td>
+                                                                                        <?php $row2=1; ?>
+                                                                                        @for($j=0;$j<=6; $j++)
+                                                                                        <td>
+                                                                                        @for($Mn=0;$Mn<=41; $Mn++)
+                                                                                                                        @if(!empty($collection['tableData'][$Mn]['id']) &&  $collection['tableData'][$Mn]['location'] == $i."_".$row2)
+                                                                                                                            <input type="hidden" value ="{{$collection['tableData'][$Mn]['id']}}" name="id[{{$i}}][{{$row2}}]">
+                                                                                                                        @endif
+                                                                                                @endfor
+                                                                                            <input type="hidden" name="storeLocation[{{$i}}][{{$row2}}]" value="{{$i}}_{{$row2}}" class="form-control w-100">
+                                                                                            <select class="form-select faculty" name="faculty[{{$i}}][{{$row2}}]"  id="faculty{{$i}}_{{$row2}}" aria-label="Default select example">
+                                                                                     
+                                                                                                @for($Mn=0;$Mn<=41; $Mn++)
+
+                                                                                                    @if(!empty($collection['tableData'][$Mn]['FacultyCode']) &&  $collection['tableData'][$Mn]['location'] == $i."_".$row2)
+                                                                                                    <option  selected value="{{$collection['tableData'][$Mn]['FacultyCode']}}"> {{FacultyName($collection['tableData'][$Mn]['FacultyCode'])}}</option>
+
+
+                                                                                                    @endif
+                                                                                                @endfor
+                                                                                            </select>
+                                                                                        </td>
+                                                                                        <?php $row2++; ?>
+                                                                                            @endfor
+                                                                                    </tr>
+                                                                                    <tr style="border-bottom:3px solid black">
+                                                                                        <td><strong>LOCATION</strong></td>
+                                                                                        <?php $row3=1; $location=[]; ?>
+                                                                                        @for($j=0;$j<=6; $j++)
+                                                                                            <td>
+                                                                                                @for($Mn=0;$Mn<=41; $Mn++)
+                                                                                                                        @if(!empty($collection['tableData'][$Mn]['id']) &&  $collection['tableData'][$Mn]['location'] == $i."_".$row3)
+                                                                                                                            <input type="hidden" value ="{{$collection['tableData'][$Mn]['id']}}" name="id[{{$i}}][{{$row3}}]">
+                                                                                                                        @endif
+                                                                                                @endfor
+                                                                                           
+                                                                                           
+                                                                                                <input type="hidden" name="storeLocation[{{$i}}][{{$row3}}]" value="{{$i}}_{{$row3}}" class="form-control w-100">
+
+                                                                                                <select class="form-select"  name="location[{{$i}}][{{$row3}}]" aria-label="Default select example">
+                                                                                                    <option disabled selected>--Select-Location--</option>
+                                                                                                  
+                             
+                                                                                                    @foreach($Location as $L)   
+                                                                                                                                                            
+                                                                                                        @for($Mn=0;$Mn<=41; $Mn++)
+
+                                                                                                            @if(!in_array($collection['tableData'][$Mn]['Venue'],$location) &&!empty($collection['tableData'][$Mn]['Venue']) &&  $collection['tableData'][$Mn]['location'] == $i."_".$row3)
+                                                                                                            <option  selected value="{{$collection['tableData'][$Mn]['Venue']}}">{{$collection['tableData'][$Mn]['Venue']}}</option>
+                                                                                                            <?php $location[]=$collection['tableData'][$Mn]['Venue'];?>
+
+                                                                                                            @endif
+                                                                                                        @endfor
+                                                                                                         @if(!in_array($L->ParaDescription,$location))
+
+                                                                                                            <option   value="{{$L->ParaDescription}}">{{$L->ParaDescription}}</option>
+                                                                                                             
+                                                                                                            @endif
+                                                                                                    @endforeach
+                                                                                                  
+                                                                                                </select>
+                                                                                            </td>
+                                                                                        <?php $row3++; ?>
+                                                                                            @endfor
+                                                                                    </tr>
+                                                                                    
+                                                                            @endfor
+                                                                               
+                                                                  
+
+                                                                                    <!-- I Loop -->
+                                                                             
+                                                                                   
+                                                                                </tbody>
+                                                                            </table>
+                                                                        </div>
+                                                                @else
+                                                                    <div class="col-md-12">
+                                                                        <table class="table table-hover align-middle mb-0" style="width: 100%;">
+                                                                            <thead>
+                                                                                <tr style="border-top:3px solid black;text-align: center;background: #dff0f5;" >
+                                                                                    <th>DATE</th>
+                                                                                    <?php
+                                                                                        // for current date 
+                                                                                        $date1 = date('d-M');
+                                                                                         $day1 = date('D');
+
+                                                                        
+                                                                              
+                                                                                        if($day1 =="Sun")
+                                                                                        {
+                                                                                            $day1 = date('D', strtotime($day1. ' + 1 days'));
+                                                                                            $date1 = date('d-M', strtotime($date1. ' +1 days'));
+                                                                                        }
+                                                                                        elseif($day1 =="Tue")
+                                                                                        {
+                                                                                            $day1 = date('D', strtotime($day1. ' + 6 days'));
+                                                                                            $date1 = date('d-M', strtotime($date1. ' +6 days'));
+                                                                                          
+                                                                                        }
+                                                                                        elseif($day1 =="Thu")
+                                                                                        {
+                                                                                            $date1 = date('d-M',strtotime($day1. ' +5 days'));
+                                                                                            $day1 = date('D',strtotime($day1. ' +5 days'));  
+                                                                                        }
+                                                                                        elseif($day1 =="Fri")
+                                                                                        {
+                                                                                            $date1 = date('d-M',strtotime($day1. ' +3 days'));
+                                                                                            $day1 = date('D',strtotime($day1. ' +3 days')); 
+                                                                                        }
+                                                                                        elseif($day1 =="Sat")
+                                                                                        {
+                                                                                            $date1 = date('d-M',strtotime($day1. ' +2 days'));
+                                                                                            $day1 = date('D',strtotime($day1. ' +2 days')); 
+                                                                                        }
+                                                                                        else
+                                                                                        {
+                                                                                            $day1 = date('D', strtotime($day1. ' + 1 days'));
+                                                                                            $date1 = date('d-M', strtotime($date1. ' +1 days'));
+                                                                                        }
+                     
 
                                                                                         
-                                                                                    
-                                                                                        <div class="col-md-6 ms-2">   
-                                                                                            <input type="time" name="dayend[1][{{$i}}]"class="form-control w-100">
-                                                                                        </div>
-                                                                                    </div>
-                                                                                </td>
-        
-                                                                                <td class="time" >
-                                                                                    <div class="d-flex">
-                                                                                        <div class="col-md-6 " style="width:100px">
-                                                                                            <input type="time"   name="dayStart[2][{{$i}}]"
-                                                                                        class="form-control w-100">
-                                                                                        </div>
-                                                                                        <div class="col-md-6 ms-2">   
-                                                                                            <input type="time"  name="dayend[2][{{$i}}]"class="form-control w-100">
-                                                                                        </div>
-                                                                                    </div>
-                                                                                </td>
+                                                                                     
+                                                                                        
+
+                                                                                    ?>
                                                                             
-                                                                                <td class="time" >
-                                                                                    <div class="d-flex">
-                                                                                        <div class="col-md-6 " style="width:100px">
-                                                                                            <input type="time" name="dayStart[3][{{$i}}]" class="form-control w-100">
-                                                                                        </div>
-                                                                                        <div class="col-md-6 ms-2">   
-                                                                                            <input type="time"   name="dayend[3][{{$i}}]"class="form-control w-100">
-                                                                                        </div> 
-                                                                            
-                                                                                    </div>
-                                                                                    
-                                                                                    
-                                                                                </td>
-                                                                                <td class="time" >
-                                                                                    <div class="d-flex">
-                                                                                        <div class="col-md-6 "  style="width:100px">
-                                                                                            <input type="time" name="dayStart[4][{{$i}}]" class="form-control w-100">
-                                                                                        </div>
-                                                                                        <div class="col-md-6 ms-2">   
-                                                                                            <input type="time" name="dayend[4][{{$i}}]" class="form-control w-100">
-                                                                                        </div>
-                                                                                    </div>
-                                                                                </td>
-                                                                                <td class="time" >
-                                                                                    <div class="d-flex">
-                                                                                        <div class="col-md-6 " style="width:100px">
-                                                                                            <input type="time"  name="dayStart[5][{{$i}}]" class="form-control w-100">
-                                                                                        </div>
-                                                                                        <div class="col-md-6 ms-2">   
-                                                                                            <input type="time"  name="dayend[5][{{$i}}]" class="form-control w-100">
-                                                                                        </div>
-                                                                                    </div>
-                                                                                </td>
-                                                                                <td class="time" >
-                                                                                    <div class="d-flex">
-                                                                                        <div class="col-md-6 " style="width:100px">
-                                                                                            <input type="time"  name="dayStart[6][{{$i}}]" class="form-control w-100">
-                                                                                        </div>
-                                                                                        <div class="col-md-6 ms-2">   
-                                                                                            <input type="time" name="dayend[6][{{$i}}]" class="form-control w-100">
-                                                                                        </div>
-                                                                                    </div>
-                                                                                </td>
-                                                                                <td class="time" >
-                                                                                    <div class="d-flex">
-                                                                                        <div class="col-md-6 " style="width:100px">
-                                                                                            <input type="time"  name="dayStart[7][{{$i}}]" class="form-control w-100">
-                                                                                        </div>
-                                                                                        <div class="col-md-6 ms-2">   
-                                                                                            <input type="time" name="dayend[7][{{$i}}]" class="form-control w-100">
-                                                                                        </div>
-                                                                                    </div>
-                                                                                </td>
-                                                                            </tr>
-                                                                            <tr>
+                                                                                        @for($i=0;$i<=6;$i++)
+
+                                                                                            <th>
+
+                                                                                                {{date('d-M', strtotime($date1. ' +' .$i.' days'))}}
+                                                                                                <input type="hidden" name="HeaderDate[]" value="{{date('d-M', strtotime($date1. ' +' .$i.' days'))}}">
+                                                                                            </th>
+                                                                                        @endfor
                                                                                 
-                                                                                <td><strong>SUB</strong></td>
-                                                                                <td>
-                                                                                    <select class="form-select subject" name="subject[1][{{$i}}]" data-id="1_{{$i}}"  aria-label="Default select example">
-                                                                                    <option disabled selected="">--Subject--</option>
-        
                                                                                     
-                                                                                    </select>
-                                                                                </td>
-        
-                                                                                <td>
-                                                                                    <select class="form-select subject" name="subject[2][{{$i}}]"  data-id="2_{{$i}}" aria-label="Default select example">
-                                                                                        <option disabled selected="">--Subject--</option>
+                                                                                </tr>
+                                                                                <tr style="border-bottom:3px solid black;text-align: center;background: #dff0f5;">
+                                                                                    <th>DAY</th>
                                                                                     
-                                                                                    </select>
-                                                                                </td>
-        
-                                                                                <td>
-                                                                                    <select class="form-select subject" name="subject[3][{{$i}}]"  data-id="3_{{$i}}" aria-label="Default select example">
-                                                                                        <option disabled selected="">--Subject--</option>
-                                                                                        
-                                                                                    </select>
-                                                                                </td>
-        
-                                                                                <td>
-                                                                                    <select class="form-select subject" name="subjec[4][{{$i}}]"  data-id="4_{{$i}}"aria-label="Default select example">
-                                                                                        <option disabled selected="">--Subject--</option>
-                                                                                        
-                                                                                    </select>
-                                                                                </td>
-        
-                                                                                <td>
-                                                                                    <select class="form-select subject" name="subject[5][{{$i}}]"  data-id="5_{{$i}}" aria-label="Default select example">
-                                                                                        <option disabled selected="">--Subject--</option>
-                                                                                    
-                                                                                    </select>
-                                                                                </td>
-        
-                                                                                <td>
-                                                                                    <select class="form-select subject" name="subject[6][{{$i}}]"  data-id="6_{{$i}}" aria-label="Default select example">
-                                                                                        <option disabled selected="">--Subject--</option>
-                                                                                        
-                                                                                    </select>
-                                                                                </td>
-        
-                                                                                <td>
-                                                                                    <select class="form-select subject" name="subject[7][{{$i}}]"  data-id="7_{{$i}}" aria-label="Default select example">
-                                                                                        <option disabled selected="">--Subject--</option>
-                                                                                        
-                                                                                    </select>
-                                                                                </td>
+                                                                                        @for($i=0;$i<=6;$i++)
+                                                                                            <th> {{date('D', strtotime($day1. ' +' .$i.' days'))}}
+                                                                                            <input type="hidden" name="HeaderDay[]" value="{{date('D', strtotime($day1. ' +' .$i.' days'))}}">
+
+                                                                                            </th>
+                                                                                        @endfor
+                                                                                </tr>
+                                                                            </thead>
+                                                                            <tbody>
+            
+                                                                                @for($i=1;$i<=6; $i++)
+                                                                                    <tr>
+                                                                                        <td><strong>TIME</strong></td>
+                                                                                        <?php $row=1; ?>
+                                                                                        @for($j=0;$j<=6; $j++)
+                                                                                        <td class="time" >
+                                                                                            <div class="d-flex">
+                                                                                                <div class="col-md-6 " style="width:100px">
+                                                                                               
+                                                                                                    <input type="time" 
+                                                                                                    @if(!empty($collection['tableData'][$j]['TimingFrom']) &&  $collection['tableData'][$j]['location'] == $i."_".$row)
+                                                                                                    value="{{$collection['tableData'][$j]['TimingFrom']}}"
+                                                                                                    @endif
+                                                                                                    name="dayStart[{{$i}}][{{$row}}]" class="form-control w-100">
+                                                                                                    <input type="hidden" name="storeLocation[{{$i}}][{{$row}}]" value="{{$i}}_{{$row}}" class="form-control w-100">
+                                                                                                </div>
+                                                                                                <div class="col-md-6 ms-2">   
+                                                                                                    <input type="time" 
+                                                                                                    @if(!empty($collection['tableData'][$j]['TimingUpto']) &&  $collection['tableData'][$j]['location'] == $i."_".$row)
+                                                                                                    value="{{$collection['tableData'][$j]['TimingUpto']}}"
+                                                                                                    @endif
+                                                                                                    name="dayend[{{$i}}][{{$row}}]"class="form-control w-100">
+                                                                                                </div>
+                                                                                            </div>
+                                                                                        </td>
+                                                                                        <?php $row++; ?>
+                                                                                        @endfor
+                                                                                        </tr>
+
+
+                                                                                        <tr>
+                                                                                            <?php $row1=1; ?>
+                                                                                            <td><strong>SUB</strong></td>
+                                                                                            @for($j=0;$j<=6; $j++)
+                                                                                            
+                                                                                                <td>
+                                                                                                    <input type="hidden" name="storeLocation[{{$i}}][{{$row1}}]" value="{{$i}}_{{$row1}}" class="form-control w-100">
+                                                                                                    <select class="form-select subject" name="subject[{{$i}}][{{$row1}}]" data-id="{{$i}}_{{$row1}}"  aria-label="Default select example">
+                                                                                                        <option disabled selected="">--Subject--</option>
+                                                                                                    </select>
+                                                                                                </td>
+                                                                                                <?php $row1++; ?>
+                                                                                            @endfor
+                                                                                        </tr>
+
+
+                                                                                        <tr>
+                                                                                        <?php $row2=1; ?>
+                                                                                            <td><strong>FACULTY</strong></td>
+                                                                                            @for($j=0;$j<=6; $j++)
+                                                                                                <td>
+
+                                                                                                        <select class="form-select faculty" name="faculty[{{$i}}][{{$row2}}]"  id="faculty{{$i}}_{{$row2}}" aria-label="Default select example">
+                                                                                                            <option disabled selected>-- Select-Faculty --</option>
+                                                                                                    </select>
+                                                                                                </td>
+                                                                                            <?php $row2++; ?>
+                                                                                            @endfor
+                                                                                        </tr>
+
+                                                                                        <tr style="border-bottom:3px solid black">
+                                                                                            <td><strong>LOCATION</strong></td>
+                                                                                            <?php $row3=1; ?>
+                                                                                            @for($j=0;$j<=6; $j++)
+                                                                                                <td>
+                                                                                                    <input type="hidden" name="storeLocation[{{$i}}][{{$row3}}]" value="{{$i}}_{{$row3}}" class="form-control w-100">
+
+                                                                                                    <select class="form-select"  name="location[{{$i}}][{{$row3}}]" aria-label="Default select example">
+                                                                                                        <option disabled selected>--Select-Location--</option>
+                                                                                                        @foreach($Location as $l)
+                                                                                                        <option value="{{$l->ParaDescription}}">{{$l->ParaDescription}}</option>
+                                                                                                        @endforeach
+                                                                                                    </select>
+                                                                                                </td>
+                                                                                            <?php $row2++; ?>
+                                                                                            @endfor
+
+                                                                                        </tr>
+</td>
                                                                                 
-                                                                    
-                                                                            </tr>
-                                                                            <tr>
-                                                                                <td><strong>FACULTY</strong></td>
-                                                                                <td>
-                                                                                    <select class="form-select faculty" name="faculty[1][{{$i}}]"  id="faculty1_{{$i}}" aria-label="Default select example">
-                                                                                        <option disabled selected>-- Select-Faculty --</option>
+                                                                                @endfor
+            
                                                                                 
-                                                                                    </select>
-                                                                                </td>
-        
-                                                                                <td>
-                                                                                    <select class="form-select faculty"  name="faculty[2][{{$i}}]" id="faculty2_{{$i}}" aria-label="Default select example">
-                                                                                        <option disabled selected>-- Select-Faculty --</option>
-                                                                                    </select>
-                                                                                </td>
-        
-                                                                                <td>
-                                                                                    <select class="form-select faculty"  name="faculty[3][{{$i}}]"  id="faculty3_{{$i}}" aria-label="Default select example">
-                                                                                        <option disabled selected>-- Select-Faculty --</option>
-                                                                                    </select>
-                                                                                </td>
-        
-                                                                                <td>
-                                                                                    <select class="form-select faculty"   name="faculty[4][{{$i}}]" id="faculty4_{{$i}}" aria-label="Default select example">
-                                                                                        <option disabled selected>-- Select-Faculty --</option>
-                                                                                    </select>
-                                                                                </td>
-        
-                                                                                <td>
-                                                                                    <select class="form-select faculty"   name="faculty[5][{{$i}}]"  id="faculty5_{{$i}}" aria-label="Default select example">
-                                                                                        <option disabled selected>-- Select-Faculty --</option>
-                                                                                    </select>
-                                                                                </td>
-        
-                                                                                <td>
-                                                                                    <select class="form-select faculty"  name="faculty[6][{{$i}}]" id="faculty6_{{$i}}" aria-label="Default select example">
-                                                                                        <option disabled selected>-- Select-Faculty --</option>
-                                                                                    </select>
-                                                                                </td>
-        
-                                                                                <td>
-                                                                                    <select class="form-select faculty"  name="faculty[7][{{$i}}]" id="faculty7_{{$i}}" aria-label="Default select example">
-                                                                                        <option  disabled selected>-- Select-Faculty --</option>
-                                                                                    </select>
-                                                                                </td>
-                                                                            
-                                                                            
-                                                                            </tr>
-                                                                            <tr style="border-bottom:3px solid black">
-                                                                                <td><strong>LOCATION</strong></td>
-                                                                                <td>
-                                                                                    <select class="form-select"  name="location[1][{{$i}}]" aria-label="Default select example">
-                                                                                        <option disabled selected>--Select-Location--</option>
-                                                                                        @foreach($Location as $l)
-                                                                                            <option value="{{$l->ParaDescription}}">{{$l->ParaDescription}}</option>
-                                                                                        @endforeach
-                                                                                    </select>
-                                                                                </td>
-                                                                                <td>
-                                                                                    <select class="form-select" name="location[2][{{$i}}]" aria-label="Default select example">
-                                                                                        <option disabled selected>--Select-Location--</option>
-                                                                                        @foreach($Location as $l)
-                                                                                            <option value="{{$l->ParaDescription}}">{{$l->ParaDescription}}</option>
-                                                                                        @endforeach
-                                                                                    </select>
-                                                                                </td>
-                                                                                <td>
-                                                                                    <select class="form-select" name="location[3][{{$i}}]" aria-label="Default select example">
-                                                                                        <option disabled selected>--Select-Location--</option>
-                                                                                        @foreach($Location as $l)
-                                                                                            <option value="{{$l->ParaDescription}}">{{$l->ParaDescription}}</option>
-                                                                                        @endforeach
-                                                                                    </select>
-                                                                                </td>
-                                                                                <td>
-                                                                                    <select class="form-select" name="location[4][{{$i}}]" aria-label="Default select example">
-                                                                                        <option disabled selected>--Select-Location--</option>
-                                                                                        @foreach($Location as $l)
-                                                                                            <option value="{{$l->ParaDescription}}">{{$l->ParaDescription}}</option>
-                                                                                        @endforeach
-                                                                                    </select>
-                                                                                </td>
-                                                                                <td>
-                                                                                    <select class="form-select" name="location[5][{{$i}}]" aria-label="Default select example">
-                                                                                        <option disabled selected>--Select-Location--</option>
-                                                                                        @foreach($Location as $l)
-                                                                                            <option value="{{$l->ParaDescription}}">{{$l->ParaDescription}}</option>
-                                                                                        @endforeach
-                                                                                    </select>
-                                                                                </td>
-                                                                                <td>
-                                                                                    <select class="form-select" name="location[6][{{$i}}]" aria-label="Default select example">
-                                                                                        <option disabled selected>--Select-Location--</option>
-                                                                                        @foreach($Location as $l)
-                                                                                            <option value="{{$l->ParaDescription}}">{{$l->ParaDescription}}</option>
-                                                                                        @endforeach
-                                                                                    </select>
-                                                                                </td>
-                                                                                <td>
-                                                                                    <select class="form-select" name="location[7][{{$i}}]" aria-label="Default select example">
-                                                                                        <option disabled selected>--Select-Location--</option>
-                                                                                        @foreach($Location as $l)
-                                                                                            <option value="{{$l->ParaDescription}}">{{$l->ParaDescription}}</option>
-                                                                                        @endforeach
-                                                                                    </select>
-                                                                                </td>
-                                                                            </tr>
-                                                                        @endfor
-        
-                                                                            
-                                                                        </tbody>
-                                                                    </table>
-                                                                </div>
+                                                                            </tbody>
+                                                                        </table>
+                                                                    </div>
+                                                                @endif
         
                                                             </div>
                                                         </div>
@@ -381,12 +468,16 @@
  var value = $(this).val();
      var row='';
      var  row1='';
+     row='<option selected disabled>-- Select Batch --</option>';
+     $("#BatchList").html(row);
+        
      $.post("{{route('getCourseWiseBatch')}}",{"value":value,_token:"{{csrf_token()}}"},function(success){
          if(isNaN(success.CourseList))
          {
-             row='<option selected disabled>-- Select Batch --</option>';
+            
+           
              $.each(success.CourseList,function(i,v){
-                 row+='<option value='+v.ParaDescription+'>'+v.ParaDescription+'</option>';
+                 row+='<option value="'+v.ParaDescription+'">'+v.ParaDescription+'</option>';
              });
          }
          else
@@ -395,21 +486,23 @@
          }
  
          if(isNaN(success.subject))
-         {
-             row1='<option selected disabled>-- Select Subject --</option>';
+         {  
+           
+             row23='<option selected disabled>-- Select Subject --</option>';
              $.each(success.subject,function(i,v){
-                 row1+='<option value='+v.ParaDescription+'>'+v.ParaDescription+'</option>';
+          
+                row23+='<option value="'+v.ParaDescription+'">'+v.ParaDescription+'</option>';
              });
          }
          else
          {
-             row1+='<option selected disabled>--No Subject Found --</option>';
+            row23+='<option selected disabled>--No Subject Found --</option>';
          }
  
         
         
          $("#BatchList").html(row);
-         $(".subject").html(row1);
+         $(".subject").html(row23);
      });
  });
 $(document).on('change', '.subject', function() {
@@ -418,7 +511,7 @@ $(document).on('change', '.subject', function() {
      var CourseCode =  $(".CourseList").val();
      var value = $(this).val();
      var data= $(this).data("id");
-     
+     alert(data);
      var row2='';
      $.post("{{route('getSubjectWiseFacultyinShedule')}}",{"value":value,"CourseCode":CourseCode,_token:"{{csrf_token()}}"},function(success){
         if(isNaN(success.facultysubject))

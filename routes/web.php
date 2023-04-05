@@ -78,19 +78,24 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
     Route::post('getSubjectWiseFacultyinShedule', [ScheduleController::class,'GetSubjectWiseFacultyinShedule'])->name('getSubjectWiseFacultyinShedule');
     Route::post('getCourseWiseBatch', [ScheduleController::class,'GetCourseWiseBatch'])->name('getCourseWiseBatch');
 
-    
-    // By Krunal 30-30-2023
-    Route::get('/get_countries', 'App\Http\Controllers\SchoolDetailsController@get_countries')->name('school.get_countries');
-    Route::post('/get_state', 'App\Http\Controllers\SchoolDetailsController@get_state')->name('school.get_state');
-    Route::post('/get_city', 'App\Http\Controllers\SchoolDetailsController@get_city')->name('school.get_city');
+    Route::get('PrintScheduler/{id}', [ScheduleController::class,'PrintScheduler'])->name('schedule.print');
 
-    // Reports Controller
-    Route::resource('studentList',App\Http\Controllers\Reports\StudentListReportController::class);
-    Route::post('/studentList/getStudentData', [App\Http\Controllers\Reports\StudentListReportController::class,'getStudentData'])->name('studentList.getStudentData');
-    
-    Route::resource('facultyList',App\Http\Controllers\Reports\FacltyListReportController::class);
-    Route::post('/facultyList/getFacultyData', [App\Http\Controllers\Reports\FacltyListReportController::class,'getFacultyData'])->name('facultyList.getFacultyData');
 
-    Route::resource('facultyWorkingHours',App\Http\Controllers\Reports\FacltyWorkingHoursReportController::class);
-    Route::post('/facultyWorkingHours/getFacultyWorkingHours', [App\Http\Controllers\Reports\FacltyWorkingHoursReportController::class,'getFacultyWorkingHours'])->name('facultyWorkingHours.getFacultyWorkingHours');
+
+
+
+        // By Krunal 30-30-2023
+        Route::get('/get_countries', 'App\Http\Controllers\SchoolDetailsController@get_countries')->name('school.get_countries');
+        Route::post('/get_state', 'App\Http\Controllers\SchoolDetailsController@get_state')->name('school.get_state');
+        Route::post('/get_city', 'App\Http\Controllers\SchoolDetailsController@get_city')->name('school.get_city');
+    
+          // Reports Controller
+            Route::resource('studentList',App\Http\Controllers\Reports\StudentListReportController::class);
+            Route::post('/studentList/getStudentData', [App\Http\Controllers\Reports\StudentListReportController::class,'getStudentData'])->name('studentList.getStudentData');
+            
+            Route::resource('facultyList',App\Http\Controllers\Reports\FacltyListReportController::class);
+            Route::post('/facultyList/getFacultyData', [App\Http\Controllers\Reports\FacltyListReportController::class,'getFacultyData'])->name('facultyList.getFacultyData');
+
+            Route::resource('facultyWorkingHours',App\Http\Controllers\Reports\FacltyWorkingHoursReportController::class);
+            Route::post('/facultyWorkingHours/getFacultyWorkingHours', [App\Http\Controllers\Reports\FacltyWorkingHoursReportController::class,'getFacultyWorkingHours'])->name('facultyWorkingHours.getFacultyWorkingHours');
     

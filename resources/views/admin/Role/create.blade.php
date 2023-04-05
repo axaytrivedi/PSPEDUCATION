@@ -34,7 +34,7 @@
                                   <div class="row">
                                     <div class="form-group col-sm-6 col-lg-4 col-xl-3">
                                       <label for="name">Role Name <span class="required text-danger">*</span></label>
-                                      <input type="text" class="form-control" name="role_name" id="role_name" placeholder="Role Name" value="{{ old('name', isset($edit_role) ? $edit_role->name : '' )  }}" >
+                                      <input type="text" class="form-control allowCharcterOnly" name="role_name" id="role_name" placeholder="Role Name" value="{{ old('name', isset($edit_role) ? $edit_role->name : '' )  }}" >
                                     </div>
 
                                     <div class="form-group col-sm-6 col-lg-4 col-xl-3">

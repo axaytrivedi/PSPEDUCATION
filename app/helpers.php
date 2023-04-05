@@ -2,6 +2,7 @@
 use Spatie\Permission\Models\Role;
 use App\Models\FacultyAttendance;
 use App\Models\StudentAttendance;
+use App\Models\Faculty;
 function checkRole($id)
 {
 
@@ -181,4 +182,38 @@ function StudentAttendanceget($id,$date)
         $StudentCode =  " "; 
       }
       return $StudentCode;
+}
+
+
+
+function LectureCode()
+{
+    $last = DB::table('schedule')->latest('id')->first('LectureCode');
+    $get_perfectLast_id=0;
+    if(!empty($last))
+    {
+         $last = explode('-',$last->LectureCode);
+
+        $code = $last[1];
+        $get_perfectLast_id  = $code;
+        $get_perfectLast_id++;
+    }
+     if($get_perfectLast_id == 0000)
+    {
+        $get_perfectLast_id=0001;
+    }
+
+
+    $get_perfectLast_id =  'L-'.$get_perfectLast_id;
+
+    return $get_perfectLast_id = str_pad($get_perfectLast_id, 3, '0', STR_PAD_LEFT);
+
+}
+
+function FacultyName($id)
+{
+  
+    $Faculty= Faculty::where('FacultyCode',$id)->first();
+    return $Faculty->firstName;
+    
 }

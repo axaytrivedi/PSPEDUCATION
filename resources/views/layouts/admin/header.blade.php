@@ -67,7 +67,7 @@
                                 </a>
                             </ul>
                     </li>
-                    <li class="collapsed">
+                   <li class="collapsed">
                         <a class="m-link {{ (request()->is('studentList') || request()->is('studentList/*') || request()->is('facultyList') || request()->is('facultyList/*') || request()->is('facultyWorkingHours') || request()->is('facultyWorkingHours/*')) ? 'active' : '' }}" data-bs-toggle="collapse" data-bs-target="#menu-product" href="#">
                         <i class="icofont-files-stack"></i> <span>Reports</span> <span class="arrow icofont-rounded-down ms-auto text-end fs-5"></span></a>
                             <!-- Menu: Sub menu ul -->
@@ -106,14 +106,14 @@
                         <!-- header rightbar icon -->
                         <div class="h-right d-flex align-items-center mr-5 mr-lg-0 order-1">
                             <div class="d-flex">
-                                <a class="nav-link text-primary collapsed" href="help.html" title="Get Help">
+                                <!-- <a class="nav-link text-primary collapsed" href="help.html" title="Get Help">
                                     <i class="icofont-info-square fs-5"></i>
-                                </a>
+                                </a> -->
                             </div>
                             <div class="dropdown zindex-popover">
-                                <a class="nav-link dropdown-toggle pulse" href="#" role="button" data-bs-toggle="dropdown">
+                                <!-- <a class="nav-link dropdown-toggle pulse" href="#" role="button" data-bs-toggle="dropdown">
                                     <img src="{{URL::asset('assets/images/flag/GB.png')}}" alt="">
-                                </a>
+                                </a> -->
                                 <div class="dropdown-menu rounded-lg shadow border-0 dropdown-animation dropdown-menu-md-end p-0 m-0 mt-3">
                                     <div class="card border-0">
                                         <ul class="list-unstyled py-2 px-3">
@@ -137,10 +137,10 @@
                                 </div>
                             </div>
                             <div class="dropdown notifications">
-                                <a class="nav-link dropdown-toggle pulse" href="#" role="button" data-bs-toggle="dropdown">
+                                <!-- <a class="nav-link dropdown-toggle pulse" href="#" role="button" data-bs-toggle="dropdown">
                                     <i class="icofont-alarm fs-5"></i>
                                     <span class="pulse-ring"></span>
-                                </a>
+                                </a> -->
                                 <div id="NotificationsDiv" class="dropdown-menu rounded-lg shadow border-0 dropdown-animation dropdown-menu-md-end p-0 m-0 mt-3">
                                     <div class="card border-0 w380">
                                         <div class="card-header border-0 p-3">
@@ -206,16 +206,18 @@
                                                             </div>
                                                         </a>
                                                     </li>
+                                                    
                                                 </ul>
                                             </div>
                                         </div>
-                                        <a class="card-footer text-center border-top-0" href="#"> View all notifications</a>
+                                        <!-- <a class="card-footer text-center border-top-0" href="#"> View all notifications</a> -->
                                     </div>
                                 </div>
                             </div>
+                       
                             <div class="dropdown user-profile ml-2 ml-sm-3 d-flex align-items-center zindex-popover">
                                 <div class="u-info me-2">
-                                    <p class="mb-0 text-end line-height-sm "><span class="font-weight-bold">John Quinn</span></p>
+                                    <p class="mb-0 text-end line-height-sm "><span class="font-weight-bold">{{ucfirst(Auth::user()->first_name)}}</span></p>
                                     <small>Admin Profile</small>
                                 </div>
                                 <a class="nav-link dropdown-toggle pulse p-0" href="#" role="button" data-bs-toggle="dropdown" data-bs-display="static">
@@ -227,16 +229,16 @@
                                             <div class="d-flex py-1">
                                                 <img class="avatar rounded-circle" src="{{URL::asset('assets/images/profile_av.svg')}}" alt="profile">
                                                 <div class="flex-fill ms-3">
-                                                    <p class="mb-0"><span class="font-weight-bold">John	Quinn</span></p>
-                                                    <small class="">Johnquinn@gmail.com</small>
+                                                    <p class="mb-0"><span class="font-weight-bold"></span></p>
+                                                    <small class="">{{ucfirst(Auth::user()->email)}}</small>
                                                 </div>
                                             </div>
                                             
                                             <div><hr class="dropdown-divider border-dark"></div>
                                         </div>
                                         <div class="list-group m-2 ">
-                                            <a href="admin-profile.html" class="list-group-item list-group-item-action border-0 "><i class="icofont-ui-user fs-5 me-3"></i>Profile Page</a>
-                                            <a href="order-invoices.html" class="list-group-item list-group-item-action border-0 "><i class="icofont-file-text fs-5 me-3"></i>Order Invoices</a>
+                                            <!-- <a href="admin-profile.html" class="list-group-item list-group-item-action border-0 "><i class="icofont-ui-user fs-5 me-3"></i>Profile Page</a>
+                                            <a href="order-invoices.html" class="list-group-item list-group-item-action border-0 "><i class="icofont-file-text fs-5 me-3"></i>Order Invoices</a> -->
                                             <a href="{{route('logout')}}" class="list-group-item list-group-item-action border-0 " onclick="event.preventDefault(); document.getElementById('frm-logout').submit();">
                                             <i class="icofont-logout fs-5 me-3"></i>Signout</a>
                                             <form id="frm-logout" action="{{route('logout')}}" method="POST" style="display:none;"> @csrf</form>                                        </div>
@@ -256,8 +258,8 @@
                         <!-- main menu Search-->
                         <div class="order-0 col-lg-4 col-md-4 col-sm-12 col-12 mb-3 mb-md-0 ">
                             <div class="input-group flex-nowrap input-group-lg">
-                                <input type="search" class="form-control" placeholder="Search" aria-label="search" aria-describedby="addon-wrapping">
-                                <button type="button" class="input-group-text" id="addon-wrapping"><i class="fa fa-search"></i></button>
+                                <!-- <input type="search" class="form-control" placeholder="Search" aria-label="search" aria-describedby="addon-wrapping">
+                                <button type="button" class="input-group-text" id="addon-wrapping"><i class="fa fa-search"></i></button> -->
                             </div>
                         </div>
         
