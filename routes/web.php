@@ -90,4 +90,7 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
     
     Route::resource('facultyList',App\Http\Controllers\Reports\FacltyListReportController::class);
     Route::post('/facultyList/getFacultyData', [App\Http\Controllers\Reports\FacltyListReportController::class,'getFacultyData'])->name('facultyList.getFacultyData');
+
+    Route::resource('facultyWorkingHours',App\Http\Controllers\Reports\FacltyWorkingHoursReportController::class);
+    Route::post('/facultyWorkingHours/getFacultyWorkingHours', [App\Http\Controllers\Reports\FacltyWorkingHoursReportController::class,'getFacultyWorkingHours'])->name('facultyWorkingHours.getFacultyWorkingHours');
     

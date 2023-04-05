@@ -68,10 +68,10 @@
                             </ul>
                     </li>
                     <li class="collapsed">
-                        <a class="m-link {{ (request()->is('studentList') || request()->is('studentList/*') || request()->is('facultyList') || request()->is('facultyList/*')) ? 'active' : '' }}" data-bs-toggle="collapse" data-bs-target="#menu-product" href="#">
+                        <a class="m-link {{ (request()->is('studentList') || request()->is('studentList/*') || request()->is('facultyList') || request()->is('facultyList/*') || request()->is('facultyWorkingHours') || request()->is('facultyWorkingHours/*')) ? 'active' : '' }}" data-bs-toggle="collapse" data-bs-target="#menu-product" href="#">
                         <i class="icofont-files-stack"></i> <span>Reports</span> <span class="arrow icofont-rounded-down ms-auto text-end fs-5"></span></a>
                             <!-- Menu: Sub menu ul -->
-                            <ul class="sub-menu collapse {{ (request()->is('studentList') || request()->is('studentList/*') || request()->is('facultyList') || request()->is('facultyList/*')) ? 'show' : '' }}" id="menu-product">
+                            <ul class="sub-menu collapse {{ (request()->is('studentList') || request()->is('studentList/*') || request()->is('facultyList') || request()->is('facultyList/*') || request()->is('facultyWorkingHours') || request()->is('facultyWorkingHours/*')) ? 'show' : '' }}" id="menu-product">
                                 <!-- <li> <a class="ms-link"
                                     href="{{ url("student") }}" class="nav-link {{ (request()->is('Student') || 
                                     request()->is('Student/create') || request()->is('Student/*/edit') || 
@@ -80,7 +80,7 @@
                                 </a></li> -->
                                 <li><a class="ms-link {{ (request()->is('studentList') || request()->is('studentList/*')) ? 'active' : '' }}" href="{{ url("studentList") }}">Student List</a></li>
                                 <li><a class="ms-link {{ (request()->is('facultyList') || request()->is('facultyList/*')) ? 'active' : '' }}" href="{{ url("facultyList") }}">Faculty List</a></li>
-                                <li><a class="ms-link" href="">Faculty Total Working Hours</a></li>
+                                <li><a class="ms-link {{ (request()->is('facultyWorkingHours') || request()->is('facultyWorkingHours/*')) ? 'active' : '' }}" href="{{ url("facultyWorkingHours") }}">Faculty Total Working Hours</a></li>
                                 <!-- <li><a class="ms-link" href="">Student Attendance</a></li> -->
                                 <li><a class="ms-link" href="">Lecture Attendance</a></li>
                             </ul>
