@@ -8,61 +8,65 @@
                 </a>
                 <!-- Menu: main ul -->
                 <ul class="menu-list flex-grow-1 mt-3">
-                    <li><a class="m-link active" href="{{ url('home') }}"><i class="icofont-home fs-5"></i><span>Dashboard</span></a></li>
+                    <li><a class="m-link {{ request()->is('home') ? 'active' : '' }}" href="{{ url('home') }}"><i class="icofont-home fs-5"></i><span>Dashboard</span></a></li>
 
-                    <li><a class="m-link active" href="{{ url('role') }}"><i class="icofont-home fs-5"></i><span>Role</span></a></li>
+                    <li><a class="m-link {{ request()->is('role') ? 'active' : '' }}" href="{{ url('role') }}"><i class="icofont-home fs-5"></i><span>Role</span></a></li>
 
-                    <li><a class="m-link active" href="{{ url('user') }}"><i class="icofont-home fs-5"></i><span>User</span></a></li>
-                    <li><a class="m-link active" href="{{ route('Module.new.creates') }}"><i class="icofont-home fs-5"></i><span>Module</span></a></li>
+                    <li><a class="m-link {{ request()->is('user') ? 'active' : '' }}" href="{{ url('user') }}"><i class="icofont-home fs-5"></i><span>User</span></a></li>
+                    <li><a class="m-link {{ request()->is('Module.new.creates') ? 'active' : '' }}" href="{{ route('Module.new.creates') }}"><i class="icofont-home fs-5"></i><span>Module</span></a></li>
 
                     
-                    <li><a class="m-link active" href="{{ url('parameter') }}"><i class="icofont-home fs-5"></i><span>Parameter</span></a></li>
+                    <li><a class="m-link {{ request()->is('parameter') ? 'active' : '' }}" href="{{ url('parameter') }}"><i class="icofont-home fs-5"></i><span>Parameter</span></a></li>
                     
                     <li class="collapsed">
-                        <a class="m-link" data-bs-toggle="collapse" data-bs-target="#categories" href="#">
+                        <a class="m-link {{ (request()->is('details') || request()->is('details/*') || request()->is('student') || request()->is('student/*') || request()->is('faculty') || request()->is('faculty/*')
+                            || request()->is('facultySubject') || request()->is('facultySubject/*') || request()->is('facultyAttendance') || request()->is('facultyAttendance/*') || request()->is('studentAttendance') || request()->is('studentAttendance/*') 
+                            || request()->is('schedule') || request()->is('schedule/*')) ? 'active' : '' }}" data-bs-toggle="collapse" data-bs-target="#categories" href="#">
                         <i class="icofont-ui-user-group"></i> <span>Masters</span> <span class="arrow icofont-rounded-down ms-auto text-end fs-5"></span></a>
                             <!-- Menu: Sub menu ul -->
-                            <ul class="sub-menu collapse" id="categories">
-                                <a class="ms-link"
-                                    href="{{ url("details") }}" class="nav-link {{ (request()->is('SchoolDetails') || 
-                                    request()->is('SchoolDetails/create') || request()->is('SchoolDetails/*/edit') || 
-                                    request()->is('SchoolDetails/*')) ? 'active' : '' }}">
+                            <ul class="sub-menu collapse {{ (request()->is('details') || request()->is('details/*') || request()->is('student') || request()->is('student/*') || request()->is('faculty') || request()->is('faculty/*')
+                            || request()->is('facultySubject') || request()->is('facultySubject/*') || request()->is('facultyAttendance') || request()->is('facultyAttendance/*') || request()->is('studentAttendance') || request()->is('studentAttendance/*') 
+                            || request()->is('schedule') || request()->is('schedule/*')) ? 'show' : '' }}" id="categories">
+                                <a class="ms-link {{ (request()->is('details') || 
+                                    request()->is('details/create') || request()->is('details/*/edit') || 
+                                    request()->is('details/*')) ? 'active' : '' }}"
+                                    href="{{ url("details") }}" class="nav-link ">
                                     School Details
                                 </a>
-                                <a class="ms-link"
-                                    href="{{ url('student') }}" class="nav-link {{ (request()->is('Student') || 
-                                    request()->is('Student/create') || request()->is('Student/*/edit') || 
-                                    request()->is('Student/*')) ? 'active' : '' }}">
+                                <a class="ms-link {{ (request()->is('student') || 
+                                    request()->is('student/create') || request()->is('student/*/edit') || 
+                                    request()->is('student/*')) ? 'active' : '' }}"
+                                    href="{{ url('student') }}" class="nav-link ">
                                     Student
                                 </a>
-                                <a class="ms-link"
-                                    href="{{ url('faculty') }}" class="nav-link {{ (request()->is('Faculty') || 
-                                    request()->is('Faculty/create') || request()->is('Faculty/*/edit') || 
-                                    request()->is('Faculty/*')) ? 'active' : '' }}">
+                                <a class="ms-link {{ (request()->is('faculty') || 
+                                    request()->is('faculty/create') || request()->is('faculty/*/edit') || 
+                                    request()->is('faculty/*')) ? 'active' : '' }}"
+                                    href="{{ url('faculty') }}" class="nav-link ">
                                     Faculty
                                 </a>
-                                <a class="ms-link"
-                                    href="{{ url('facultySubject') }}" class="nav-link {{ (request()->is('FacultySubject') || 
-                                    request()->is('FacultySubject/create') || request()->is('FacultySubject/*/edit') || 
-                                    request()->is('FacultySubject/*')) ? 'active' : '' }}">
+                                <a class="ms-link {{ (request()->is('facultySubject') || 
+                                    request()->is('facultySubject/create') || request()->is('facultySubject/*/edit') || 
+                                    request()->is('facultySubject/*')) ? 'active' : '' }}"
+                                    href="{{ url('facultySubject') }}" class="nav-link ">
                                     Faculty Subject
                                 </a>
-                                <a class="ms-link"
-                                    href="{{ url("facultyAttendance") }}" class="nav-link {{ (request()->is('FacultyAttendance') || 
-                                    request()->is('FacultyAttendance/create') || request()->is('FacultyAttendance/*/edit') || 
-                                    request()->is('FacultyAttendance/*')) ? 'active' : '' }}">
+                                <a class="ms-link {{ (request()->is('facultyAttendance') || 
+                                    request()->is('facultyAttendance/create') || request()->is('facultyAttendance/*/edit') || 
+                                    request()->is('facultyAttendance/*')) ? 'active' : '' }}"
+                                    href="{{ url("facultyAttendance") }}" class="nav-link ">
                                     Faculty Attendance
                                 </a>
-                                <a class="ms-link"
-                                    href="{{ url("studentAttendance") }}" class="nav-link {{ (request()->is('StudentAttendance') || 
-                                    request()->is('StudentAttendance/create') || request()->is('StudentAttendance/*/edit') || 
-                                    request()->is('StudentAttendance/*')) ? 'active' : '' }}">
+                                <a class="ms-link {{ (request()->is('studentAttendance') || 
+                                    request()->is('studentAttendance/create') || request()->is('studentAttendance/*/edit') || 
+                                    request()->is('studentAttendance/*')) ? 'active' : '' }}"
+                                    href="{{ url("studentAttendance") }}" class="nav-link ">
                                     Student Attendance
                                 </a>
-                                <a class="ms-link"
-                                    href="{{ url('schedule') }}" class="nav-link {{ (request()->is('Schedule') || 
-                                    request()->is('Schedule/create') || request()->is('Schedule/*/edit') || 
-                                    request()->is('Schedule/*')) ? 'active' : '' }}">
+                                <a class="ms-link {{ (request()->is('schedule') || 
+                                    request()->is('schedule/create') || request()->is('schedule/*/edit') || 
+                                    request()->is('schedule/*')) ? 'active' : '' }}"
+                                    href="{{ url('schedule') }}" class="nav-link ">
                                     Schedule
                                 </a>
                             </ul>
