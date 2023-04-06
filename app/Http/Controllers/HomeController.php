@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-
+use App\Models\Faculty;
+use App\Models\Student;
+use App\Models\FacultyAttendance;
 class HomeController extends Controller
 {
     /**
@@ -23,6 +25,9 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('home');
+        $FacultyAbsenceAttendance= FacultyAttendance::where('AttendanceStatus',"Absence")->count();
+        $totalFaculty = Faculty::count();
+        $CurrentStudent= Student::where('Status',"OnRoll")->count();
+        return view('home',compact('totalFaculty','FacultyAbsenceAttendance','CurrentStudent'));
     }
 }

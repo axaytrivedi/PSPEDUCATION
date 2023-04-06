@@ -24,7 +24,7 @@
                                         <div class="row g-3 align-items-center">
                                         <div class="card-header">
                                             <h3 class="card-title">{{isset($edit_students)?'Edit':"Add"}} Student Details</h3>
-                                            <a href="{{route('student.index')}}" class=" btn  my_btn  ml-auto"> Back</a>
+                                            <!-- <a href="{{route('student.index')}}" class=" btn  my_btn  ml-auto"> Back</a> -->
                                         </div>
 
                                         <div class="form-group col-sm-3">
@@ -39,7 +39,7 @@
                                         </div>
                                         <div class="form-group col-sm-6">
                                                 <label class="form-label">Student Name</label>
-                                                <input class="form-control"  type="text" id="StudentName" 
+                                                <input class="form-control allowCharcterOnly"  type="text" id="StudentName" 
                                                 name="StudentName" value="{{ old('StudentName', isset($edit_students->StudentName) ?  $edit_students->StudentName  : '' ) }}">
                                         </div>
                                         <div class="form-group col-md-6 col-sm-12">
@@ -73,8 +73,9 @@
                                             </div> -->
                                             <div class="col-md-6 form-group">
                                                 <label  class="form-label">DOB</label>
-                                                <input type="date" class="form-control" id="DOB" 
+                                                <input type="date" class="form-control dobCheck" id="DOB" 
                                                 name="DOB" value="{{ old('DOB', isset($edit_students->DOB) ?  $edit_students->DOB  : '' ) }}">
+                                                <puthereError id="puthereError"></puthereError>
                                             </div>
                                             <div class="col-md-6 form-group">
                                                 <label  class="form-label">Date Of Joining</label>
@@ -218,6 +219,25 @@
                                 </div>
                             </div>
 <script>
+  
+    $(".dobCheck").on("change",function(){
+        
+        var currentTime = new Date();
+        var current_year = currentTime.getFullYear();
+        var dob = $(this).val();
+        dob = dob.split("-");
+        var oldyear = dob[0];
+        var checkmevalid = current_year-parseInt(dob[0]);
+        if(checkmevalid <= 18)
+        {
+            $("#puthereError").html("<span class='text-danger pl-1'>Your age is less for CA </span>");
+            // $(".dobCheck").val(" ");
+        }
+        else
+        {
+            $("#puthereError").html(" ");
+        }
+    });
 $("#CourceCode").select2({ placeholder: "Select a Cource Code ",allowClear: true});
 $("#BatchCode").select2({ placeholder: "Select a Batch Code ",allowClear: true});
 

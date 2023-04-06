@@ -42,7 +42,7 @@
                                                             @csrf
                                                             @method('DELETE')
                                             
-                                                            <button type="submit" class="btn btn-danger"><i class="icofont-ui-delete"></i></button>
+                                                            <!-- <button type="submit" class="btn btn-danger"><i class="icofont-ui-delete"></i></button> -->
                                                         </form>
                                                     </td>
                                                 </tr>

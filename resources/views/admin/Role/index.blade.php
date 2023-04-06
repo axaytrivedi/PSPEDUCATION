@@ -8,20 +8,20 @@
                      {!! Session::has('msg') ? Session::get("msg") : '' !!}
                 </div>
     <div class="panel panel-default">
-        <div class="panel-heading">  Roles List 
+        <div class="panel-heading"> 
         <div class="action_btn_box">
                 <a  href="{{route('role.create')}}"type="button"  class="m-w-105 btn btn-success" >Create</a>
             <div class="btn-group">
-                <button type="button" class="btn btn-primary">Action</button>
+                <!-- <button type="button" class="btn btn-primary">Action</button>
                 <button type="button"  class="btn btn-primary dropdown-toggle " data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
                     <span class="caret"></span>
                     <span class="sr-only">Toggle Dropdown</span>
-                </button>
-                <ul class="dropdown-menu">
+                </button> -->
+                <!-- <ul class="dropdown-menu">
                     <li><a href="javascript:void(0);" onclick="status('Active')">Active</a></li>
                     <li><a href="javascript:void(0);" onclick="status('Inactive')">Inactive</a></li>
                     
-                </ul>
+                </ul> -->
             </div>
 </div>
         </div>
@@ -33,7 +33,7 @@
             <table class="table table-striped table-hover js-exportable dataTable">
                                 <thead>
                                     <tr>
-                                            <th style="width: 1%"><input type='checkbox' class="checkbox"  id='checkAll'></th>
+                                            <!-- <th style="width: 1%"><input type='checkbox' class="checkbox"  id='checkAll'></th> -->
                                         <th>Sr No.</th>
                                         <th>Name</th>
                                         <th>Permission</th>
@@ -45,7 +45,7 @@
                                     @foreach($roles as $values)
 
                                     <tr id="id_rmv{{$values->id}}">
-                                        <td><input type="checkbox" class="checkbox"  data-id="{{$values->id}}" name="checks[]" ></td>
+                                        <!-- <td><input type="checkbox" class="checkbox"  data-id="{{$values->id}}" name="checks[]" ></td> -->
                                         <td>{{$loop->iteration}}</td>
                                         <td>{{$values->name}}</td>
                                         <td> <a href="{{route('Module.permission',$values->id)}}"  class="badge bg-success" >Permission</a></td>
@@ -53,9 +53,9 @@
                                         <td  id="status{{$values->id}}"><p   class="badge {{($values->status == 'Active')? 'bg-success' :'bg-danger'}}  btn-sm">{{$values->status}}</p></td>
                                         <td>
                                             <div class="action_btn_group">
-                                                <a href="{{route('role.show',$values->id)}}"class="btn btn-primary"><i class="fa fa-eye"></i></a>
-                                                <a href="{{route('role.edit',$values->id)}}" class="btn btn-success" ><i class="fa fa-edit"></i></a>
-                                                <button href="#" data-id="{{$values->id}}" data-roleName="{{$values->role_name}}" class="btn btn-danger Delete"><i class="fa fa-trash-o"></i></button>
+                                                <!-- <a href="{{route('role.show',$values->id)}}"class="btn btn-primary"><i class="fa fa-eye"></i></a> -->
+                                                <a href="{{route('role.edit',$values->id)}}" class="btn btn-primary"btn btn-primary" ><i class="fa fa-edit"></i></a>
+                                                <!-- <button href="#" data-id="{{$values->id}}" data-roleName="{{$values->role_name}}" class="btn btn-danger Delete"><i class="fa fa-trash-o"></i></button> -->
                                             </div>
                                         </td>
                                   
@@ -65,7 +65,7 @@
                                 </tbody>
                                 <tfoot>
                                     <tr>
-                                    <th></th>
+                                    <!-- <th></th> -->
                                     <th>Sr No.</th>
                                         <th>Name</th>
                                         <th>Permission</th>

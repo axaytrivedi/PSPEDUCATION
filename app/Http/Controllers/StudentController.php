@@ -14,7 +14,7 @@ class StudentController extends Controller
      */
     public function index()
     {
-        $students = Student::all();
+        $students = Student::whereIn('status',['OnRoll','Promoted','PassOut'])->get();
         return view('Student.index',compact('students'));
     }
 
@@ -51,9 +51,9 @@ class StudentController extends Controller
             'CourceCode' => 'required',
             'BatchCode' => 'required',
             'AcademinSession' => 'required',
-            'AddressLine1' => 'required|regex:/^[a-zA-Z  *]*$/',
-            'AddressLine2' => 'required|regex:/^[a-zA-Z  *]*$/',
-            'AddressLine3' => 'required|regex:/^[a-zA-Z  *]*$/',
+            // 'AddressLine1' => 'required|regex:/^[a-zA-Z  *]*$/',
+            // 'AddressLine2' => 'required|regex:/^[a-zA-Z  *]*$/',
+            // 'AddressLine3' => 'required|regex:/^[a-zA-Z  *]*$/',
             'Status' => 'required',
             'mobile' => 'required|regex:/^(\+\d{1,3}[- ]?)?\d{10}$/',
             'Title' => 'required',
@@ -66,6 +66,8 @@ class StudentController extends Controller
             'promoted'=> 'required',
             'Title'=> 'required',
             ]);
+
+
 
         $create = Student::create([
             'id'=>$request->id,
@@ -143,9 +145,9 @@ class StudentController extends Controller
             'CourceCode' => 'required',
             'BatchCode' => 'required',
             'AcademinSession' => 'required',
-            'AddressLine1' => 'required|regex:/^[a-zA-Z  *]*$/',
-            'AddressLine2' => 'required|regex:/^[a-zA-Z  *]*$/',
-            'AddressLine3' => 'required|regex:/^[a-zA-Z  *]*$/',
+            // 'AddressLine1' => 'required|regex:/^[a-zA-Z  *]*$/',
+            // 'AddressLine2' => 'required|regex:/^[a-zA-Z  *]*$/',
+            // 'AddressLine3' => 'required|regex:/^[a-zA-Z  *]*$/',
             'Status' => 'required',
             'mobile' => 'required|regex:/^(\+\d{1,3}[- ]?)?\d{10}$/',
             'Title' => 'required',
@@ -195,11 +197,26 @@ class StudentController extends Controller
      */
     public function destroy(Student $student)
     {
-        $student->delete();
+        // $student->delete();
        
-        return redirect()->route('student.index')
-                        ->with('success','deleted successfully');
+        // return redirect()->route('student.index')
+        //                 ->with('success','deleted successfully');
     }
+    // public function StudentDelete(Request $request)
+    // {
+    //     $Student_id = $faculty->id;
+        
+    //     $Student = Student::find($Student_id)->delete();
+        
+    //     if($Student == true)
+    //     {
+    //         return response()->json(['msg'=>1]);
+    //     }
+    //     else
+    //     {
+    //         return response()->json(['msg'=>0]);
+    //     }
+    // }
     public function studentlist()
     {
         $students = Student::all();

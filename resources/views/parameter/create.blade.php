@@ -69,7 +69,7 @@
                     </div>
                 </div>
                 <div class="col-md-12">
-                        <button type="submit" class="btn btn-primary py-2 px-5 text-uppercase btn-set-task w-sm-100">Store</button>
+                        <button type="submit" class="btn btn-primary py-2 px-5 text-uppercase btn-set-task w-sm-100">Add</button>
                         <a href="{{url('parameter')}}" class="btn btn-danger py-2 px-5 text-uppercase btn-set-task w-sm-100">Cancle</a>     
                 </div>
 
@@ -90,7 +90,7 @@ $(document).ready(function(){
                     Validity:{required:true },
                 },
                 messages: {
-                    ParaDescription: { required: "Please enter Category name ", },
+                    ParaDescription: { required: "Please enter  Name ", },
                     // file:{extension:"Only Allow jpeg|png|jpg|gif|svg|webp",},
                     Validity:{required:"Please Select Status"}, 
                 },

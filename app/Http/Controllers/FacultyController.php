@@ -117,20 +117,35 @@ class FacultyController extends Controller
             'AddressLine3'=>$request->AddressLine3,
             'MobileNo'=>$request->MobileNo,
 
-            'image'=>$filename,
+            'image'=>(isset($filename))?$filename:" ",
             'Role'=>$request->Role,
             'Status' => $request->Status,
         ]);
         if(isset($create->id))
         {   
-            User::create([  'firstName' => $request->firstName,
-                            'lastName' => $request->lastName,
-                            'Role'=>$request->Role,
-                            'email'=>$request->email,
-                            'password'=>Hash::make($request->password),
-                            'Image'=>$filename,
-                            'user_status'=>"Active",
-                        ]);
+            
+                try{
+                    $User= User::create([  'firstName' => $request->firstName,
+                                        'lastName' => $request->lastName,
+                                        'Role'=>$request->Role,
+                                        'email'=>$request->email,
+                                        'password'=>Hash::make($request->password),
+                                        'Image'=>(isset($filename))?$filename:" ",
+                                        'user_status'=>"Active",
+                                    ]);
+                    }
+                    catch(Exception $e) 
+                    {
+                        Faculty::find($create->id)->delete();
+                    }
+              
+            
+
+                       
+        }
+        else
+        {
+           
         }
 
         return redirect()->route('faculty.index')->with('msg','Created Successfuly');
@@ -184,6 +199,15 @@ class FacultyController extends Controller
             'Status' => 'required',
 
         ]);
+
+        $img =   $request->file('image');
+
+     
+        if(!empty($img) && $img->getClientOriginalName() != "" )
+        {  
+            $filename= $img->getClientOriginalName();
+            $img->move(public_path('Admin/Users'),$filename);
+        }
         $facultys = Faculty::find($id);
         $facultys->FacultyCode = FacultyCode();
         $facultys->Title = $request->Title;
@@ -200,8 +224,22 @@ class FacultyController extends Controller
         $facultys->AddressLine2=$request->AddressLine2;
         $facultys->AddressLine3=$request->AddressLine3;
         $facultys->MobileNo=$request->MobileNo;
+        if(isset($filename)){    
+             $facultys->image=$filename;
+        }
+       
         $facultys->Status = $request->Status;
         $facultys->save();
+
+        $email = $facultys->email;
+        if(isset($email))
+        {
+       
+            $User = User::where("email",$email)->first();
+            $User->user_status="In-Active";
+            $User->save();
+            
+        } 
         return redirect()->route('faculty.index')->with('msg','Updated Successfuly.');
     }
 
@@ -211,19 +249,37 @@ class FacultyController extends Controller
      * @param  \App\Models\Faculty  $faculty
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Faculty $faculty)
+    public function destroy(Request $request)
     {
+        
 
-        $status = $faculty->id;
-        $Faculty = Faculty::find($status);
-        $Faculty->Status="Left";
-        $Faculty->save();
+        // $status = $faculty->id;
+        // $Faculty = Faculty::find($status);
+        // $Faculty->Status="Left";
+        // $Faculty->save();
        
 
-        session()->flash('msg', 'Faculty Now Left successfully.');
+        // session()->flash('msg', 'Faculty Now Left successfully.');
         
-        return redirect()->route('faculty.index');
+        // return redirect()->route('faculty.index');
                      
+    }
+    public function FacultyDelete(Request $request)
+    {
+      
+        
+        $status = $faculty->id;
+        $Faculty = Faculty::find($status)->delete();
+        
+        if($Faculty == true)
+        {
+            return response()->json(['msg'=>1]);
+        }
+        else
+        {
+            return response()->json(['msg'=>0]);
+        }
+      
     }
 
     // public function listfaculty(Request $request)

@@ -252,8 +252,8 @@ $(function() {
 
 });
 
-// function myMap() {
-
+function myMap() {
+}
 //     let map;
 
     

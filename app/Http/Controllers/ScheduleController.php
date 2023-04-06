@@ -268,12 +268,23 @@ class ScheduleController extends Controller
      * @param  \App\Models\Schedule  $schedule
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Schedule $schedule)
+    public function destroy(Request $request,$id)
     {
-        // $schedule->delete();
-       
-        // return redirect()->route('schedule.index')
-        //                 ->with('success','deleted successfully');
+
+        $SchedulerHeader = SchedulerHeader::find($id);
+
+        $edit_schedule = Schedule::where("LectureCode",$SchedulerHeader->LineNo)->get();
+        if(!empty($edit_schedule))
+        {
+            foreach($edit_schedule as $data)
+            {
+               $data->delete();
+            }
+            
+            $SchedulerHeader->delete();
+        }
+        return redirect()->route('schedule.index')
+                        ->with('success','deleted successfully');
     }
 
     public function GetCourseWiseBatch(Request $request)

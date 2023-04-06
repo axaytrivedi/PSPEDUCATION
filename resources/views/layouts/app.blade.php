@@ -6,7 +6,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=Edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>::eBazar::  Dashboard </title>
+    <title>PSPEDU </title>
     <link rel="icon" href="favicon.ico" type="image/x-icon"> <!-- Favicon-->
 
     <!-- plugin css file  -->
@@ -24,7 +24,6 @@
     <!-- Jquery Page Js -->
     <script src="{{URL::asset('assets/js/template.js')}}"></script>
     <script src="{{URL::asset('assets/js/page/index.js')}}"></script>
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB1Jr7axGGkwvHRnNfoOzoVRFV3yOPHJEU&amp;callback=myMap"></script>  
 
     <script src="{{URL::asset('assets/bundles/dataTables.bundle.js')}}"></script>  
     <script
@@ -214,5 +213,4 @@
     </script>
 </body>
 
-<!-- Mirrored from pixelwibes.com/template/ebazar/html/dist/index.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 23 Feb 2022 07:27:52 GMT -->
 </html> 

@@ -33,7 +33,8 @@
                   <td>{{ $values->firstName }} {{ $values->last_name }}</td>
                   <td>{{ $values->Status }}</td>
                   <td>
-                     <form action="{{ route('faculty.destroy',$values->id) }}" method="POST"> <a class="btn btn-primary" href="{{ route('faculty.edit',$values->id) }}"><i class="icofont-ui-edit"></i></a> @csrf @method('DELETE') <button type="submit" class="btn btn-danger"><i class="icofont-ui-delete"></i></button> </form>
+                    <a class="btn btn-primary" href="{{ route('faculty.edit',$values->id) }}"><i class="icofont-ui-edit"></i></a>  
+                    <!-- <a href="javascript:void(0)"data-id="{{ $values->id}}" data-cName="{{ $values->FacultyCode }}" class="btn btn-danger Delete"><i class="icofont-ui-delete"></i></a>  -->
                   </td>
                </tr>
                @endforeach 
@@ -42,4 +43,34 @@
       </div>
    </div>
 </div>
+
+<script>
+
+$(".Delete").click(function(){
+   var id= $(this).data('id');
+   var companyName= $(this).attr('data-cName');
+
+    var confirms = confirm("Are you sure you want to delete this record ?"+companyName);
+    if(confirms === true)
+    {
+        $.ajax({
+            type: "POST",
+            url: "{{url('FacultyDelete')}}",
+            data: {
+                "_token": "{{ csrf_token() }}",
+                id: id
+            },
+            dataType: 'json',
+            success: function(res)
+            {
+                $("#update").addClass('alert-success');
+                $("#update").html(res.msg);
+                $("#id_rmv"+id).remove();
+            }
+        });
+    }
+    // $("#update").html('');
+    // $("#update").removeClass('alert-success');
+});
+</script>
 @endsection

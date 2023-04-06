@@ -114,6 +114,7 @@ class RoleController extends Controller
         
             $edit_role = Role::find($id);
        
+        return view("admin.Role.edit",compact('edit_role'));  
     }
 
     /**

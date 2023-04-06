@@ -35,7 +35,13 @@ Route::get('/', function () {
 
 Route::resource('/details',SchoolDetailsController::class);
 Route::resource('/faculty',FacultyController::class);
+
+Route::post('/FacultyDelete',[FacultyController::class,'FacultyDelete']);
+
+
+
 Route::resource('/student',StudentController::class);
+Route::post('/studentDelete',[StudentController::class,'StudentDelete']);
 Route::resource('/schedule',ScheduleController::class);
 Route::resource('/facultySubject',FacultySubjectController::class);
 Route::resource('/facultyAttendance',FacultyAttendanceController::class);
@@ -79,8 +85,9 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
     Route::post('getCourseWiseBatch', [ScheduleController::class,'GetCourseWiseBatch'])->name('getCourseWiseBatch');
 
     Route::get('PrintScheduler/{id}', [ScheduleController::class,'PrintScheduler'])->name('schedule.print');
+    Route::post('DeleteScheduler', [ScheduleController::class,'destroy']);
 
-
+    
 
 
 

@@ -12,7 +12,7 @@
 
                     <li><a class="m-link {{ request()->is('role') ? 'active' : '' }}" href="{{ url('role') }}"><i class="icofont-home fs-5"></i><span>Role</span></a></li>
 
-                    <li><a class="m-link {{ request()->is('user') ? 'active' : '' }}" href="{{ url('user') }}"><i class="icofont-home fs-5"></i><span>User</span></a></li>
+                    <!-- <li><a class="m-link {{ request()->is('user') ? 'active' : '' }}" href="{{ url('user') }}"><i class="icofont-home fs-5"></i><span>User</span></a></li> -->
                     <li><a class="m-link {{ request()->is('Module.new.creates') ? 'active' : '' }}" href="{{ route('Module.new.creates') }}"><i class="icofont-home fs-5"></i><span>Module</span></a></li>
 
                     
@@ -31,7 +31,7 @@
                                     request()->is('details/create') || request()->is('details/*/edit') || 
                                     request()->is('details/*')) ? 'active' : '' }}"
                                     href="{{ url("details") }}" class="nav-link ">
-                                    School Details
+                                    Company Details
                                 </a>
                                 <a class="ms-link {{ (request()->is('student') || 
                                     request()->is('student/create') || request()->is('student/*/edit') || 

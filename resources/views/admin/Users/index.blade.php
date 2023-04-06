@@ -33,11 +33,11 @@
             <table class="table table-striped table-hover js-exportable dataTable">
                                 <thead>
                                     <tr>
-                                            <th style="width: 1%"><input type='checkbox' id='checkAll'></th>
+                                            <!-- <th style="width: 1%"><input type='checkbox' id='checkAll'></th> -->
                                         <th>Sr No.</th>
                                         <th>Name</th>
                                        
-                                        <th>Status</th>
+                                        <!-- <th>Status</th> -->
                                         <th>Actions</th>
                                     </tr>
                                 </thead>
@@ -49,12 +49,12 @@
                                         <td>{{$loop->iteration}}</td>
                                         <td>{{$values->first_name}}  {{$values->last_name}}</td>
                                       
-                                        <td  id="status{{$values->id}}"><p  class="badge {{($values->user_status == 'Active')? 'bg-success' :'bg-danger'}}  btn-sm">{{$values->user_status}}</p></td>
+                                        <!-- <td  id="status{{$values->id}}"><p  class="badge {{($values->user_status == 'Active')? 'bg-success' :'bg-danger'}}  btn-sm">{{$values->user_status}}</p></td> -->
                                         <td>
                                             <div class="action_btn_group">
-                                                <a href="{{route('user.show',$values->id)}}"  class="btn btn-primary"><i class="fa fa-eye"></i></a>
+                                                <!-- <a href="{{route('user.show',$values->id)}}"  class="btn btn-primary"><i class="fa fa-eye"></i></a> -->
                                                 <a href="{{route('user.edit',$values->id)}}" class="btn btn-success" ><i class="fa fa-edit"></i></a>
-                                                <button href="#" data-id="{{$values->id}}" data-roleName="{{$values->role_name}}" class="btn btn-danger Delete"><i class="fa fa-trash-o"></i></button>
+                                                <!-- <button href="#" data-id="{{$values->id}}" data-roleName="{{$values->role_name}}" class="btn btn-danger Delete"><i class="fa fa-trash-o"></i></button> -->
                                             </div>
                                         </td>
                                   
