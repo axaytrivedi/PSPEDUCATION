@@ -1,45 +1,42 @@
-
 @extends('layouts.app')
 
 @section('content')
-
 <style>
-
-    .checkbox_other_list
-    {
-        margin:10px 5% 0 !important; width:10%; 
-    }
-.checkbox_list
-{
-    margin:10px 5% 0 !important; width:10%;
-}
-
-@media only screen and (max-width: 767px)
-{
-    .checkbox_list 
-    {
-        margin:10px 0 0 !important; width:100%; white-space:normal; 
-    }
-    .checkbox_other_list
-    {
-        margin:10px 0% 0 !important; width:50%; white-space:normal;
-    }
-}
-
+   .checkbox_other_list
+   {
+   margin:10px 5% 0 !important; width:10%; 
+   }
+   .checkbox_list
+   {
+   margin:10px 5% 0 !important; width:10%;
+   }
+   @media only screen and (max-width: 767px)
+   {
+   .checkbox_list 
+   {
+   margin:10px 0 0 !important; width:100%; white-space:normal; 
+   }
+   .checkbox_other_list
+   {
+   margin:10px 0% 0 !important; width:50%; white-space:normal;
+   }
+   }
 </style>
-<div class="page-body">
-       
-                <div class="alert {{(Session::has('msg') !='')? 'alert-success':''}}" id="update" >
-                     {!! Session::has('msg') ? Session::get("msg") : '' !!}
-                </div>
-        <div class="panel panel-default">
-            <div class="panel-heading">  Permission List 
-            <div class="action_btn_box">
-               
-            </div>
-        </div>
-            <div class="panel-body">
-            <form method="post" action="{{route('Module.GivePermission')}}">
+<div class="card mb-3">
+   <div class="card-header py-3 bg-transparent border-bottom-0">
+      <div>
+         <div class="pull-left">
+            <h6 class="mb-0 fw-bold ">Faculty Details Table</h6>
+         </div>
+         <!-- <div class="pull-right"> <a class="btn btn-success" href="{{ route('faculty.create') }}"> Create New</a> </div> -->
+      </div>
+   </div>
+   <div class="card-body">
+      <div class="alert {{(Session::has('msg') !='')? 'alert-success' :''}}" id="update" >
+         {!! Session::has('msg') ? Session::get("msg") : '' !!}
+      </div>
+      <div class="table-responsive">
+      <form method="post" action="{{route('Module.GivePermission')}}">
                 @csrf
                 <table class="table table-responsive">   
 
@@ -109,13 +106,8 @@
                         <a href="{{route('role.index')}}" type="submit" class=" m-w-105 btn btn-sm btn-danger">Cancel</a>
                     </div>   
             </form>
-            
-            </div>
-            
-        </div>
-        
-
-    </div>
+      </div>
+   </div>
 </div>
 <script>
 $(".checkval_parent").click(function(){
@@ -137,5 +129,4 @@ $(".checkval_parent").click(function(){
 
 });
 </script>
-
 @endsection

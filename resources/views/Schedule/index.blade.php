@@ -1,6 +1,6 @@
 @extends('layouts.app')
 @section('content')
-                            <div class="card mb-3">
+<div class="card mb-3">
                                 <div class="card-header py-3  bg-transparent border-bottom-0">
                                     <div>
                                             <div class="pull-left">
@@ -55,5 +55,5 @@
                                         </table>
                                     </div>
                                 </div>
-                            </div>
+                            </div>                    
 @endsection

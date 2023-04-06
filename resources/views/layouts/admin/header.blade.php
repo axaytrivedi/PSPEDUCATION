@@ -9,14 +9,17 @@
                 <!-- Menu: main ul -->
                 <ul class="menu-list flex-grow-1 mt-3">
                     <li><a class="m-link {{ request()->is('home') ? 'active' : '' }}" href="{{ url('home') }}"><i class="icofont-home fs-5"></i><span>Dashboard</span></a></li>
-
-                    <li><a class="m-link {{ request()->is('role') ? 'active' : '' }}" href="{{ url('role') }}"><i class="icofont-home fs-5"></i><span>Role</span></a></li>
-
-                    <!-- <li><a class="m-link {{ request()->is('user') ? 'active' : '' }}" href="{{ url('user') }}"><i class="icofont-home fs-5"></i><span>User</span></a></li> -->
-                    <li><a class="m-link {{ request()->is('Module.new.creates') ? 'active' : '' }}" href="{{ route('Module.new.creates') }}"><i class="icofont-home fs-5"></i><span>Module</span></a></li>
-
+                   
+                    @if(auth()->user()->can('Role-Role'))
                     
+                    <li><a class="m-link {{ request()->is('role') ? 'active' : '' }}" href="{{ url('role') }}"><i class="icofont-home fs-5"></i><span>Role</span></a></li>
+                    @endif 
+                    <!-- <li><a class="m-link {{ request()->is('user') ? 'active' : '' }}" href="{{ url('user') }}"><i class="icofont-home fs-5"></i><span>User</span></a></li> -->
+                    <!-- <li><a class="m-link {{ request()->is('Module.new.creates') ? 'active' : '' }}" href="{{ route('Module.new.creates') }}"><i class="icofont-home fs-5"></i><span>Module</span></a></li> -->
+
+                    @if(auth()->user()->can('Parameter-Parameter'))
                     <li><a class="m-link {{ request()->is('parameter') ? 'active' : '' }}" href="{{ url('parameter') }}"><i class="icofont-home fs-5"></i><span>Parameter</span></a></li>
+                    @endif  
                     
                     <li class="collapsed">
                         <a class="m-link {{ (request()->is('details') || request()->is('details/*') || request()->is('student') || request()->is('student/*') || request()->is('faculty') || request()->is('faculty/*')
@@ -27,48 +30,62 @@
                             <ul class="sub-menu collapse {{ (request()->is('details') || request()->is('details/*') || request()->is('student') || request()->is('student/*') || request()->is('faculty') || request()->is('faculty/*')
                             || request()->is('facultySubject') || request()->is('facultySubject/*') || request()->is('facultyAttendance') || request()->is('facultyAttendance/*') || request()->is('studentAttendance') || request()->is('studentAttendance/*') 
                             || request()->is('schedule') || request()->is('schedule/*')) ? 'show' : '' }}" id="categories">
-                                <a class="ms-link {{ (request()->is('details') || 
+                               
+                            @if(auth()->user()->can('Company-Company'))
+                            <!-- <a class="ms-link {{ (request()->is('details') || 
                                     request()->is('details/create') || request()->is('details/*/edit') || 
                                     request()->is('details/*')) ? 'active' : '' }}"
                                     href="{{ url("details") }}" class="nav-link ">
                                     Company Details
-                                </a>
+                                </a> -->
+                            @endif
+                            @if(auth()->user()->can('Student-Student'))
                                 <a class="ms-link {{ (request()->is('student') || 
                                     request()->is('student/create') || request()->is('student/*/edit') || 
                                     request()->is('student/*')) ? 'active' : '' }}"
                                     href="{{ url('student') }}" class="nav-link ">
                                     Student
                                 </a>
+                            @endif
+                            @if(auth()->user()->can('faculty-faculty'))
                                 <a class="ms-link {{ (request()->is('faculty') || 
                                     request()->is('faculty/create') || request()->is('faculty/*/edit') || 
                                     request()->is('faculty/*')) ? 'active' : '' }}"
                                     href="{{ url('faculty') }}" class="nav-link ">
                                     Faculty
                                 </a>
+                            @endif
+                            @if(auth()->user()->can('FacultySubject-FacultySubject'))
                                 <a class="ms-link {{ (request()->is('facultySubject') || 
                                     request()->is('facultySubject/create') || request()->is('facultySubject/*/edit') || 
                                     request()->is('facultySubject/*')) ? 'active' : '' }}"
                                     href="{{ url('facultySubject') }}" class="nav-link ">
                                     Faculty Subject
                                 </a>
+                            @endif
+                            @if(auth()->user()->can('FacultyAttendance-FacultyAttendance'))
                                 <a class="ms-link {{ (request()->is('facultyAttendance') || 
                                     request()->is('facultyAttendance/create') || request()->is('facultyAttendance/*/edit') || 
                                     request()->is('facultyAttendance/*')) ? 'active' : '' }}"
                                     href="{{ url("facultyAttendance") }}" class="nav-link ">
                                     Faculty Attendance
                                 </a>
-                                <a class="ms-link {{ (request()->is('studentAttendance') || 
+                            @endif
+                                <!-- <a class="ms-link {{ (request()->is('studentAttendance') || 
                                     request()->is('studentAttendance/create') || request()->is('studentAttendance/*/edit') || 
                                     request()->is('studentAttendance/*')) ? 'active' : '' }}"
                                     href="{{ url("studentAttendance") }}" class="nav-link ">
                                     Student Attendance
-                                </a>
+                                </a> -->
+                            @if(auth()->user()->can('scheduleView-scheduleView'))
                                 <a class="ms-link {{ (request()->is('schedule') || 
                                     request()->is('schedule/create') || request()->is('schedule/*/edit') || 
                                     request()->is('schedule/*')) ? 'active' : '' }}"
                                     href="{{ url('schedule') }}" class="nav-link ">
                                     Schedule
                                 </a>
+                            @endif
+                          
                             </ul>
                     </li>
                    <li class="collapsed">
@@ -222,7 +239,7 @@
                             <div class="dropdown user-profile ml-2 ml-sm-3 d-flex align-items-center zindex-popover">
                                 <div class="u-info me-2">
                                     <p class="mb-0 text-end line-height-sm "><span class="font-weight-bold">{{ucfirst(Auth::user()->first_name)}}</span></p>
-                                    <small>Admin Profile</small>
+                                    <small> Profile</small>
                                 </div>
                                 <a class="nav-link dropdown-toggle pulse p-0" href="#" role="button" data-bs-toggle="dropdown" data-bs-display="static">
                                     <img class="avatar lg rounded-circle img-thumbnail" src="{{URL::asset('assets/images/profile_av.svg')}}" alt="profile">

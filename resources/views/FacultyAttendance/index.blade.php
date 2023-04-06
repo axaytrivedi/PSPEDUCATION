@@ -74,7 +74,6 @@
                                                     <table id="myDataTable" class="table table-hover align-middle mb-0" style="width: 100%;">
                                                         <thead>
                                                             <tr>
-                                                                <th style="width: 1%"><input type='checkbox' id='checkAll'></th>
                                                                 <th>No</th>
                                                                 <th>FacultyCode</th>
                                                                 <th>Attandance Status</th>
@@ -88,7 +87,7 @@
                                                             <tr>
                                                                 <input type="hidden" name="attendance_id[]" 
                                                              @if(isset(FacultyAttendanceget($values->FacultyCode,date('Y-m-d'))->Att_id))  value="{{FacultyAttendanceget($values->FacultyCode,date('Y-m-d'))->Att_id}}" @endif>
-                                                                <td><input type="checkbox" class="checkbox" data-id="{{$values->id}}" name="checks[{{$k}}][]"></td>
+                                                                <!-- <td><input type="checkbox" class="checkbox getCheckBox{{$k}}" data-id="{{$values->id}}" name="checks[{{$k}}][]"></td> -->
                                                                 <td>{{ $loop->iteration }}</td>
                                                                 <td><strong><input type="hidden" class="form-control" id="FacultyCode" name="FacultyCode[]" value="{{ $values->FacultyCode }}">{{ $values->FacultyCode }} - {{ $values->firstName }}</strong></td>
                                                                 <td>
@@ -105,20 +104,21 @@
                                                                         {{ old('AttendanceStatus', isset($values)  && isset(FacultyAttendanceget($values->FacultyCode,date('Y-m-d'))->AttendanceStatus) ?  FacultyAttendanceget($values->FacultyCode,date('Y-m-d'))->AttendanceStatus  : '')=='Absence' ? 'selected' : '' }} 
                                                                         >Absence</option>
 
-                                                                        <!-- 
-                                                                        {{ old('AttendanceStatus', isset($values) ?  $values->AttendanceStatus  : '')=='Full Day' ? 'selected' : '' }}
-                                                                        {{ old('AttendanceStatus', isset($values) ?  $values->AttendanceStatus  : '')=='Absence' ? 'selected' : '' }} -->
                                                                     </select>
                                                                 </td>
-                                                                <td><input type="time" class="form-control" id="InTime" name="InTime[]" @if(isset(FacultyAttendanceget($values->FacultyCode,date('Y-m-d'))->InTime))  value="{{FacultyAttendanceget($values->FacultyCode,date('Y-m-d'))->InTime}}" @else value="" @endif> </td>
-                                                                <td><input type="time" class="form-control" id="OutTime" name="OutTime[]" value="@if(isset(FacultyAttendanceget($values->FacultyCode,date('Y-m-d'))->OutTime)){{FacultyAttendanceget($values->FacultyCode,date('Y-m-d'))->OutTime}}@endif"></td>
+                                                                <td><input type="time" class="form-control inTime" id="InTime{{$k}}" data-id="{{$k}}" name="InTime[]" @if(isset(FacultyAttendanceget($values->FacultyCode,date('Y-m-d'))->InTime))  value="{{FacultyAttendanceget($values->FacultyCode,date('Y-m-d'))->InTime}}" @else value="" @endif> 
+                                                                <customePUTDATA1 id="customePUTDATAs{{$k}}"> </customePUTDATA1></td>
+                                                                <td>
+                                                                    <input type="time" class="form-control outTime" id="OutTime{{$k}}"   data-id="{{$k}}" name="OutTime[]" value="@if(isset(FacultyAttendanceget($values->FacultyCode,date('Y-m-d'))->OutTime)){{FacultyAttendanceget($values->FacultyCode,date('Y-m-d'))->OutTime}}@endif">
+                                                                    <customePUTDATA id="customePUTDATA{{$k}}"> </customePUTDATA>
+                                                                </td>
 
                                                             </tr>
                                                             @endforeach
                                                         
                                                         </tbody>
                                                     </table>
-                                                    <button type="submit" class="btn btn-success mt-4">@if(!empty($edit_facultyatt->id))
+                                                    <button type="submit" class="btn btn-success mt-4 stopWorking">@if(!empty($edit_facultyatt->id))
                                                         Update @else Save @endif</button>
                                                     <!-- <a href="{{route('facultyAttendance.index')}}" type="submit"
                                                         class=" m-w-105 btn btn-danger mt-4">Cancel</a> -->
@@ -130,6 +130,45 @@
                             </div>
 
 <script>
+    $(".outTime").on("change",function(){
+      var target_id = $(this).data('id');
+      var outTime = $(this).val();
+      var inTime = $("#InTime"+target_id).val();
+
+      console.log(isNaN(inTime) ==false);
+    if(isNaN(inTime) ==false)
+    {
+ 
+        
+        $("#customePUTDATAs"+target_id).html("<span class='text-danger pl-1'> Out Time to be after In Time..</span>");
+        $(".stopWorking").prop("disabled",true);
+    }
+
+
+      var hours = parseInt(outTime.split(':')[0], 10) - parseInt(inTime.split(':')[0], 10);
+      var min = parseInt(outTime.split(':')[1], 10) - parseInt(inTime.split(':')[1], 10);
+      var duration = hours + min/60;
+
+        if( duration <= 0  )
+        {
+          
+            var checkbox = $(".getCheckBox"+target_id).prop('checked');
+            $("#customePUTDATA"+target_id).html("<span class='text-danger pl-1'> Out Time to be after In Time..</span>");
+            $(".stopWorking").prop("disabled",true);
+            
+        }
+        else
+        { $("#customePUTDATA"+target_id).html(" ");
+           
+            $(".stopWorking").prop("disabled",false);
+          
+        }
+
+ 
+
+
+    });
+
     // Check/Uncheck ALl
     $('#checkAll').change(function() {
         if ($(this).is(':checked')) {

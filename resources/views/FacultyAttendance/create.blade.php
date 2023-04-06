@@ -68,7 +68,7 @@
                                     </form>
                                 </div>
                             </div>
-                            <script>
+<script>
 $('#facultyattform').validate({
     rules: {
         FacultyCode: {

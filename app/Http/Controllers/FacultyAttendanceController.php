@@ -63,16 +63,20 @@ class FacultyAttendanceController extends Controller
         //         'AttendanceStatus' => $AttendanceStatus[$i]
         //     ]);
         // }
-        foreach($checkId as $key=>$data)
+
+            
+
+
+        foreach($InTime as $key=>$data)
         {
                
+            
           
-            if(array_key_exists($key,$checkId))
+            if(array_key_exists($key,$InTime))
             {
                 if(array_key_exists($key,$attendance_id) && !empty($attendance_id[$key]))
                 {
-                  
-                    $create = FacultyAttendance::where('id',$attendance_id[$key])->update([
+                   $create = FacultyAttendance::where('id',$attendance_id[$key])->update([
                         'FacultyCode' => $FacultyCode[$key],
                         'CalanderDate' => $CalanderDate,
                         'InTime' => $InTime[$key],
@@ -84,6 +88,7 @@ class FacultyAttendanceController extends Controller
                 {
                     
                   
+                    dd("NewOLD");
                     $create = FacultyAttendance::create([
                         'FacultyCode' => $FacultyCode[$key],
                         'CalanderDate' => $CalanderDate,

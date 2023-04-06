@@ -212,6 +212,7 @@ class ModuleController extends Controller
       
         $auth =Auth::user();
 
+   
         $role_name = Role::select('id','name')->find($auth->Role);
 
         $get_con_name= ($request->master!="")? $request->master: $request->sub_master;
@@ -219,12 +220,13 @@ class ModuleController extends Controller
         foreach($route_array as $key=>$value)
         {
                
+     
             $permission = Permission::create(['name' => $get_con_name."-".$value, 'moduleName'=>$ModuleName]);
            
            
-             if($role_name->name =='Admin'){
+             if(isset($role_name->name) && $role_name->name =='Admin'){
                 $auth->assignRole($role_name->name);
-            }
+             }
             
         }
 
@@ -237,22 +239,22 @@ class ModuleController extends Controller
     function GivePermission(Request $request)
     {
      
-        // dd($request->all());
+
         $permisson_req =  $request->child;
         $role_id=  $request->role;
-
+      
         // $user= User::find($user_id);
         $role = Role::find($role_id);
-
-         $modal = DB::table('role_has_permissions')->where('role_id',$role->id)->delete();
+      
+        $modal = DB::table('role_has_permissions')->where('role_id',$role->id)->delete();
 
         if(!empty($permisson_req))
           {  
             foreach($permisson_req as $req)
             {
-              
+         
                 $role->givePermissionTo($req);
-            //   $permission(object)->assignRole($role);
+         
             }
         
         }

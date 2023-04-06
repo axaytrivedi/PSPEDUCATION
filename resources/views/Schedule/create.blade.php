@@ -121,8 +121,8 @@
                                                                                                                     @endif
                                                                                                                 @endfor
                                                                                                             
-                                                                                                                    name="dayStart[{{$i}}][{{$row}}]" class="form-control w-100">
-                                                                                                                        <input type="hidden" name="storeLocation[{{$i}}]" value="{{$i}}_{{$row}}" class="form-control w-100">
+                                                                                                                    name="dayStart[{{$i}}][{{$row}}]" id="daystart{{$i}}{{$row}}" class="form-control w-100">
+                                                                                                                        <input type="hidden" name="storeLocation[{{$i}}]"class="form-control w-100">
 
                                                                                                             </div>
                                                                                                             <div class="col-md-6 ms-2">   
@@ -134,7 +134,7 @@
                                                                                                                         value ="{{$collection['tableData'][$Mn]['TimingUpto']}}"
                                                                                                                     @endif
                                                                                                                 @endfor
-                                                                                                                name="dayend[{{$i}}][{{$row}}]"class="form-control w-100">
+                                                                                                                name="dayend[{{$i}}][{{$row}}]" id="dayend{{$i}}{{$row}}" class="form-control w-100">
                                                                                                             </div> 
                                                                                                             
                                                                                                         </div> 
@@ -156,14 +156,14 @@
                                                                                             @for($j=0;$j<=6; $j++)
 
                                                                                             <td>
-                                                                                                <input type="hidden" name="storeLocation[{{$i}}][{{$row1}}]" value="{{$i}}_{{$row1}}" class="form-control w-100">
+                                                                                                <input type="hidden" name="storeLocation[{{$i}}][{{$row1}}]"  value="{{$i}}_{{$row1}}" class="form-control w-100">
                                                                                                 @for($Mn=0;$Mn<=41; $Mn++)
                                                                                                                         @if(!empty($collection['tableData'][$Mn]['id']) &&  $collection['tableData'][$Mn]['location'] == $i."_".$row1)
                                                                                                                             <input type="hidden" value ="{{$collection['tableData'][$Mn]['id']}}" name="id[{{$i}}][{{$row1}}]">
                                                                                                                         @endif
                                                                                                 @endfor
 
-                                                                                                    <select class="form-select subject" name="subject[{{$i}}][{{$row1}}]" data-id="{{$i}}_{{$row1}}"  aria-label="Default select example">
+                                                                                                    <select class="form-select subject" id="subject{{$i}}{{$row}}" name="subject[{{$i}}][{{$row1}}]" data-id="{{$i}}_{{$row1}}"  aria-label="Default select example">
                                                                                                     <option disabled selected="">--Subject--</option>
                                                                                                     
                                                                                                         @foreach($SubjectsList as $subject)
@@ -207,7 +207,7 @@
                                                                                                                         @endif
                                                                                                 @endfor
                                                                                             <input type="hidden" name="storeLocation[{{$i}}][{{$row2}}]" value="{{$i}}_{{$row2}}" class="form-control w-100">
-                                                                                            <select class="form-select faculty" name="faculty[{{$i}}][{{$row2}}]"  id="faculty{{$i}}_{{$row2}}" aria-label="Default select example">
+                                                                                            <select class="form-select faculty" name="faculty[{{$i}}][{{$row2}}]"  id="faculty{{$i}}_{{$row2}}" data-id="{{$i}}{{$row2}}" aria-label="Default select example">
                                                                                      
                                                                                                 @for($Mn=0;$Mn<=41; $Mn++)
 
@@ -299,8 +299,8 @@
                                                                                         }
                                                                                         elseif($day1 =="Thu")
                                                                                         {
-                                                                                            $date1 = date('d-M',strtotime($day1. ' +5 days'));
-                                                                                            $day1 = date('D',strtotime($day1. ' +5 days'));  
+                                                                                            $date1 = date('d-M',strtotime($day1. ' +4 days'));
+                                                                                            $day1 = date('D',strtotime($day1. ' +4 days'));  
                                                                                         }
                                                                                         elseif($day1 =="Fri")
                                                                                         {
@@ -358,7 +358,7 @@
                                                                                             <div class="d-flex">
                                                                                                 <div class="col-md-6 " style="width:100px">
                                                                                                
-                                                                                                    <input type="time" 
+                                                                                                    <input type="time"  id="daystart{{$i}}{{$row}}
                                                                                                     @if(!empty($collection['tableData'][$j]['TimingFrom']) &&  $collection['tableData'][$j]['location'] == $i."_".$row)
                                                                                                     value="{{$collection['tableData'][$j]['TimingFrom']}}"
                                                                                                     @endif
@@ -370,7 +370,7 @@
                                                                                                     @if(!empty($collection['tableData'][$j]['TimingUpto']) &&  $collection['tableData'][$j]['location'] == $i."_".$row)
                                                                                                     value="{{$collection['tableData'][$j]['TimingUpto']}}"
                                                                                                     @endif
-                                                                                                    name="dayend[{{$i}}][{{$row}}]"class="form-control w-100">
+                                                                                                    name="dayend[{{$i}}][{{$row}}]" id="dayend{{$i}}{{$row}}" class="form-control w-100">
                                                                                                 </div>
                                                                                             </div>
                                                                                         </td>
@@ -386,7 +386,7 @@
                                                                                             
                                                                                                 <td>
                                                                                                     <input type="hidden" name="storeLocation[{{$i}}][{{$row1}}]" value="{{$i}}_{{$row1}}" class="form-control w-100">
-                                                                                                    <select class="form-select subject" name="subject[{{$i}}][{{$row1}}]" data-id="{{$i}}_{{$row1}}"  aria-label="Default select example">
+                                                                                                    <select class="form-select subject" name="subject[{{$i}}][{{$row1}}]" data-id="{{$i}}_{{$row1}}" id="subject{{$i}}{{$row}}"  aria-label="Default select example">
                                                                                                         <option disabled selected="">--Subject--</option>
                                                                                                     </select>
                                                                                                 </td>
@@ -401,7 +401,7 @@
                                                                                             @for($j=0;$j<=6; $j++)
                                                                                                 <td>
 
-                                                                                                        <select class="form-select faculty" name="faculty[{{$i}}][{{$row2}}]"  id="faculty{{$i}}_{{$row2}}" aria-label="Default select example">
+                                                                                                        <select class="form-select faculty" name="faculty[{{$i}}][{{$row2}}]" data-id="{{$i}}{{$row2}}" id="faculty{{$i}}_{{$row2}}" aria-label="Default select example">
                                                                                                             <option disabled selected>-- Select-Faculty --</option>
                                                                                                     </select>
                                                                                                 </td>
@@ -423,7 +423,7 @@
                                                                                                         @endforeach
                                                                                                     </select>
                                                                                                 </td>
-                                                                                            <?php $row2++; ?>
+                                                                                            <?php $row3++; ?>
                                                                                             @endfor
 
                                                                                         </tr>
@@ -511,7 +511,7 @@ $(document).on('change', '.subject', function() {
      var CourseCode =  $(".CourseList").val();
      var value = $(this).val();
      var data= $(this).data("id");
-     alert(data);
+     
      var row2='';
      $.post("{{route('getSubjectWiseFacultyinShedule')}}",{"value":value,"CourseCode":CourseCode,_token:"{{csrf_token()}}"},function(success){
         if(isNaN(success.facultysubject))
@@ -533,6 +533,15 @@ $(document).on('change', '.subject', function() {
    
    
  });
+
+//  $(".faculty").on("change",function(){
+//     var facultyid=$(this).val();
+//     var location = $(this).data('id');
+//     var daystart= $("#daystart"+location).val();
+
+//     var dayend= $("#dayend"+location).val();
+//     alert(daystart);
+//  });
  $('#schedule').validate({
      rules: {
          LectureCode: {

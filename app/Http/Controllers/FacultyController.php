@@ -124,10 +124,11 @@ class FacultyController extends Controller
         if(isset($create->id))
         {   
             
+        
                 try{
                     $User= User::create([  'firstName' => $request->firstName,
                                         'lastName' => $request->lastName,
-                                        'Role'=>$request->Role,
+                                        'Role'=>$create->Role,
                                         'email'=>$request->email,
                                         'password'=>Hash::make($request->password),
                                         'Image'=>(isset($filename))?$filename:" ",

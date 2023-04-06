@@ -177,7 +177,7 @@ class ScheduleController extends Controller
      
    
  
-        // dd( $tableData);
+ 
         $collection =['datearray'=>$datearray,"dayarray"=>$dayarray,"tableData"=>$tableData];
            $BatchList =ParameterMaster::where("Parameter","BatchList")->where("ParaDescription",$SchedulerHeader->BatchCode)->where('Validity',"Active")->get(); 
 
