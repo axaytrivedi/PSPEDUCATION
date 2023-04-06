@@ -23,22 +23,20 @@ class FacltyListReportController extends Controller
 
     public function getFacultyData(Request $request)
     {
-        // echo "<pre>";
-        // print_r($_REQUEST);die;
-        //DB::enableQueryLog(); // Enable query log
-        $courseCode=$request->courseCode;
-        $batchCode=$request->batchCode;
-        // dd($courseCode,'--',$batchCode);
+        $status=$request->status;
 
         $data = DB::table('faculty')->select(
                 'faculty.*',
             )
             ->orderBy('id', 'DESC');
 
-        $data1 = $data->get();
-        // dd($data1);
+            if($status != '') 
+            {
+                $data->where('Status',$status);
+            }  
 
-        //dd(DB::getQueryLog()); // Show results of log
+        $data1 = $data->get();
+        
         $getdata=array();
         array_push($getdata,$data1);
         return response()->json($getdata);

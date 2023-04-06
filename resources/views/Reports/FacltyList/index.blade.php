@@ -7,11 +7,21 @@
             <hr>
             <form id="submit_Form">
                 @csrf  
-                <!-- <div class="row">
+                <div class="row">
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label><strong>Status :</strong></label>
+                            <select id='Status'name="Status" class="form-control" style="width: 200px">
+                                <option value="">--Select Status--</option>
+                                <option value="OnRoll">OnRoll</option>
+                                <option value="Left">Left</option>
+                            </select>
+                        </div>
+                    </div>
                     <div class="col-md-4">
                         <button style="margin-top: 21px;" type="submit" class="btn btn-success" name="search" id="search">Search</button>
                     </div>
-                </div> -->
+                </div>
                 <div class="row">
                     <div class="col-md-2 ms-auto" id="accessButtons" >
                         <button style="margin-top: 21px;" id="Excel" type="button" class="btn btn-success text-white" title="excel"><i class="icofont-file-excel fs-5"></i></button>
@@ -32,10 +42,11 @@
                     <th>Faculty Name</th>
                     <th>Date of Joining</th>
                     <th>Qualification</th>
+                    <th>Status</th>
                 </tr>
                 </thead>
                 <tbody id="tbldata">
-                    @foreach($faculty as $key => $faculties)
+                    <!-- @foreach($faculty as $key => $faculties)
                     <tr>
                         <td>{{$loop->iteration}}</td>
                         <td>{{ $faculties->FacultyCode }}</td>
@@ -43,14 +54,14 @@
                         <td>{{ $faculties->DateOfJoining }}</td>
                         <td>{{ $faculties->Qualification }}</td>
                     </tr>
-                    @endforeach
+                    @endforeach -->
         
                 </tbody>
-                <!-- <tbody class="report_message" id="report_message"> 
+                <tbody class="report_message" id="report_message"> 
                     <tr>
                         <td colspan="6" style="text-align: center;">No record found</td>
                     </tr>
-                </tbody> -->
+                </tbody>
             </table>
         </div>
     </div>
@@ -90,15 +101,13 @@
             },
             submitHandler: function (form) { 
                 $("#tbldata").html('');
-                var courseCode = $('#courseCode').val();
-                var batchCode = $('#studentBatchCode').val();
+                var status = $('#Status').val();
                 
                 $.ajax({   
                     type: "POST",
                     url : '{{route('facultyList.getFacultyData')}}',
                     data: {
-                        courseCode: courseCode,
-                        batchCode: batchCode,
+                        status: status,
                         _token:"{{csrf_token()}}",
                     },
                     //cache: false,
@@ -111,7 +120,7 @@
                             var count = 1;
                             for(var k=0; k < data[0].length; k++)
                             {
-                                tbldata += '<tr><td>'+count+'</td><td>'+data[0][k].CourceCode+'</td><td>'+data[0][k].BatchCode+'</td><td>'+data[0][k].StudentCode+'</td><td>'+data[0][k].RollNo+'</td><td>'+data[0][k].StudentName+'</td></tr>';
+                                tbldata += '<tr><td>'+count+'</td><td>'+data[0][k].FacultyCode+'</td><td>'+data[0][k].firstName+' '+data[0][k].lastName+'</td><td>'+data[0][k].DateOfJoining+'</td><td>'+data[0][k].Qualification+'</td><td>'+data[0][k].Status+'</td></tr>';
                                 count++;        
                             }
 

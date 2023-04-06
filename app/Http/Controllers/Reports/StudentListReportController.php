@@ -24,12 +24,9 @@ class StudentListReportController extends Controller
 
     public function getStudentData(Request $request)
     {
-        // echo "<pre>";
-        // print_r($_REQUEST);die;
-        //DB::enableQueryLog(); // Enable query log
         $courseCode=$request->courseCode;
         $batchCode=$request->batchCode;
-        // dd($courseCode,'--',$batchCode);
+        $status=$request->status;
 
         $data = DB::table('student')->select(
                 'student.*',
@@ -46,10 +43,13 @@ class StudentListReportController extends Controller
                 $data->where('BatchCode',$batchCode);
             }  
 
-        $data1 = $data->get();
-        // dd($data1);
+            if($status != '') 
+            {
+                $data->where('Status',$status);
+            }  
 
-        //dd(DB::getQueryLog()); // Show results of log
+        $data1 = $data->get();
+
         $getdata=array();
         array_push($getdata,$data1);
         return response()->json($getdata);

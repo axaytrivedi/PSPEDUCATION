@@ -8,7 +8,7 @@
             <form id="submit_Form">
                 @csrf  
                 <div class="row">
-                    <div class="col-md-4">
+                    <div class="col-md-3">
                         <div class="form-group">
                             <label><strong>Course Code :</strong></label>
                             <select id='courseCode' name="courseCode"class="form-control" style="width: 200px">
@@ -21,11 +21,11 @@
                             </select>
                         </div>
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-3">
                         <div class="form-group">
                             <label><strong>Batch Code :</strong></label>
                             <select id='studentBatchCode'name="studentBatchCode" class="form-control" style="width: 200px">
-                                <option value="">--Select Course Code--</option>
+                                <option value="">--Select Batch Code--</option>
                                 @foreach ($batchName as $bCode)
                                 <option value="{{ $bCode->BatchCode }}">
                                     {{ $bCode->BatchCode }}
@@ -34,7 +34,20 @@
                             </select>
                         </div>
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label><strong>Status :</strong></label>
+                            <select id='Status'name="Status" class="form-control" style="width: 200px">
+                                <option value="">--Select Status--</option>
+                                <option value="OnRoll">OnRoll</option>
+                                <option value="Short-Left">Short-Left</option>
+                                <option value="Completed">Completed</option>
+                                <option value="Promoted">Promoted</option>
+                                <option value="PassOut">Pass Out</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-2">
                         <button style="margin-top: 21px;" type="submit" class="btn btn-success" name="search" id="search">Search</button>
                         
                     </div>
@@ -56,12 +69,13 @@
             <table class="table table-hover" id="StudentListReport">
                 <thead>
                 <tr>
-                    <th>SrNo</th>
-                    <th>CourceCode</th>
-                    <th>BatchCode</th>
-                    <th>StudentCode</th>
-                    <th>RollNo</th>
-                    <th>StudentName</th>
+                    <th>Sr No</th>
+                    <th>Cource Code</th>
+                    <th>Batch Code</th>
+                    <th>Student Code</th>
+                    <th>Roll No</th>
+                    <th>Student Name</th>
+                    <th>Status</th>
                 </tr>
                 </thead>
                 <tbody id="tbldata">
@@ -114,6 +128,7 @@
                 $("#tbldata").html('');
                 var courseCode = $('#courseCode').val();
                 var batchCode = $('#studentBatchCode').val();
+                var status = $('#Status').val();
                 
                 $.ajax({   
                     type: "POST",
@@ -121,6 +136,7 @@
                     data: {
                         courseCode: courseCode,
                         batchCode: batchCode,
+                        status: status,
                         _token:"{{csrf_token()}}",
                     },
                     //cache: false,
@@ -133,7 +149,7 @@
                             var count = 1;
                             for(var k=0; k < data[0].length; k++)
                             {
-                                tbldata += '<tr><td>'+count+'</td><td>'+data[0][k].CourceCode+'</td><td>'+data[0][k].BatchCode+'</td><td>'+data[0][k].StudentCode+'</td><td>'+data[0][k].RollNo+'</td><td>'+data[0][k].StudentName+'</td></tr>';
+                                tbldata += '<tr><td>'+count+'</td><td>'+data[0][k].CourceCode+'</td><td>'+data[0][k].BatchCode+'</td><td>'+data[0][k].StudentCode+'</td><td>'+data[0][k].RollNo+'</td><td>'+data[0][k].StudentName+'</td><td>'+data[0][k].Status+'</td></tr>';
                                 count++;        
                             }
 
