@@ -61,7 +61,7 @@
                                                 <select multiple name="SubjectCode[]" class="form-control" id="SubjectCode" >
                                                 @if(isset($edit_facultysub->SubjectCode))
                                                     @foreach($SubjectCode as $c)
-                                                     <option value="{{$c->ParaDescription}}" {{ old('SubjectCode')}}
+                                                     <option value="{{$c->ParaDescription}}" 
                                                     
                                                      @if(isset($edit_facultysub->SubjectCode) && in_array($c->ParaDescription,explode(",",$edit_facultysub->SubjectCode)))
                                                      selected
@@ -81,11 +81,12 @@
                                                 <input type="date" class="form-control" id="EffFrom" 
                                                 name="EffFrom" value="{{ old('EffFrom', isset($edit_facultysub->EffFrom) ?  $edit_facultysub->EffFrom  : '' ) }}">
                                             </div>
-                                            <div class="col-md-6 form-group">
+                                            <!-- <div class="col-md-6 form-group">
                                                 <label  class="form-label">EffUpto</label>
                                                 <input type="date" class="form-control" id="EffUpto" 
                                                 name="EffUpto" value="{{ old('EffUpto', isset($edit_facultysub->EffUpto) ?  $edit_facultysub->EffUpto  : '' ) }}">
-                                            </div>
+                                                <customeDateAlert id="customeDateAlert"> </customeDateAlert>
+                                            </div> -->
                                          </div>
                                              <button type="submit" class="btn btn-success mt-4">@if(!empty($edit_facultysub->id))
                                                  Update @else Save @endif</button>
@@ -169,5 +170,10 @@ $( document ).ready(function() {
         }
     });
 });
+</script>
+<script>
+
+
+
 </script>
  @endsection

@@ -60,7 +60,7 @@ class ScheduleController extends Controller
         
         $subject  = $request->subject;
         $faculty  = $request->faculty;
-
+     
   
         $keydate=0;
 
@@ -104,6 +104,7 @@ class ScheduleController extends Controller
             }
            
         }
+        
       
         return redirect()->route('schedule.index')->with('msg','Created Successfuly');
     }

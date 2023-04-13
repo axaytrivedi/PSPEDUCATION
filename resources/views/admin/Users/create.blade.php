@@ -34,14 +34,14 @@
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label>First Name  <span class="required">*</span></label>
-                                            <input type="text"  class="form-control" name="first_name"  value="{{ old('first_name', isset($edit_users->first_name) ?  $edit_users->first_name  : '' ) }}"  />
+                                            <input type="text"  class="form-control allowCharcterOnly" name="first_name"  value="{{ old('first_name', isset($edit_users->first_name) ?  $edit_users->first_name  : '' ) }}"  />
                                         
                                         </div>
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label>Last Name <span class="required">*</span></label>
-                                            <input type="text"  class="form-control" name="last_name" value="{{  old('last_name', isset($edit_users->last_name) ?  $edit_users->last_name  : '' ) }}" />
+                                            <input type="text"  class="form-control allowCharcterOnly" name="last_name" value="{{  old('last_name', isset($edit_users->last_name) ?  $edit_users->last_name  : '' ) }}" />
                                         
                                         </div>
                                     </div>

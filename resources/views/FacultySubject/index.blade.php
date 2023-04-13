@@ -21,7 +21,7 @@
                                                 <th>Cource Name</th>
                                                 <th>Subject Names</th>
                                                 <th>EffFrom</th>
-                                                <th>EffUpto</th>
+                                                <!-- <th>EffUpto</th> -->
                                                 <th width="280px">Action</th>
                                             </tr>
                                             </thead>
@@ -33,7 +33,7 @@
                                                     <td>{{ $values->CourseCode }}</td>
                                                     <td>{{ $values->SubjectCode }}</td>
                                                     <td>{{ ShowNewDateFormat($values->EffFrom) }}</td>
-                                                    <td>{{ ShowNewDateFormat($values->EffUpto) }}</td>
+                                                    <!-- <td>{{ ShowNewDateFormat($values->EffUpto) }}</td> -->
                                                     <td>
                                                         <form action="{{ route('facultySubject.destroy',$values->id) }}" method="POST">
                                         

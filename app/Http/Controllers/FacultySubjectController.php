@@ -47,7 +47,7 @@ class FacultySubjectController extends Controller
             'CourceCode' => 'required',
             'SubjectCode' => 'required',
             'EffFrom' => 'required',
-            'EffUpto' => 'required',
+            // 'EffUpto' => 'required',
             ]);
 
         if(!empty($request->SubjectCode))
@@ -61,7 +61,7 @@ class FacultySubjectController extends Controller
                     'CourseCode' => $request->CourceCode,
                     'SubjectCode' =>$d,
                     'EffFrom' => $request->EffFrom,
-                    'EffUpto' => $request->EffUpto,
+                    // 'EffUpto' => $request->EffUpto,
                 ]);
             }
             return redirect()->route('facultySubject.index')->with('msg','Created Successfuly');
@@ -120,7 +120,7 @@ class FacultySubjectController extends Controller
             'CourceCode' => 'required',
             'SubjectCode' => 'required',
             'EffFrom' => 'required',
-            'EffUpto' => 'required',
+            // 'EffUpto' => 'required',
 
         ]);
 
@@ -139,7 +139,7 @@ class FacultySubjectController extends Controller
                     'CourseCode' => $request->CourceCode,
                     'SubjectCode' =>$d,
                     'EffFrom' => $request->EffFrom,
-                    'EffUpto' => $request->EffUpto,
+                    // 'EffUpto' => $request->EffUpto,
                 ]);
             }
             return redirect()->route('facultySubject.index')->with('msg','Created Successfuly');

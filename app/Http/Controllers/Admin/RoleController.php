@@ -114,7 +114,7 @@ class RoleController extends Controller
         
             $edit_role = Role::find($id);
        
-        return view("admin.Role.edit",compact('edit_role'));  
+        return view("admin.Role.create",compact('edit_role'));  
     }
 
     /**
@@ -127,7 +127,7 @@ class RoleController extends Controller
     public function update(Request $request, $id)
     {
 
-     
+
             $request->validate([
 
                 // 'role_name' => 'required|unique:roles,name,'.$id.',id,deleted_at,NULL',
@@ -135,8 +135,8 @@ class RoleController extends Controller
             ]);
 
 
-            $auth =Auth::user()->comp_id;
-            $role = Role::where('id',$id)->update(['name' =>$request->role_name,"status"=>$request->Status,"description"=>$request->Description,'comp_id'=>$auth]);
+            // $auth =Auth::user()->comp_id;
+            $role = Role::where('id',$id)->update(['name' =>$request->role_name,"status"=>$request->status,"description"=>$request->Description]);
             session()->flash('msg', 'Role Updated Successfuly.');
            return  redirect()->route('role.index');
       

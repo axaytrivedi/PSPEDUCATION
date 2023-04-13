@@ -1,81 +1,56 @@
-@extends('layouts.app')
-@section('content')
-
-<div class="page-body clearfix">
-                <!-- Basic Validation -->
-             
-                @if ($errors->any())
-             
-                <div class="alert alert-danger" id="errors_all_page">
-                    <ul>
-                        @foreach ($errors->all() as $error)
-                            <li>{{ $error }}</li>
-                        @endforeach
-                    </ul>
-                </div>
-            @endif
-                <div class="panel panel-default">
-                    <div class="panel-heading">Role Create</div>
-                    <div class="panel-body">
-                      
-                        <form action="{{ isset($edit_role) ? route('role.update', $edit_role->id) : route('role.store') }}" method="POST" id="RoleForm" autocomplete="off">
-                            @csrf
-                            {{ isset($edit_role) ? method_field('PUT') : '' }}
-                
-                             <!-- Add Tender Form -->
-                            <div class="card">
-                              <div class="card-header">
-                                <h3 class="card-title">{{ isset($edit_role) ? 'Edit' : 'Add' }} Role</h3>
-                              </div>
-                              
-                              <!-- form start -->
-                              
-                                <div class="card-body">
-                                  <div class="row">
-                                    <div class="form-group col-sm-6 col-lg-4 col-xl-3">
-                                      <label for="name">Role Name <span class="required text-danger">*</span></label>
-                                      <input type="text" class="form-control allowCharcterOnly" name="role_name" id="role_name" placeholder="Role Name" value="{{ old('name', isset($edit_role) ? $edit_role->name : '' )  }}" >
-                                    </div>
-
-                                    <div class="form-group col-sm-6 col-lg-4 col-xl-3">
-                                      <label for="description">Description</label>
+                            
+ @extends('layouts.app')
+ @section('content')                           
+ 
+                             <div class="card mb-3">
+                                 <div class="card-header py-3 d-flex justify-content-between bg-transparent border-bottom-0">
+                                     <h6 class="mb-0 fw-bold ">Role</h6> 
+                                 </div>
+                                 <div class="card-body">
+                                 @if ($errors->any())
+                                 <div class="alert alert-danger" id="errors_all_page">
+                                     <ul>
+                                         @foreach ($errors->all() as $error)
+                                         <li>{{ $error }}</li>
+                                         @endforeach
+                                     </ul>
+                                 </div>
+                                 @endif
+                                 <form id="facultyattForm" method="post"
+                                     action=" @if(!empty($edit_role->id)!=0)  {{route('role.update',$edit_role->id)}}   @else {{route('role.store')}}@endif"
+                                     enctype="multipart/form-data">
+ 
+                                     @if(!empty($edit_role->id)) @method('PATCH') @endif @csrf
+                                         <div class="row g-3 align-items-center">
+                                         <div class="card-header">
+                                             <h3 class="card-title">{{isset($edit_role)?'Edit':"Add"}} Role</h3>
+                                             <!-- <a href="{{route('role.index')}}" class=" btn  my_btn  ml-auto"> Back</a> -->
+                                         </div>
+                                             <div class="col-md-6"> 
+                                             <label for="name">Role Name <span class="required text-danger">*</span></label>
+                                             <input type="text" class="form-control" name="role_name" id="role_name" placeholder="Role Name" value="{{ old('name', isset($edit_role) ? $edit_role->name : '' )  }}" >
+                                            </div>
+                                             <div class="col-md-6">
+                                             <label for="description">Description</label>
                                       <textarea class="form-control" name="Description">{{ old('Description', isset($edit_role) ? $edit_role->description : '' )  }}</textarea>
-                                    </div>
-
-                                    <div class="form-group col-sm-6 col-lg-4 col-xl-3">
-                                        <label>Status <span class="required text-danger">*</span></label>
+                                   </div>
+                                             <div class="col-md-6">
+                                             <label>Status <span class="required text-danger">*</span></label>
                                         <select class="form-control" name="status" id="status">
                                           <option {{ old('status', isset($edit_role)&&($edit_role->status==1) ? 'selected' : '' ) }} value="Active">Active</option>
                                           <option {{ old('status', isset($edit_role)&&($edit_role->status==0) ? 'selected' : '' ) }} value="In-Active">Inactive</option>
                                         </select>
-                                    </div>
-                
-                                   
-                
-                                  </div>
-                                  
-                                    <div class="card-footer">
-                                    <button type="submit"   class=" m-w-105 btn btn-sm btn-success">@if(!empty($edit_users->id)) Update @else Save @endif</button>
-            
-            
-            <a href="{{route('role.index')}}" type="submit" class=" m-w-105 btn btn-sm btn-danger">Cancel</a>
+                                             </div>
+                                         </div>
+                                         <br>
+                                         <button type="submit"   class=" m-w-105 btn btn-sm btn-success">@if(!empty($edit_users->id)) Update @else Save @endif</button>
+                                    <a href="{{route('role.index')}}" type="submit" class=" m-w-105 btn btn-sm btn-danger">Cancel</a>
+                                    </div>     
+                                </form>
                                  </div>
-                                </div>
-                            </form>
-              <!-- /.card -->
-  
-        
-                              
-                </div>
-            </div>
-
-            <!-- <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script> -->
-
-
-<script>
-
-    
-    $('#RoleForm').validate({
+                             </div>
+                             <script>
+  $('#RoleForm').validate({
         rules: {
             role_name: {
                 required: true
@@ -107,7 +82,4 @@
         }
     });
 
-</script>
-
-
-@endsection
+ @endsection

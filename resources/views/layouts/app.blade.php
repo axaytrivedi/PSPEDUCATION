@@ -27,19 +27,16 @@
 
     <script src="{{URL::asset('assets/bundles/dataTables.bundle.js')}}"></script>  
     <script
-      src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.min.js"
-      integrity="sha512-37T7leoNS06R80c8Ulq7cdCDU5MNQBwlYoy1TX/WUsLFC2eYNqtKlV0QjH7r8JpG/S0GUMZwebnVFLPd6SU5yg=="
-      crossorigin="anonymous"
-      referrerpolicy="no-referrer">
+      src="{{URL::asset('assets/js/jquery.validate.min.js')}}">
     </script>
 
-    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
-    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <link href="{{URL::asset('assets/css/select2.min.css')}}" rel="stylesheet" />
+    <script src="{{URL::asset('assets/js/select2.min.js')}}"></script>
     <!-- Jquery Page Js -->
 
 
 
-    <link href="http://code.jquery.com/ui/1.10.2/themes/smoothness/jquery-ui.css" rel="Stylesheet">
+    <link href="{{URL::asset('assets/css/jquery-ui.css')}}" rel="Stylesheet">
     <script src="{{URL::asset('assets/js/jq-ui.js')}}"></script>
 
 </head>
