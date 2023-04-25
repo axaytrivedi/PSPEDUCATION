@@ -17,10 +17,10 @@
                     <!-- <li><a class="m-link {{ request()->is('user') ? 'active' : '' }}" href="{{ url('user') }}"><i class="icofont-home fs-5"></i><span>User</span></a></li> -->
                     <!-- <li><a class="m-link {{ request()->is('Module.new.creates') ? 'active' : '' }}" href="{{ route('Module.new.creates') }}"><i class="icofont-home fs-5"></i><span>Module</span></a></li> -->
 
-                    @if(auth()->user()->can('Parameter-Parameter'))
+                    @if(auth()->user()->can('Parameter-Parameter') )
                     <li><a class="m-link {{ request()->is('parameter') ? 'active' : '' }}" href="{{ url('parameter') }}"><i class="icofont-home fs-5"></i><span>Parameter</span></a></li>
                     @endif  
-                    
+                    @if( auth()->user()->can('Company-Company') || auth()->user()->can('Student-Student') || auth()->user()->can('faculty-faculty') || auth()->user()->can('FacultySubject-FacultySubject')   || auth()->user()->can('scheduleView-scheduleView') )  
                     <li class="collapsed">
                         <a class="m-link {{ (request()->is('details') || request()->is('details/*') || request()->is('student') || request()->is('student/*') || request()->is('faculty') || request()->is('faculty/*')
                             || request()->is('facultySubject') || request()->is('facultySubject/*') || request()->is('facultyAttendance') || request()->is('facultyAttendance/*') || request()->is('studentAttendance') || request()->is('studentAttendance/*') 
@@ -88,6 +88,8 @@
                           
                             </ul>
                     </li>
+                    @endif
+                    @if(auth()->user()->can('report-reports'))
                    <li class="collapsed">
                         <a class="m-link {{ (request()->is('studentList') || request()->is('studentList/*') || request()->is('facultyList') || request()->is('facultyList/*') || request()->is('facultyWorkingHours') || request()->is('facultyWorkingHours/*')) ? 'active' : '' }}" data-bs-toggle="collapse" data-bs-target="#menu-product" href="#">
                         <i class="icofont-files-stack"></i> <span>Reports</span> <span class="arrow icofont-rounded-down ms-auto text-end fs-5"></span></a>
@@ -103,9 +105,12 @@
                                 <li><a class="ms-link {{ (request()->is('facultyList') || request()->is('facultyList/*')) ? 'active' : '' }}" href="{{ url("facultyList") }}">Faculty List</a></li>
                                 <li><a class="ms-link {{ (request()->is('facultyWorkingHours') || request()->is('facultyWorkingHours/*')) ? 'active' : '' }}" href="{{ url("facultyWorkingHours") }}">Faculty Total Working Hours</a></li>
                                 <!-- <li><a class="ms-link" href="">Student Attendance</a></li> -->
-                                <li><a class="ms-link" href="">Lecture Attendance</a></li>
+                                <!-- <li><a class="ms-link" href="">Lecture Attendance</a></li> -->
+                                <li><a class="ms-link {{ (request()->is('monthly') || request()->is('monthly/*')) ? 'active' : '' }}" href='{{ route("monthly.index") }}'>Faculty Monthly Hours</a></li>
+                              
                             </ul>
                     </li>
+                    @endif
 
                   
                   

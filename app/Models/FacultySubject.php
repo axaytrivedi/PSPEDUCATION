@@ -11,6 +11,6 @@ class FacultySubject extends Model
     public $table='facultysubject';
 
     protected $fillable = [
-        'FacultyCode', 'CourseCode','SubjectCode', 'EffFrom','EffUpto',
+        'Location','FacultyCode', 'CourseCode','SubjectCode', 'EffFrom','EffUpto',
     ];
 }

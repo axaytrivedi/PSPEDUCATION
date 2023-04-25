@@ -9,12 +9,11 @@ use App\Models\Faculty;
 use App\Models\Student;
 use App\Models\FacultyAttendance;
 
-use App\Models\ParameterMaster;
 use DB;
 use App\Models\SchedulerHeader;
 
 use App\Models\Schedule;
-
+use App\Models\ParameterMaster;
 class HomeController extends Controller
 {
     /**
@@ -53,6 +52,43 @@ class HomeController extends Controller
             $totalFaculty = Faculty::count();
             $CurrentStudent= Student::where('Status',"OnRoll")->count();
             $edit_schedule=[];
+
+  
+
+            $date= date("Y-m-d");
+            
+            $day=date("D");
+
+                $schedulerheader = schedulerheader::get();
+            $Todayschedule = Schedule::where("dayname", $day)->get();
+            $rooms = ParameterMaster::where("Parameter","VenueList")->where('Validity',"Active")->get(); 
+
+            $newcollection=[];
+           
+                foreach($schedulerheader as $hader)
+                {   
+                    foreach($Todayschedule as $child)
+                    {
+                        
+        
+                        if($day && $hader->LineNo == $child->LectureCode && $child->Venue !=  null )
+                        {              
+                                $newcollection[]=[
+                                                "lineNo"=>$hader->LineNo,
+                                                "Location"=>$child->location ,
+                                                "StartTime"=>$child->TimingFrom,
+                                                "EndTime"=>$child->TimingUpto,
+                                                "FacultyCode"=>$child->FacultyCode,
+                                                "SubjectCode"=>$child->SubjectCode,
+                                                "BatchCode"=>$child->BatchCode,
+                                                "CourceCode"=>$child->CourceCode,
+                                                "Room"=>$child->Venue
+                                            ];
+                        }
+                    }
+                }
+              
+                          
             $collection =['datearray'=>[],"dayarray"=>[],"tableData"=>[]];
         }
         else
@@ -94,12 +130,15 @@ class HomeController extends Controller
             $FacultyAbsenceAttendance=0;
             $totalFaculty=0;
             $CurrentStudent=0;
+            $rooms=[];
+         
+            $newcollection=[];
         }
         
 
-            
+
        
 
-        return view('home',compact('totalFaculty','FacultyAbsenceAttendance','CurrentStudent','edit_schedule','collection'));
+        return view('home',compact('newcollection','rooms','totalFaculty','FacultyAbsenceAttendance','CurrentStudent','edit_schedule','collection'));
     }
 }

@@ -18,7 +18,10 @@ class CreateFacultySubjectTable extends Migration
             $table->string('FacultyCode')->nullable()->length(12);
             $table->string('CourseCode')->nullable()->length(12);
             $table->string('SubjectCode')->nullable()->length(12);
+            $table->string('Location')->nullable()->length(50);
             $table->string('EffFrom')->nullable();
+         
+
             $table->string('EffUpto')->nullable();
             $table->timestamps();
         });

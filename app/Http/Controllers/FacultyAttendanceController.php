@@ -88,7 +88,7 @@ class FacultyAttendanceController extends Controller
                 {
                     
                   
-                    dd("NewOLD");
+          
                     $create = FacultyAttendance::create([
                         'FacultyCode' => $FacultyCode[$key],
                         'CalanderDate' => $CalanderDate,

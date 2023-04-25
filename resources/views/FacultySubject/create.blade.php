@@ -27,8 +27,8 @@
                                              <a href="{{route('facultySubject.index')}}" class=" btn  my_btn  ml-auto"> Back</a>
                                          </div>
                                          <div class="col-md-6 form-group">
-                                                <label for="FacultyCode" class="form-label">FacultyCode/Name</label>
-                                   
+                                                <label for="FacultyCode" class="form-label">FacultyCode / Name</label>
+                          
                                                 <select class="form-control" id="FacultyCode"  name="FacultyCode">
                                                     <option selected disabled>-- Select Faculty Code/Name --</option>
                                                     @foreach($facultys as $fact)
@@ -42,26 +42,44 @@
                                                 
                                             </div>
                                             <div class="col-md-6 form-group">
-                                                <label for="CourseCode" class="form-label">CourceCode/CourseName</label>
+                                                <label for="CourseCode" class="form-label">Location</label>
                                             
                                           
-                                                <select  name="CourceCode"  class="form-control CourseCode" id="CourseCode" >
-                                                    <option selected disabled>-- Select Faculty Code/Name --</option>
-                                                    @foreach($Coursedata as $c)
-                                                     <option value="{{$c->ParaDescription}}" {{ old('CourceCode')}}
-                                                     @if(isset($edit_facultysub->CourseCode) && $edit_facultysub->CourseCode == $c->ParaDescription  ) selected @endif > {{$c->ParaID}} / {{$c->ParaDescription}} </option>
+                                                <select  name="Location"  class="form-control Location" id="MainLocation" >
+                                                    <option selected disabled>-- Select Location --</option>
+                                                    @foreach($Location as $l)
+                                                     <option value="{{$l->ParaDescription}}" 
+                                                       
+                                                        {{ old('Location', isset($edit_facultysub->Location) ? $edit_facultysub->Location : '')==$l->ParaDescription? 'selected' : '' }}
+                                                        > {{$l->ParaDescription}} </option>
 
                                                     @endforeach
+                                                </select>
+                                            </div>
+                                            <div class="col-md-6 form-group">
+                                                <label for="CourseCode" class="form-label">CourceCode/CourseName</label>
+                                            
+
+                                                <select  name="CourceCode"  class="form-control CourseCode" id="CourseCode" >
+                                                    <option selected disabled>-- Select Course --</option>
+                                                    @if(isset($edit_facultysub->CourseCode))
+
+                                                   
+                                                     <option value="{{$edit_facultysub->CourseCode}}" selected>{{$edit_facultysub->CourseCode}}</option>
+
+                                         
+                                    
+                                                    @endif
                                                 </select>
                                             </div>
                                            
                                             <div class="col-md-6 form-group">
                                                 <label  class="form-label">SubjectCode / Name</label>
-                                                
+                                           
                                                 <select multiple name="SubjectCode[]" class="form-control" id="SubjectCode" >
                                                 @if(isset($edit_facultysub->SubjectCode))
                                                     @foreach($SubjectCode as $c)
-                                                     <option value="{{$c->ParaDescription}}" {{ old('SubjectCode')}}
+                                                     <option value="{{$c->ParaDescription}}" 
                                                     
                                                      @if(isset($edit_facultysub->SubjectCode) && in_array($c->ParaDescription,explode(",",$edit_facultysub->SubjectCode)))
                                                      selected
@@ -81,11 +99,12 @@
                                                 <input type="date" class="form-control" id="EffFrom" 
                                                 name="EffFrom" value="{{ old('EffFrom', isset($edit_facultysub->EffFrom) ?  $edit_facultysub->EffFrom  : '' ) }}">
                                             </div>
-                                            <div class="col-md-6 form-group">
+                                            <!-- <div class="col-md-6 form-group">
                                                 <label  class="form-label">EffUpto</label>
                                                 <input type="date" class="form-control" id="EffUpto" 
                                                 name="EffUpto" value="{{ old('EffUpto', isset($edit_facultysub->EffUpto) ?  $edit_facultysub->EffUpto  : '' ) }}">
-                                            </div>
+                                                <customeDateAlert id="customeDateAlert"> </customeDateAlert>
+                                            </div> -->
                                          </div>
                                              <button type="submit" class="btn btn-success mt-4">@if(!empty($edit_facultysub->id))
                                                  Update @else Save @endif</button>
@@ -98,27 +117,62 @@
 $( document ).ready(function() {
 
     $("#FacultyCode").select2();
-    $("#CourceCode").select2();
+    $("#CourceCode").select2({  placeholder: "Select Course Code", allowClear: true});
     $("#SubjectCode").select2({  placeholder: "Select Subject Code/Name", allowClear: true});
+   
+   
+    $("#MainLocation").on("change",function(){
+              $.post("{{route('GetLocationWieseCourse')}}",{id:$(this).val(),'_token':"{{csrf_token()}}"},function(suc){
+                var row=" ";
+                var row1=" ";
+                if(isNaN(suc.data))
+                {  
 
+                    row="<option selected>-- Select Course --</option>";
+                    $.each(suc.data,function(i,v){
+                    row+="<option value='"+v.ParaDescription+"'>"+v.ParaDescription+"</option>";
+                  
+                    // row1="<option selected>-- Select Subject --</option>";
+                });
+                }
+                else
+                {
+                    row="<option selected> No  Course Found For this Location </option>";
+                    row1="<option selected> No  Subject  Found For this Course </option>";
+                    $("#SubjectCode").html(row1);
+                }
+               
+                $(".CourseCode").html(row);
+             
+                $("#SubjectCode").empty().trigger('change');
+              });
+    }); 
     
     $(".CourseCode").on("change",function(){
         var id= $(this).val();
-        
-        $.post("{{route('GetsubjectCode')}}",{"id":id,_token:"{{csrf_token()}}"},function(ak){
-
-            $("#SubjectCode").html(" ");
-            var row="";
-            if(isNaN(ak))
-            {
-                
-                $.each(ak,function(i,v){
-                    row+="<option value="+v.ParaDescription+">"+v.ParaDescription+"</option>";
-                });
-            }
-             $("#SubjectCode").html(row);
-        });
+        var MainLocation = $("#MainLocation").val();
+        getSubject(MainLocation,id);
     });
+
+
+    
+    function getSubject(MainLocation,id)
+    {
+        $.post("{{route('GetsubjectCode')}}",{"MainLocation":MainLocation,"id":id,_token:"{{csrf_token()}}"},function(ak){
+
+        // $("#SubjectCode").select2({  placeholder: "Select Subject Code/Name", allowClear: true});
+        $("#SubjectCode").empty().trigger('change');
+        var row="";
+        if(isNaN(ak))
+        {
+            
+            $.each(ak,function(i,v){
+                row+="<option value='"+v.ParaDescription+"'>"+v.ParaDescription+"</option>";
+            });
+        }
+        $("#SubjectCode").html(row);
+        });
+    }
     $('#facultysubform').validate({
         rules: {
             FacultyCode: {
@@ -169,5 +223,10 @@ $( document ).ready(function() {
         }
     });
 });
+</script>
+<script>
+
+
+
 </script>
  @endsection

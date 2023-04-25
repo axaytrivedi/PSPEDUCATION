@@ -43,19 +43,19 @@
                                             </div>
                                             <div class="col-md-6 form-group">
                                                 <label  class="form-label">First Name</label>
-                                                <input type="text" class="form-control" id="firstName" 
+                                                <input type="text" class="form-control allowCharcterOnly" id="firstName" 
                                                 name="firstName" value="{{ old('firstName', isset($edit_facultys->firstName) ?  $edit_facultys->firstName  : '' ) }}">
 
                                             </div>
                                             <div class="col-md-6 form-group">
                                                 <label  class="form-label">Last Name</label>
-                                                <input type="text" class="form-control" id="lastName" 
+                                                <input type="text" class="form-control allowCharcterOnly" id="lastName" 
                                                 name="lastName" value="{{ old('lastName', isset($edit_facultys->lastName) ?  $edit_facultys->lastName  : '' ) }}">
 
                                             </div>
                                             <div class="col-md-6 form-group">
                                                 <label  class="form-label">DOB</label>
-                                                <input type="date" class="form-control" id="DOB" 
+                                                <input type="text" class="form-control" id="DOB" 
                                                 name="DOB" value="{{ old('DOB', isset($edit_facultys->DOB) ?  $edit_facultys->DOB  : '' ) }}">
                                             </div>
                                             <div class="col-md-6 form-group">
@@ -94,7 +94,7 @@
                                             </div>
                                             <div class="col-md-6 form-group">
                                                 <label  class="form-label">Mobile No</label>
-                                                <input type="text" class="form-control" id="MobileNo" 
+                                                <input type="number" class="form-control" id="MobileNo" 
                                                 name="MobileNo" value="{{ old('MobileNo', isset($edit_facultys->MobileNo) ?  $edit_facultys->MobileNo  : '' ) }}">
                                             </div>
                                             @if(!isset($edit_facultys->id))
@@ -183,6 +183,14 @@
 <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.5/dist/additional-methods.js">></script>
 
 <script>
+
+    var minDate= new Date();
+
+    $("#DOB" ).datepicker({
+
+        minDate: new Date(),
+    });
+    
 $('#facultyform').validate({
     rules: {
         // FacultyCode: {
@@ -220,7 +228,13 @@ $('#facultyform').validate({
         },
         retypePassword: {
             equalTo: "#password"
-        }
+        },
+        MobileNo: {
+            required: true,
+            minlength: 10,
+            maxlength: 10,
+            number:true
+        },
     },
     messages: {
         // FacultyCode: {
@@ -256,6 +270,12 @@ $('#facultyform').validate({
         },
         retypePassword:{
             equalTo: "Password and Re Enter Password Not Same"
+        },
+        MobileNo: {
+            required: "Please enter mobile no. ",
+            minlength: "Please altist 10 digits. ",
+            maxlength: "More than 10 digits ",
+            number: "Enter valid Number"
         },
         
     },

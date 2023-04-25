@@ -48,7 +48,7 @@ class FacltyWorkingHoursReportController extends Controller
             ->where(function($query) use ($fromDate, $toDate){
                 $query->whereBetween('t2.CalanderDate', [$fromDate, $toDate]);
             })
-            ->where(function($query) use ($fromDate, $toDate){
+            ->Orwhere(function($query) use ($fromDate, $toDate){
                 $query->whereBetween('t4.Date', [$fromDate, $toDate]);
             });
             // ->where(function($query) use ($fromDate, $toDate){
@@ -58,7 +58,7 @@ class FacltyWorkingHoursReportController extends Controller
            
             
         $data1 = $data->get();
-        //dd(DB::getQueryLog()); // Show results of log
+        // dd($data1); // Show results of log
         $getdata=array();
         array_push($getdata,$data1);
         return response()->json($getdata);

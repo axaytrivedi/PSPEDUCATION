@@ -1,6 +1,11 @@
 @extends('layouts.app')
 @section('content') 
 
+@if(!empty($errors->all()))
+    @foreach ($errors->all() as $error)
+        <div>{{ $error }}</div>
+    @endforeach
+@endif
 <div class="card mb-3">
     <div class="card-header py-3 d-flex justify-content-between bg-transparent border-bottom-0">
         <h6 class="mb-0 fw-bold ">Add {{$ParameterMaster->ParaDescription}} </h6>
@@ -11,12 +16,16 @@
             @csrf
 
             @if(!empty($CourseList))
+            
                 <div class="col-md-3">
-                    <label  class="form-label">Select Course Name</label>
+                    <label  class="form-label">
+                        @if($ParameterMaster->ParaDescription =="CourseList"|| $ParameterMaster->ParaDescription =="SubjectsList" ||$ParameterMaster->ParaDescription =="BatchList"  ||$ParameterMaster->ParaDescription =="Room" ) Select Location  @else  Select Course Name @endif</label>
                     <div class="input-group  form-group mb-3">
                    
-                    <select class="form-group form-control" id="filter" name="filter">
-                                            <option disabled selected>-- Select Course  --</option>
+                                        <select class="form-group form-control" id="filter" name="filter">
+                                            <option disabled selected>
+                                            @if($ParameterMaster->ParaDescription =="CourseList" || $ParameterMaster->ParaDescription =="SubjectsList")-- Select Location -- @else -- Select Course Name -- @endif
+                                            </option>
                                             @foreach($CourseList as $p)
                                             <option value="{{$p->ParaDescription}}">{{$p->ParaDescription}}</option>
 
@@ -28,15 +37,35 @@
                             @endif
                     </div>
                 </div>
+                @if(!isset($ParameterMaster->ParaDescription) || $ParameterMaster->ParaDescription =="SubjectsList" || $ParameterMaster->ParaDescription =="BatchList")
+                    <div class="col-md-3">
+                        <label  class="form-label">
+                            Select Course</label>
+                        <div class="input-group  form-group mb-3">
+                    
+                                            <select class="form-group form-control" id="ParaFilter2" name="ParaFilter2">
+                                                <option disabled selected>
+                                                                    Select Course 
+                                                </option>
+                                
+                                            </select>
+                                            
+                                @if($errors->has('category'))
+                                    <div class="error">{{ $errors->first('category') }}</div>
+                                @endif
+                            
+                        </div>
+                    </div>
+                @endif
             @endif
-            
+                
                 <div class="col-md-3">
                     <label  class="form-label"> Name </label>
                     <div class="input-group  form-group mb-3">
                    
                     <input type="hidden" value=" {{$ParameterMaster->ParaDescription}}"name="ParaFilter1" class="form-control ">
 
-                        <input type="text" name="ParaDescription" class="form-control allowCharcterOnly">
+                        <input type="text" name="ParaDescription" class="form-control @if(isset($ParameterMaster->ParaDescription) && $ParameterMaster->ParaDescription!="Room")allowCharcterOnly @endif">
                             @if($errors->has('ParaDescription'))
                                 <div class="error">{{ $errors->first('ParaDescription') }}</div>
                             @endif
@@ -63,7 +92,7 @@
                             <select class="form-control" name="Validity"> 
                             <option selected disabled >-- Select Status --</option>
 
-                            <option value="Active">Active</option>
+                            <option value="Active" selected>Active</option>
                             <option value="Inactive">In-Active</option>
                             </select>
                     </div>
@@ -106,6 +135,27 @@ $(document).ready(function(){
                     $(element).removeClass('is-invalid');
                 }
             });
+
+            $("#filter").on("change",function(){
+              $.post("{{route('GetLocationWieseCourse')}}",{id:$(this).val(),'_token':"{{csrf_token()}}"},function(suc){
+                var row=" ";
+        
+                if(isNaN(suc.data))
+                {        row="<option selected> Select Course </option>";
+                    $.each(suc.data,function(i,v){
+                    row+="<option value='"+v.ParaDescription+"'>"+v.ParaDescription+"</option>";
+                 });
+                }
+                else
+                {
+                    row="<option selected> No  Course Found For this Location </option>";
+                }
+               
+                $("#ParaFilter2").html(row);
+             
+              });
+            });
+            
 });
 </script>
 @endsection

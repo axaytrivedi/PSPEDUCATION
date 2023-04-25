@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\ParameterMaster;
+use Illuminate\Validation\Rule;
 class ParameterMasterController extends Controller
 {
     /**
@@ -28,19 +29,15 @@ class ParameterMasterController extends Controller
      public function newparameter(Request $request)
      {
      
+            
         $filter = $request->filter;
         
           $ParameterMaster = ParameterMaster::where('ParaID',$filter)->first();
-        if($ParameterMaster->ParaDescription =="BatchList")
+        if($ParameterMaster->ParaDescription =="BatchList" ||$ParameterMaster->ParaDescription =="SubjectsList"
+            ||$ParameterMaster->ParaDescription =="CourseList"
+            ||$ParameterMaster->ParaDescription =="Room")
         {
-            $CourseList = ParameterMaster::where('Parameter',"CourseList")->get(['ParaID','ParaDescription']);
-       
-        }
-         else if($ParameterMaster->ParaDescription =="SubjectsList")
-        {
-
-             $CourseList = ParameterMaster::where('Parameter',"CourseList")->get(['ParaID','ParaDescription']);
-    
+            $CourseList = ParameterMaster::where('Parameter',"Location")->get(['ParaID','ParaDescription']);
         }
         else
         {
@@ -64,18 +61,22 @@ class ParameterMasterController extends Controller
     public function store(Request $request)
     {
 
-        
- 
+
         $filter = $request->filter;
         $parameter = $request->ParaFilter1;
-    
+        $ParaFilter2 = $request->ParaFilter2;
+        
         $ParaDescription = $request->ParaDescription;
         $Validity = $request->Validity;
         $Validity = $request->Validity;
         $file = $request->file;
         $ParaCode= $request->ParaCode;
-     
 
+        // $request->validate([
+        //     // 'ParaDescription' => 'required|unique:parameter_masters|max:255',
+        //     'ParaDescription' => 'required',Rule::unique('parameter_masters', 'Parameter', 'ParaDescription')
+            
+        // ]);
         if(!empty($file) && isset($file))
         {  
           
@@ -93,6 +94,7 @@ class ParameterMasterController extends Controller
                 "ParaID"=>paraidCreate(),
                 "Parameter"=>$parameter,
                 'ParaFilter1'=> (isset($filter))? $filter : null,
+                'ParaFilter2'=> (isset($ParaFilter2))? $ParaFilter2 : null,
                 "ParaCode"=>$ParaCode,
                 'ParaDescription'=>ucfirst($ParaDescription),
                 'ParaValue'=>$CategoryDesignImge,
@@ -162,4 +164,26 @@ class ParameterMasterController extends Controller
              return response()->json(array('success'=> true, 'html'=>$html));
      
     }
+
+    public function GetLocationWieseCourse(Request $request)
+    {
+         $parameter =  $request->id;
+   
+       $ParameterMaster = ParameterMaster::where("Parameter","CourseList")->where('ParaFilter1',$parameter)->where("ParaFilter2",null)->get('ParaDescription');
+       $CommingRoom = ParameterMaster::where("Parameter","Room")->where('ParaFilter1',$parameter)->where("ParaFilter2",null)->get('ParaDescription');
+
+       return response()->json(array('success'=> true, 'data'=>$ParameterMaster,"CommingRoom"=>$CommingRoom));
+    }
+    public function GetCourseWiseBatch(Request $request)
+    {
+        $parameter =  $request->id;
+        $Location = $request->Location;
+
+       $ParameterMaster = ParameterMaster::where("Parameter","BatchList")->where("Parameter","BatchList")
+       ->where("ParaFilter2",$parameter)
+       ->where('ParaFilter1',$Location)->get('ParaDescription');
+       return response()->json(array('success'=> true, 'data'=>$ParameterMaster));
+    }
+
+    
 }

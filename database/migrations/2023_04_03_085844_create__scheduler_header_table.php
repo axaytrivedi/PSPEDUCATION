@@ -15,6 +15,9 @@ class CreateSchedulerHeaderTable extends Migration
     {
         Schema::create('SchedulerHeader', function (Blueprint $table) {
             $table->id();
+            
+            $table->string('location');
+
             $table->string('CourceCode');
             $table->string('BatchCode');
             $table->string('Date');

@@ -42,14 +42,13 @@
                                             
                                                          <div class="col-md-3">
                                                             
-
                                                                 <label for="CourseList" class="form-label">Select Course </label>
-                                                                <select class="form-select  MainLocation" name="MainLocation"  id="MainLocation" aria-label="Default select example">
+                                                                <select class="form-select  MainLocation" name="MainLocation"  id="MainLocation"aria-label="Default select example">
                                                                     <option selected="">--Select Location --</option>
                                                                     @if(!empty($MainLocation) )
                                                                             @foreach($MainLocation as $location)
                                                                             <option value="{{$location->ParaDescription}}"
-                                                                                        @if(isset($SchedulerHeader->MainLocation) && $SchedulerHeader->MainLocation == $location->ParaDescription)  selected @endif>{{$location->ParaDescription}}</option>
+                                                                                        @if(isset($SchedulerHeader->BatchCode) && $SchedulerHeader->BatchCode == $location->ParaDescription)  selected @endif>{{$location->ParaDescription}}</option>
                                                                             @endforeach
                                                                         @endif         
                                                                 </select>
@@ -57,13 +56,9 @@
                                                             <div class="col-md-3">
                                                             
                                                                 <label for="CourseList" class="form-label">Select Course </label>
-                                                                <select class="form-select  CourseList" name="CourseList"  id="CourseList" aria-label="Default select example">
-                                                                        @if(!empty($SchedulerHeader->CourceCode) )
-                                                                    <option value="{{$SchedulerHeader->CourceCode}}"selected >{{$SchedulerHeader->CourceCode}}</option>
-                                                                        @else
-                                                                        <option selected="">--Course List--</option>
-
-                                                                        @endif            
+                                                                <select class="form-select  CourseList" name="CourseList"  id="CourseList"aria-label="Default select example">
+                                                                                    <option selected="">--Course List--</option>
+                                                                                  
                                                                 </select>
                                                             </div>
                                                             <div class="col-md-3">
@@ -212,27 +207,6 @@
                                                                                             @endfor
                                                                                        
                                                                                     </tr>
-                                                                                    <tr >
-                                                                                        <td><strong> TOPIC</strong></td>
-                                                                                        <?php $row4=1;  ?>
-                                                                                        @for($j=0;$j<=6; $j++)
-                                                                                        <?php $Topic=[]; ?>
-                                                                                        <td>
-
-                                                                                            @for($Mn=0;$Mn<=41; $Mn++)
-                                                                                                @if(!empty($collection['tableData'][$Mn]['Topic']) &&  $collection['tableData'][$Mn]['location'] == $i."_".$row4)
-                                                                                                    <input type="text" class="form-control"value ="{{$collection['tableData'][$Mn]['Topic']}}" name="id[{{$i}}][{{$row4}}]">
-
-                                                                                                @elseif($collection['tableData'][$Mn]['location'] == $i."_".$row4)
-                                                                                                <input type="text" class="form-control"value ="" placeholder="TOPIC" name="id[{{$i}}][{{$row4}}]">
-
-                                                                                                @endif
-
-                                                                                            @endfor
-                                                                                        </td>
-                                                                                        <?php $row4++; ?>
-                                                                                            @endfor
-                                                                                    </tr>
 
                                                                                     <tr>
                                                                                         <td><strong>FACULTY</strong></td>
@@ -260,7 +234,22 @@
                                                                                         <?php $row2++; ?>
                                                                                             @endfor
                                                                                     </tr>
-                                                                                   
+                                                                                    <tr >
+                                                                                        <td><strong> TOPIC</strong></td>
+                                                                                        <?php $row4=1;  ?>
+                                                                                        @for($j=0;$j<=6; $j++)
+                                                                                        <?php $Topic=[]; ?>
+                                                                                        <td>
+
+                                                                                            @for($Mn=0;$Mn<=41; $Mn++)
+                                                                                                @if(!empty($collection['tableData'][$Mn]['Topic']) &&  $collection['tableData'][$Mn]['location'] == $i."_".$row4)
+                                                                                                    <input type="text" class="form-control"value ="{{$collection['tableData'][$Mn]['Topic']}}" name="id[{{$i}}][{{$row4}}]">
+                                                                                                @endif
+                                                                                            @endfor
+                                                                                        </td>
+                                                                                        <?php $row4++; ?>
+                                                                                            @endfor
+                                                                                    </tr>
                                                                                     <tr style="border-bottom:3px solid black">
                                                                                         <td><strong> Room Number Coming</strong></td>
                                                                                         <?php $row3=1;  ?>
@@ -348,10 +337,10 @@
                                                                                             $date1 = date('d-M',strtotime($day1. ' +2 days'));
                                                                                             $day1 = date('D',strtotime($day1. ' +2 days')); 
                                                                                         }
-                                                                                        elseif($day1 =="Mon")
+                                                                                        else
                                                                                         {
-                                                                                            $day1 = date('D', strtotime($day1. ' + 0 days'));
-                                                                                            $date1 = date('d-M', strtotime($date1. ' +0 days'));
+                                                                                            $day1 = date('D', strtotime($day1. ' + 1 days'));
+                                                                                            $date1 = date('d-M', strtotime($date1. ' +1 days'));
                                                                                         }
                      
 
@@ -429,19 +418,6 @@
                                                                                                 <?php $row1++; ?>
                                                                                             @endfor
                                                                                         </tr>
-                                                                                        <tr style="">
-                                                                                            <td><strong>TOPIC</strong></td>
-                                                                                            <?php $row3=1; ?>
-                                                                                            @for($j=0;$j<=6; $j++)
-                                                                                                <td>
-                                                                                                    <input type="text" name="Topic[{{$i}}][{{$row3}}]" value="" placeholder="TOPIC" class="form-control w-100">
-
-                                                                                                
-                                                                                                </td>
-                                                                                            <?php $row3++; ?>
-                                                                                            @endfor
-
-                                                                                        </tr>
 
 
                                                                                         <tr>
@@ -458,7 +434,19 @@
                                                                                             @endfor
                                                                                         </tr>
 
-                                              
+                                                                                        <tr style="">
+                                                                                            <td><strong>TOPIC</strong></td>
+                                                                                            <?php $row3=1; ?>
+                                                                                            @for($j=0;$j<=6; $j++)
+                                                                                                <td>
+                                                                                                    <input type="text" name="Topic[{{$i}}][{{$row3}}]" value="" placeholder="TOPIC" class="form-control w-100">
+
+                                                                                                
+                                                                                                </td>
+                                                                                            <?php $row3++; ?>
+                                                                                            @endfor
+
+                                                                                        </tr>
 
                                                                                         <tr style="border-bottom:3px solid black">
                                                                                             <td><strong>Room Number Coming</strong></td>
@@ -467,9 +455,11 @@
                                                                                                 <td>
                                                                                                     <input type="hidden" name="storeLocation[{{$i}}][{{$row4}}]" value="{{$i}}_{{$row4}}" class="form-control w-100">
 
-                                                                                                    <select class="form-select RoomNo"  name="location[{{$i}}][{{$row4}}]" aria-label="Default select example " >
+                                                                                                    <select class="form-select"  name="location[{{$i}}][{{$row4}}]" aria-label="Default select example RoomNo">
                                                                                                         <option disabled selected>--Select Room Number --</option>
-                                                                                                     
+                                                                                                        @foreach($Location as $l)
+                                                                                                        <option value="{{$l->ParaDescription}}">{{$l->ParaDescription}}</option>
+                                                                                                        @endforeach
                                                                                                     </select>
                                                                                                 </td>
                                                                                             <?php $row4++; ?>
@@ -513,15 +503,13 @@ $("#MainLocation").on("change",function(){
               $.post("{{route('GetLocationWieseCourse')}}",{id:$(this).val(),'_token':"{{csrf_token()}}"},function(suc){
                 var row=" ";
                 var row1=" ";
-                var row3=" ";
-                console.log(suc.CommingRoom);
                 if(isNaN(suc.data))
-                {        row="<option selected disabled> Select Course </option>";
+                {        row="<option selected> Select Course </option>";
                     $.each(suc.data,function(i,v){
                     row+="<option value='"+v.ParaDescription+"'>"+v.ParaDescription+"</option>";
                   
-                    row1="<option selected disabled> Select Batch </option>";
-                    });
+                    row1="<option selected> Select Batch </option>";
+                });
                 }
                 else
                 {
@@ -529,23 +517,8 @@ $("#MainLocation").on("change",function(){
                     row1="<option selected> No  Batch Found For this Course </option>";
 
                 }
-                if(isNaN(suc.CommingRoom))
-                {
-              
-                    row3="<option selected disabled>-- Select Room --</option>";
-                    $.each(suc.CommingRoom,function(i,v){
-                        row3+="<option value='"+v.ParaDescription+"'>"+v.ParaDescription+"</option>";
-                  
-                    });
-                }
-                else
-                {
-                    row3="<option selected> No  Rooms  Found For this Location </option>";
-
-                }
-                console.log(suc.CommingRoom,row3);
+               
                 $(".CourseList").html(row);
-                $(".RoomNo").html(row3);
                 $("#BatchList").html(row1);
               });
 }); 

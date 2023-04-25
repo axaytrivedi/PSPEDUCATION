@@ -39,6 +39,8 @@ class FacltyListReportController extends Controller
         
         $getdata=array();
         array_push($getdata,$data1);
+
+  
         return response()->json($getdata);
     }
 

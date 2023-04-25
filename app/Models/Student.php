@@ -14,7 +14,7 @@ class Student extends Model
         'StudentCode', 'RollNo','StudentName', 'DOB','DateOfJoining', 'Gender'
         ,'CourceCode','BatchCode','AcademinSession','Status',
         'AddressLine1','AddressLine2','AddressLine3',
-        'mobile','email','prevclsname',
+        'mobile','email','prevclsname',"Location",
         'prevownername','prevownerno','classinfo','courses','promoted','Title',
     ];
 }

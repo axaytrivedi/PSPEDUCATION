@@ -18,7 +18,8 @@ class CreateStudentTable extends Migration
             $table->string('StudentCode')->nullable()->length(12);
             $table->string('RollNo')->nullable()->length(12);
             $table->string('StudentName')->nullable()->length(50);
-            $table->string('DOB')->nullable();
+               $table->string('DOB')->nullable();
+            $table->string('Location')->nullable(50);
             $table->string('DateOfJoining')->nullable();
             $table->string('Gender')->nullable()->length(6);
             $table->string('CourceCode')->nullable()->length(12);

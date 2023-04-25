@@ -10,6 +10,6 @@ class SchedulerHeader extends Model
     use HasFactory;
     public $table='schedulerHeader';
     protected $fillable = [
-        'CourceCode','BatchCode','Status','Date','LineNo','Status',
+        'CourceCode','BatchCode','Status','Date','LineNo','Status','MainLocation',
     ];
 }

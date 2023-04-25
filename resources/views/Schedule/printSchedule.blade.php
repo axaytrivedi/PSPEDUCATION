@@ -5,19 +5,27 @@
              padding: 3px 5px !important;
          }  */
      
-         tbody, td, tfoot, th, thead, tr{ border-color:#333 !important;}
+         tbody, td, tfoot, th, thead, tr{ border-color:#333 !important;
+        }
+         table{
+            text-align:center !important;
+         }
      
      @page {
 
-        size: landscape;margin:0; padding: 0;
+        size: landscape;    
+        margin:0;
+        padding: 0;
         }
         @media print { 
+            
             *{box-sizing:border-box; margin:0;padding:0;}
             html,body{
             padding:10px; page-break-after: always;
             font-size:13px;
             }
             .table tr td,.table tr th{ padding:2px;}
+            .timer{margin-left:55px}
         }
  </style>
  <div class="card mb-3">
@@ -47,13 +55,13 @@
                                           
                                         </tr>
                                         <tr style="border-top:3px solid black;text-align: center;background: #dff0f5;" >
-                                            <th>DATE</th>
+                                            <th style="width: 11%;">DATE</th>
                                             @foreach($collection['datearray'] as $date)
                                                 <th>{{$date}}</th>
                                             @endforeach
                                         </tr>
                                         <tr style="border-top:3px solid black;text-align: center;background: #dff0f5;" >
-                                            <th>Day</th>
+                                            <th style="width: 12%;">Day</th>
                                             @foreach($collection['dayarray'] as $DAY)
                                                 <th>{{$DAY}}
                                                    
@@ -64,15 +72,15 @@
                                     <tbody>
                                     @for($i=1;$i<=6; $i++)
                                         <tr>
-                                            <td><strong>TIME</strong></td>
+                                            <td style="text-align:left;"style="width: 12%;"><strong>TIME</strong></td>
                                             <?php $row=1; ?>
                                             @for($j=0;$j<=6; $j++)
-                                            <td style="text-align:center" class="time" >
-                                                <div class="d-flex" style="text-align:center">
-                                                    <div class=" "   >
+                                            <td style="text-align:center;width: 12%;" class="time" >
+                                                <div  style="text-align:center; display:flex;" class="timer">
+                                                    <div class=" "  style="text-align:center" >
                                                         @for($Mn=0;$Mn<=41; $Mn++)
                                                         @if(!empty($collection['tableData'][$Mn]['TimingFrom']) &&  $collection['tableData'][$Mn]['location'] == $i."_".$row)
-                                                        <b>{{$collection['tableData'][$Mn]['TimingFrom']}}</b>
+                                                        <b style="text-align:center">{{$collection['tableData'][$Mn]['TimingFrom']}}</b>
                                                         @endif
                                                         @endfor
                                                     </div>
@@ -95,7 +103,7 @@
                                             @endfor
                                             </tr>
                                             <tr>
-                                            <td><strong>SUB</strong></td>
+                                            <td style="text-align:left;"><strong>SUB</strong></td>
                                             <?php $row1=1; $subjectarray=[]; ?>
                                             @for($j=0;$j<=6; $j++)
                                             <td >
@@ -108,8 +116,23 @@
                                             <?php $row1++; ?>
                                             @endfor
                                             </tr>
+                                            <tr >
+                                                <td style="text-align:left;"><strong>TOPIC</strong></td>
+                                                <?php $row4=1;  ?>
+                                                @for($j=0;$j<=6; $j++)
+                                                <td style="text-align:center">
+                                                    @for($Mn=0;$Mn<=41; $Mn++)
+                                                    @if(!empty($collection['tableData'][$Mn]['Topic']) &&  $collection['tableData'][$Mn]['location'] == $i."_".$row4)
+                                                    <b>{{$collection['tableData'][$Mn]['Topic']}}</b>
+                                                    @endif
+                                                    @endfor
+                                                    </select>
+                                                </td>
+                                                <?php $row4++; ?>
+                                                @endfor
+                                            </tr>s
                                             <tr>
-                                            <td><strong>FACULTY</strong></td>
+                                            <td style="text-align:left;"><strong>FACULTY</strong></td>
                                             <?php $row2=1; ?>
                                             @for($j=0;$j<=6; $j++)
                                             <td style="text-align:center">
@@ -122,20 +145,21 @@
                                             <?php $row2++; ?>
                                             @endfor
                                             </tr>
+                                           
                                             <tr style="border-bottom:3px solid black">
-                                            <td><strong>LOCATION</strong></td>
-                                            <?php $row3=1;  ?>
-                                            @for($j=0;$j<=6; $j++)
-                                            <td style="text-align:center">
-                                                @for($Mn=0;$Mn<=41; $Mn++)
-                                                @if(!empty($collection['tableData'][$Mn]['Venue']) &&  $collection['tableData'][$Mn]['location'] == $i."_".$row3)
-                                                <b>{{$collection['tableData'][$Mn]['Venue']}}</b>
-                                                @endif
+                                                <td style="text-align:left;"><strong>Room Number Coming</strong></td>
+                                                <?php $row3=1;  ?>
+                                                @for($j=0;$j<=6; $j++)
+                                                <td style="text-align:center">
+                                                    @for($Mn=0;$Mn<=41; $Mn++)
+                                                    @if(!empty($collection['tableData'][$Mn]['Venue']) &&  $collection['tableData'][$Mn]['location'] == $i."_".$row3)
+                                                    <b>{{$collection['tableData'][$Mn]['Venue']}}</b>
+                                                    @endif
+                                                    @endfor
+                                                    </select>
+                                                </td>
+                                                <?php $row3++; ?>
                                                 @endfor
-                                                </select>
-                                            </td>
-                                            <?php $row3++; ?>
-                                            @endfor
                                             </tr>
                                             @endfor
                                         </tbody>

@@ -22,34 +22,29 @@
 
                                     @if(!empty($edit_students->id)) @method('PATCH') @endif @csrf
                                         <div class="row g-3 align-items-center">
-                                        <div class="card-header">
-                                            <h3 class="card-title">{{isset($edit_students)?'Edit':"Add"}} Student Details</h3>
-                                            <!-- <a href="{{route('student.index')}}" class=" btn  my_btn  ml-auto"> Back</a> -->
-                                        </div>
 
-                                        <div class="form-group col-sm-3">
+                                        <div class="col-sm-3 form-group">
                                             <label class="form-label">Title</label>
                                             <select class="form-control selectpicker" id="Title" name="Title" data-style="form-control btn-secondary"
                                             value="{{ old('Title', isset($edit_students->Title) ?  $edit_students->Title  : '' ) }}">
                                                 <option value="">--Select Title--</option>
-                                                <option value="Mr" {{ old('Title', isset($edit_students) ? $edit_students->Title : '')=='Mr' ? 'selected' : '' }}> Mr.</option>
-                                                <option value="Ms" {{ old('Title', isset($edit_students) ? $edit_students->Title : '')=='Ms' ? 'selected' : '' }}>Ms.</option>
-                                                <option value="Mrs" {{ old('Title', isset($edit_students) ? $edit_students->Title : '')=='Mrs' ? 'selected' : '' }}>Mrs.</option>
+                                                <option value="Mr"  @if(isset($edit_students->Title) && $edit_students->Title == 'Mr') selected @endif >Mr.</option>
+                                                <option value="Ms"  @if(isset($edit_students->Title) && $edit_students->Title == 'Ms') selected @endif >Ms.</option>
+                                                <option value="Mrs"  @if(isset($edit_students->Title) && $edit_students->Title == 'Mrs') selected @endif >Mrs.</option>
                                             </select>
                                         </div>
-                                        <div class="form-group col-sm-6">
-                                                <label class="form-label">Student Name</label>
-                                                <input class="form-control allowCharcterOnly"  type="text" id="StudentName" 
+                                        <div class="col-sm-6 form-group">
+                                                <label class="form-label ">Student Name</label>
+                                                <input class="form-control allowCharcterOnly"  type="text" id="StudentName" placeholder= "Enter Student Name"
                                                 name="StudentName" value="{{ old('StudentName', isset($edit_students->StudentName) ?  $edit_students->StudentName  : '' ) }}">
                                         </div>
-                                        <div class="form-group col-md-6 col-sm-12">
-                                                <label class="form-label">Mobile Number </label>
-                                                <input class="form-control"  type="text" id="mobile" 
+                                        <div class="col-md-6 col-sm-12 form-group">
+                                                <label class="form-label">Mobile Number <span class="text-danger">*</span></label>
+                                                <input class="form-control"  type="text" id="mobile" placeholder= "Enter Mobile Number"
                                                 name="mobile" value="{{ old('mobile', isset($edit_students->mobile) ?  $edit_students->mobile  : '' ) }}">
                                         </div>
-
-                                        <div class="form-group  col-md-6 col-sm-12">
-                                            <label class="form-label">Email </label>
+                                        <div class="col-md-6 col-sm-12 form-group">
+                                            <label class="form-label">Email <span class="text-danger">*</span></label>
                                                 <input type="text" class="form-control"  id="email" 
                                                 name="email" value="{{ old('email', isset($edit_students->email) ?  $edit_students->email  : '' ) }}">
                                         </div>
@@ -73,9 +68,8 @@
                                             </div> -->
                                             <div class="col-md-6 form-group">
                                                 <label  class="form-label">DOB</label>
-                                                <input type="date" class="form-control dobCheck" id="DOB" 
+                                                <input type="date" class="form-control" id="DOB" 
                                                 name="DOB" value="{{ old('DOB', isset($edit_students->DOB) ?  $edit_students->DOB  : '' ) }}">
-                                                <puthereError id="puthereError"></puthereError>
                                             </div>
                                             <div class="col-md-6 form-group">
                                                 <label  class="form-label">Date Of Joining</label>
@@ -84,22 +78,37 @@
                                             </div>
                                             <div class="col-md-6 form-group">
                                                 <label  class="form-label">Gender</label>
-                                                <select class="form-control selectpicker" id="Gender" name="Gender" data-style="form-control btn-secondary"
-                                                value="{{ old('Gender', isset($edit_students->Gender) ?  $edit_students->Gender  : '' ) }}">
+                                           
+                                                <select class="form-control selectpicker" id="Gender" name="Gender" data-style="form-control btn-secondary">
                                                     <option value="">Select Gender</option>
-                                                    <option value="Male" {{ old('Gender', isset($edit_students) ? $edit_students->Gender : '')=='Male' ? 'selected' : '' }}> Male</option>
-                                                    <option value="Female" {{ old('Gender', isset($edit_students) ? $edit_students->Gender : '')=='Female' ? 'selected' : '' }}>Female</option>
+                                                    <option value="Male"  @if(isset($edit_students->Gender) && $edit_students->Gender == 'Male') selected @endif >Male</option>
+                                                    <option value="Female"@if(isset($edit_students->Gender) && $edit_students->Gender == 'Female') selected @endif >Female</option>
+                                                </select>
+                                            </div>
+
+                                            
+                                            <div class="col-md-6 form-group">
+                                                <label  class="form-label">Select Location</label>
+
+                                                <select  class="form-control" id="Location" name="Location" >
+                                                <option value="">Select Location</option>
+                                                    @if(isset($Location) && !empty($Location))
+                                                   
+                                                        @foreach($Location as $l)
+                                                        <option value="{{$l->ParaDescription}}" {{old('CourceCode')}}
+                                                            {{ old('Location', isset($edit_students->Location) ? $edit_students->Location : '')==$l->ParaDescription ? 'selected' : '' }}> {{$l->ParaDescription}}</option>
+                                                        @endforeach
+                                                    @endif
                                                 </select>
                                             </div>
                                             <div class="col-md-6 form-group">
-                                                <label  class="form-label">Cource Code</label>
+                                                <label  class="form-label">Course Code</label>
 
                                                 <select  class="form-control" id="CourceCode" name="CourceCode" >
-                                                <option value="">Select Cource Code</option>
+                                                <option value="">Select Course Code</option>
                                                     @foreach($CourseList as $clist)
                                                         <option value="{{$clist->ParaDescription}}" {{old('CourceCode')}}
-                                                        @if(isset($edit_students->CourceCode)  &&  $clist->ParaDescription == $edit_students->CourceCode ) selected @endif
-                                                        >{{$clist->ParaCode}} / {{$clist->ParaDescription}}</option>
+                                                        {{ old('CourceCode', isset($edit_students->CourceCode) ? $edit_students->CourceCode : '')==$clist->ParaDescription ? 'selected' : '' }}>{{$clist->ParaCode}} / {{$clist->ParaDescription}}</option>
                                                     @endforeach
                                                 </select>
                                             </div>
@@ -110,57 +119,58 @@
                                                 <option value="">Select Batch Code</option>
                                                     @foreach($batchCode as $blist)
                                                         <option value="{{$blist->ParaDescription}}" {{old('BatchCode')}}
-                                                        @if(isset($edit_students->BatchCode) &&  $blist->ParaDescription == $edit_students->BatchCode) selected @endif
+                                                     
+
+                                                        {{ old('BatchCode', isset($edit_students->BatchCode) ? $edit_students->BatchCode : '')==$blist->ParaDescription ? 'selected' : '' }}
                                                         >{{$blist->ParaDescription}}</option>
                                                     @endforeach
                                                 </select>
                                             </div>
                                             <div class="col-md-6 form-group">
-                                                <label  class="form-label">Academin Session</label>
-                                                <input type="text" class="form-control" id="AcademinSession" 
+                                                <label  class="form-label">Academic Session</label>
+                                                <input type="text" class="form-control" id="AcademinSession"  placeholder= "Enter Admission Session"
                                                 name="AcademinSession" value="{{ old('AcademinSession', isset($edit_students->AcademinSession) ?  $edit_students->AcademinSession  : '' ) }}">
                                             </div>
                                             <div class="col-md-6 form-group">
-                                                <label  class="form-label">AddressLine 1</label>
-                                                <input type="text" class="form-control" id="AddressLine1" 
+                                                <label  class="form-label">Address Line 1</label>
+                                                <input type="text" class="form-control" id="AddressLine1" placeholder= "Enter Address1"
                                                 name="AddressLine1" value="{{ old('AddressLine1', isset($edit_students->AddressLine1) ?  $edit_students->AddressLine1  : '' ) }}">
                                             </div>
                                             <div class="col-md-6 form-group">
-                                                <label  class="form-label">AddressLine  2</label>
-                                                <input type="text" class="form-control" id="AddressLine2" 
+                                                <label  class="form-label">Address Line  2</label>
+                                                <input type="text" class="form-control" id="AddressLine2" placeholder= "Enter Address2"
                                                 name="AddressLine2" value="{{ old('AddressLine2', isset($edit_students->AddressLine2) ?  $edit_students->AddressLine2  : '' ) }}">
                                             </div>
                                             <div class="col-md-6 form-group">
-                                                <label  class="form-label">AddressLine  3</label>
-                                                <input type="text" class="form-control" id="AddressLine3" 
+                                                <label  class="form-label">Address Line  3</label>
+                                                <input type="text" class="form-control" id="AddressLine3" placeholder= "Enter Address 3"
                                                 name="AddressLine3" value="{{ old('AddressLine3', isset($edit_students->AddressLine3) ?  $edit_students->AddressLine3  : '' ) }}">
                                             </div>
 
                                             <div class="col-md-6 form-group">
-                                                <label  class="form-label">Title</label>
-                                                <select class="form-control selectpicker" id="Status" name="Status" data-style="form-control btn-secondary"
-                                                value="{{ old('Status', isset($edit_students->Status) ?  $edit_students->Status  : '' ) }}">
+                                                <label  class="form-label">Status</label>
+                                                <select class="form-control selectpicker" id="Status" name="Status" data-style="form-control btn-secondary">
                                                     <option value="">Select Status</option>
-                                                    <option value="OnRoll" {{ old('Status', isset($edit_students) ? $edit_students->Status : '')=='OnRoll' ? 'selected' : '' }}>OnRoll</option>
-                                                    <option value="Short-Left" {{ old('Status', isset($edit_students) ? $edit_students->Status : '')=='Short-Left' ? 'selected' : '' }}>Short-Left</option>
-                                                    <option value="Completed" {{ old('Status', isset($edit_students) ? $edit_students->Status : '')=='Completed' ? 'selected' : '' }}>Completed</option>
-                                                    <option value="Promoted" {{ old('Status', isset($edit_students) ? $edit_students->Status : '')=='Promoted' ? 'selected' : '' }}>Promoted</option>
-                                                    <option value="PassOut" {{ old('Status', isset($edit_students) ? $edit_students->Status : '')=='PassOut' ? 'selected' : '' }}>Pass Out</option>
+                                                    <option value="OnRoll" @if(isset($edit_students->Status) && $edit_students->Status == 'OnRoll') selected @endif>OnRoll</option>
+                                                    <option value="Short-Left" @if(isset($edit_students->Status) && $edit_students->Status == 'Short-Left') selected @endif>Short-Left</option>
+                                                    <option value="Completed" @if(isset($edit_students->Status) && $edit_students->Status == 'Completed') selected @endif>Completed</option>
+                                                    <option value="Promoted" @if(isset($edit_students->Status) && $edit_students->Status == 'Promoted') selected @endif>Promoted</option>
+                                                    <option value="PassOut" @if(isset($edit_students->Status) && $edit_students->Status == 'PassOut') selected @endif>Pass Out</option>
                                                 </select>
                                             </div>
                                             <div class="col-md-6 form-group">
                                                 <label  class="form-label">12th/TY Bcom Classes Name</label>
-                                                <input type="text" name="prevclsname" class="form-control" id="prevclsname" 
+                                                <input type="text" name="prevclsname" class="form-control" id="prevclsname" placeholder= "Enter Class Name"
                                                 name="prevclsname" value="{{ old('prevclsname', isset($edit_students->prevclsname) ?  $edit_students->prevclsname  : '' ) }}">
                                             </div>
                                             <div class="col-md-6 form-group">
                                                 <label  class="form-label">12th/TY Bcom Classes Owner Name</label>
-                                                <input type="text" name="prevownername" class="form-control" id="prevownername" 
+                                                <input type="text" name="prevownername" class="form-control" id="prevownername" placeholder= "Enter Owner's Name"
                                                 name="prevownername" value="{{ old('prevownername', isset($edit_students->prevownername) ?  $edit_students->prevownername  : '' ) }}">
                                             </div>
                                             <div class="col-md-6 form-group">
                                                 <label  class="form-label">12th/TY Bcom Classes Owner Mobile Number</label>
-                                                <input type="text" name="prevownerno" class="form-control" id="prevownerno" 
+                                                <input type="text" name="prevownerno" class="form-control" id="prevownerno" placeholder= "Enter Owner's Number"
                                                 name="prevownerno" value="{{ old('prevownerno', isset($edit_students->prevownerno) ?  $edit_students->prevownerno  : '' ) }}">
                                             </div>
                                             <div class="col-md-6 form-group">
@@ -168,11 +178,11 @@
                                                 <select class="form-control selectpicker" id="classinfo" name="classinfo" data-style="form-control btn-secondary"
                                                 value="{{ old('classinfo', isset($edit_students->classinfo) ?  $edit_students->classinfo  : '' ) }}">
                                                     <option value="">Select</option>
-                                                    <option value="Reference" {{ old('classinfo', isset($edit_students) ? $edit_students->classinfo : '')=='Reference' ? 'selected' : '' }}>Reference</option>
-                                                    <option value="Social Media" {{ old('classinfo', isset($edit_students) ? $edit_students->classinfo : '')=='Social Media' ? 'selected' : '' }}>Social Media</option>
-                                                    <option value="Seminar" {{ old('classinfo', isset($edit_students) ? $edit_students->classinfo : '')=='Seminar' ? 'selected' : '' }}>Seminar</option>
-                                                    <option value="Google" {{ old('classinfo', isset($edit_students) ? $edit_students->classinfo : '')=='Google' ? 'selected' : '' }}>Google</option>
-                                                    <option value="Others" {{ old('classinfo', isset($edit_students) ? $edit_students->classinfo : '')=='Others' ? 'selected' : '' }}>Others</option>
+                                                    <option value="Reference"  @if(isset($edit_students->classinfo) && $edit_students->classinfo == 'Reference') selected @endif>Reference</option>
+                                                    <option value="Social Media" @if(isset($edit_students->classinfo) && $edit_students->classinfo == 'Social Media') selected @endif>Social Media</option>
+                                                    <option value="Seminar" @if(isset($edit_students->classinfo) && $edit_students->classinfo == 'Seminar') selected @endif>Seminar</option>
+                                                    <option value="Google" @if(isset($edit_students->classinfo) && $edit_students->classinfo == 'Google') selected @endif>Google</option>
+                                                    <option value="Others" @if(isset($edit_students->classinfo) && $edit_students->classinfo == 'Others') selected @endif>Others</option>
                                                 </select>
                                             </div>
                                             <div class="col-md-6 form-group">
@@ -180,17 +190,17 @@
                                                 <select class="form-control selectpicker" id="courses" name="courses" data-style="form-control btn-secondary"
                                                 value="{{ old('courses', isset($edit_students->courses) ?  $edit_students->courses  : '' ) }}">
                                                         <option value="">Select</option>
-                                                        <option value="CA Foundation" {{ old('courses', isset($edit_students) ? $edit_students->courses : '')=='CA Foundation' ? 'selected' : '' }}>CA Foundation</option>
-                                                        <option value="CA Inter"  {{ old('courses', isset($edit_students) ? $edit_students->courses : '')=='CA Inter' ? 'selected' : '' }} >CA Inter</option>
-                                                        <option value="CA Final"  {{ old('courses', isset($edit_students) ? $edit_students->courses : '')=='CA Final' ? 'selected' : '' }}>CA Final</option>
-                                                        <option value="ACCA-Knowledge"  {{ old('courses', isset($edit_students) ? $edit_students->courses : '')=='ACCA-Knowledge' ? 'selected' : '' }}>ACCA-Knowledge</option>
-                                                        <option value="ACCA- Skill"  {{ old('courses', isset($edit_students) ? $edit_students->courses : '')=='ACCA- Skill' ? 'selected' : '' }}>ACCA- Skill</option>
-                                                        <option value="ACCA- Professional"  {{ old('courses', isset($edit_students) ? $edit_students->courses : '')=='ACCA- Professional' ? 'selected' : '' }}>ACCA- Professional</option>
-                                                        <option value="CMA - Foundation"  {{ old('courses', isset($edit_students) ? $edit_students->courses : '')=='CMA - Foundation' ? 'selected' : '' }}>CMA - Foundation</option>
-                                                        <option value="CMA - Inter"  {{ old('courses', isset($edit_students) ? $edit_students->courses : '')=='CMA - Inter' ? 'selected' : '' }}>CMA - Inter</option>
-                                                        <option value="CMA - Final"  {{ old('courses', isset($edit_students) ? $edit_students->courses : '')=='CMA - Final' ? 'selected' : '' }}>CMA - Final</option>
-                                                        <option value="CPA US"  {{ old('courses', isset($edit_students) ? $edit_students->courses : '')=='CPA US' ? 'selected' : '' }}>CPA US</option>
-                                                        <option value="CMA US"  {{ old('courses', isset($edit_students) ? $edit_students->courses : '')=='CMA US' ? 'selected' : '' }}>CMA US</option>
+                                                        <option value="CA Foundation"  @if(isset($edit_students->courses) && $edit_students->courses == 'CA Foundation') selected @endif>CA Foundation</option>
+                                                        <option value="CA Inter"  @if(isset($edit_students->courses) && $edit_students->courses == 'CA Inter') selected @endif>CA Inter</option>
+                                                        <option value="CA Final"  @if(isset($edit_students->courses) && $edit_students->courses == 'CA Final') selected @endif>CA Final</option>
+                                                        <option value="ACCA-Knowledge"  @if(isset($edit_students->courses) && $edit_students->courses == 'ACCA-Knowledge') selected @endif>ACCA-Knowledge</option>
+                                                        <option value="ACCA- Skill"  @if(isset($edit_students->courses) && $edit_students->courses == 'ACCA- Skill') selected @endif>ACCA- Skill</option>
+                                                        <option value="ACCA- Professional"  @if(isset($edit_students->courses) && $edit_students->courses == 'ACCA- Professional') selected @endif>ACCA- Professional</option>
+                                                        <option value="CMA - Foundation"  @if(isset($edit_students->courses) && $edit_students->courses == 'CMA - Foundation') selected @endif>CMA - Foundation</option>
+                                                        <option value="CMA - Inter"  @if(isset($edit_students->courses) && $edit_students->courses == 'CMA - Inter') selected @endif>CMA - Inter</option>
+                                                        <option value="CMA - Final"  @if(isset($edit_students->courses) && $edit_students->courses == 'CMA - Final') selected @endif>CMA - Final</option>
+                                                        <option value="CPA US"  @if(isset($edit_students->courses) && $edit_students->courses == 'CPA US') selected @endif>CPA US</option>
+                                                        <option value="CMA US"  @if(isset($edit_students->courses) && $edit_students->courses == 'CMA US') selected @endif>CMA US</option>
                                                 </select>
                                             </div>
                                             <div class="col-md-6 form-group">
@@ -198,16 +208,16 @@
                                                 <select class="form-control selectpicker" id="promoted" name="promoted" data-style="form-control btn-secondary"
                                                 value="{{ old('promoted', isset($edit_students->promoted) ?  $edit_students->promoted  : '' ) }}">
                                                     <option value="">Select</option>
-                                                    <option value="CA Inter" {{ old('promoted', isset($edit_students) ? $edit_students->promoted : '')=='CA Inter' ? 'selected' : '' }} >CA Inter</option>
-                                                    <option value="CA Final"{{ old('promoted', isset($edit_students) ? $edit_students->promoted : '')=='CA Final' ? 'selected' : '' }}>CA Final</option>
-                                                    <option value="ACCA- Skill" {{ old('promoted', isset($edit_students) ? $edit_students->promoted : '')=='ACCA- Skill' ? 'selected' : '' }}>ACCA- Skill</option>
-                                                    <option value="ACCA- Professional" {{ old('promoted', isset($edit_students) ? $edit_students->promoted : '')=='ACCA- Professional' ? 'selected' : '' }}>ACCA- Professional</option>
-                                                    <option value="CMA- Inter" {{ old('promoted', isset($edit_students) ? $edit_students->promoted : '')=='CMA- Inter' ? 'selected' : '' }}>CMA - Inter</option>
-                                                    <option value="CMA- Final" {{ old('promoted', isset($edit_students) ? $edit_students->promoted : '')=='CMA- Final' ? 'selected' : '' }}>CMA - Final</option>
-                                                    <option value="CPA US" {{ old('promoted', isset($edit_students) ? $edit_students->promoted : '')=='CPA US' ? 'selected' : '' }}>CPA US</option>
-                                                    <option value="CMA US" {{ old('promoted', isset($edit_students) ? $edit_students->promoted : '')=='CMA US' ? 'selected' : '' }}>CMA US</option>
-                                                    <option value="Drop Out" {{ old('promoted', isset($edit_students) ? $edit_students->promoted : '')=='Drop Out' ? 'selected' : '' }}>Drop Out</option>
-                                                    <option value="Shifted to Other Classes" {{ old('promoted', isset($edit_students) ? $edit_students->promoted : '')=='Shifted to Other Classes' ? 'selected' : '' }}>Shifted to Other Classes</option>
+                                                    <option value="CA Inter" @if(isset($edit_students->promoted) && $edit_students->promoted == 'CA Inter') selected @endif>CA Inter</option>
+                                                    <option value="CA Final" @if(isset($edit_students->promoted) && $edit_students->promoted == 'CA Final') selected @endif>CA Final</option>
+                                                    <option value="ACCA- Skill" @if(isset($edit_students->promoted) && $edit_students->promoted == 'ACCA- Skill') selected @endif>ACCA- Skill</option>
+                                                    <option value="ACCA- Professional" @if(isset($edit_students->promoted) && $edit_students->promoted == 'ACCA- Professional') selected @endif>ACCA- Professional</option>
+                                                    <option value="CMA- Inter"@if(isset($edit_students->promoted) && $edit_students->promoted == 'CMA- Inter') selected @endif>CMA - Inter</option>
+                                                    <option value="CMA- Final"@if(isset($edit_students->promoted) && $edit_students->promoted == 'CMA- Final') selected @endif>CMA - Final</option>
+                                                    <option value="CPA US"@if(isset($edit_students->promoted) && $edit_students->promoted == 'CPA US') selected @endif>CPA US</option>
+                                                    <option value="CMA US"@if(isset($edit_students->promoted) && $edit_students->promoted == 'CMA US') selected @endif>CMA US</option>
+                                                    <option value="Drop Out"@if(isset($edit_students->promoted) && $edit_students->promoted == 'Drop Out') selected @endif>Drop Out</option>
+                                                    <option value="Shifted to Other Classes"@if(isset($edit_students->promoted) && $edit_students->promoted == 'Shifted to Other Classes') selected @endif>Shifted to Other Classes</option>
                                                 </select>
                                             </div>
                                         </div>
@@ -219,27 +229,59 @@
                                 </div>
                             </div>
 <script>
-  
-    $(".dobCheck").on("change",function(){
+            $("#Location").on("change",function(){
+              $.post("{{route('GetLocationWieseCourse')}}",{id:$(this).val(),'_token':"{{csrf_token()}}"},function(suc){
+                var row=" ";
+                var row1=" ";
+                if(isNaN(suc.data))
+                {        row="<option selected> Select Course </option>";
+                    $.each(suc.data,function(i,v){
+                    row+="<option value='"+v.ParaDescription+"'>"+v.ParaDescription+"</option>";
+                  
+                    row1="<option selected> Select Batch </option>";
+                });
+                }
+                else
+                {
+                    row="<option selected> No  Course Found For this Location </option>";
+                    row1="<option selected> No  Batch Found For this Course </option>";
+
+                }
+               
+                $("#CourceCode").html(row);
+                $("#BatchCode").html(row1);
+              });
+            }); 
+            $("#CourceCode").on("change",function(){
+                var Location =$("#Location").val();
+
+    
+              $.post("{{route('GetCourseWiseBatch')}}",{"Location":Location,"id":$(this).val(),'_token':"{{csrf_token()}}"},function(suc){
+                var row=" ";
         
-        var currentTime = new Date();
-        var current_year = currentTime.getFullYear();
-        var dob = $(this).val();
-        dob = dob.split("-");
-        var oldyear = dob[0];
-        var checkmevalid = current_year-parseInt(dob[0]);
-        if(checkmevalid <= 18)
-        {
-            $("#puthereError").html("<span class='text-danger pl-1'>Your age is less for CA </span>");
-            // $(".dobCheck").val(" ");
-        }
-        else
-        {
-            $("#puthereError").html(" ");
-        }
-    });
+                if(isNaN(suc.data))
+                {        row="<option selected> Select Batch </option>";
+                    $.each(suc.data,function(i,v){
+                    row+="<option value='"+v.ParaDescription+"'>"+v.ParaDescription+"</option>";
+                 });
+                }
+                else
+                {C
+                    row="<option selected> No  Batch Found For this Course </option>";
+                }
+               
+                $("#BatchCode").html(row);
+             
+              });
+            }); 
 $("#CourceCode").select2({ placeholder: "Select a Cource Code ",allowClear: true});
 $("#BatchCode").select2({ placeholder: "Select a Batch Code ",allowClear: true});
+$("#classinfo").select({ placeholder: "Select an Option ",allowClear: true});
+$("#courses").select({ placeholder: "Select an Option ",allowClear: true});
+$("#promoted").select({ placeholder: "Select an Option ",allowClear: true});
+$("#Title").select({ placeholder: "Select Title ",allowClear: true});
+$("#Gender").select({ placeholder: "Select Gender ",allowClear: true});
+
 
 $('#studentform').validate({
     rules: {
@@ -250,7 +292,8 @@ $('#studentform').validate({
         //     required: true
         // },
         StudentName: {
-            required: true
+            required: true,
+            maxlength: 20,
         },
         DOB: {
             required: true
@@ -279,14 +322,21 @@ $('#studentform').validate({
         AddressLine3: {
             required: true
         },
+
         Status: {
             required: true
         },
         mobile: {
-            required: true
+            required: true,
+                 minlength: 10,
+                maxlength: 10,
+                number:true
         },
         email: {
-            required: true
+            required: true,
+            email: true,
+            maxlength: 50,
+            email:true
         },
         prevclsname: {
             required: true
@@ -295,7 +345,11 @@ $('#studentform').validate({
             required: true
         },
         prevownerno: {
-            required: true
+            required: true,
+                 minlength: 10,
+                maxlength: 10,
+                number:true
+                
         },
         classinfo: {
             required: true
@@ -319,10 +373,11 @@ $('#studentform').validate({
         //     required: "Please enter RollNo "
         // },
         StudentName: {
-            required: "Please enter BatchCode "
+            required: "Name is required",
+            maxlength: "First name cannot be more than 20 characters"
         },
         DateOfJoining: {
-            required: "Please enter DateOfJoining "
+            required: "Please enter Date Of Joining "
         },
         DOB: {
             required: "Please enter DOB "
@@ -331,49 +386,59 @@ $('#studentform').validate({
             required: "Please enter Gender "
         },
         CourceCode: {
-            required: "Please enter CourceCode "
+            required: "Please enter Cource Code "
         },
         BatchCode: {
-            required: "Please enter BatchCode "
+            required: "Please enter Batch Code "
         },
         AcademinSession: {
-            required: "Please enter AcademinSession "
+            required: "Please enter Academin Session "
         },
         AddressLine1: {
-            required: "Please enter AddressLine1 "
+            required: "Please enter Address Line 1 "
         },
         AddressLine2: {
-            required: "Please enter AddressLine2 "
+            required: "Please enter Address Line 2 "
         },
         AddressLine3: {
-            required: "Please enter AddressLine3 "
+            required: "Please enter Address Line 3 "
         },
+       
         Status: {
             required: "Please enter Status "
         },
         mobile: {
-            required: "Please enter mobile "
+            required: "Please enter mobile no. ",
+                minlength: "Please altist 10 digits. ",
+                maxlength: "More than 10 digits ",
+                number: "Enter valid Number"
         },
         email: {
-            required: "Please enter email "
+            required: "Email is required",
+                email: "Email must be a valid email address",
+                maxlength: "Email cannot be more than 50 characters",
+                email:"Please enter valid email",
         },
         prevclsname: {
-            required: "Please enter classname "
+            required: "Please enter Class Name "
         },
         prevownername: {
-            required: "Please enter ownername "
+            required: "Please enter Owner Name "
         },
         prevownerno: {
-            required: "Please enter ownerno "
+            required: "Please enter Owner No. ",
+                minlength: "Please altist 10 digits. ",
+                maxlength: "More than 10 digits ",
+                number: "Enter valid Number"
         },
         classinfo: {
-            required: "Please select classinfo "
+            required: "Please select Class Info "
         },
         courses: {
-            required: "Please select courses "
+            required: "Please select Courses "
         },
         promoted: {
-            required: "Please select promoted "
+            required: "Please select Promoted "
         },
         Title: {
             required: "Please select Title "
@@ -391,5 +456,14 @@ $('#studentform').validate({
         $(element).removeClass('is-invalid');
     }
 });
+$("#phone").keypress(function (e) {
+ //if the letter is not digit then display error and don't type anything
+ if (e.which != 8 && e.which != 0 && (e.which < 48 || e.which > 57)) {
+//display error message
+$("#errmsg").html("Digits Only").show().fadeOut("slow");
+ return false;
+ }
+});
+
 </script>
 @endsection

@@ -27,9 +27,12 @@ class FacultySubjectController extends Controller
     public function create()
     {
         $facultysub = FacultySubject::latest();
+
         $facultys = Faculty::where('Status','OnRoll')->get();
         $Coursedata = ParameterMaster::where('Parameter','CourseList')->get(); 
-        return view('FacultySubject.create',compact('facultysub','facultys','Coursedata'));
+        $Location = ParameterMaster::where('Parameter',"Location")->get(['ParaID','ParaDescription']);
+
+        return view('FacultySubject.create',compact("Location",'facultysub','facultys','Coursedata'));
     }
 
     /**
@@ -41,15 +44,15 @@ class FacultySubjectController extends Controller
     public function store(Request $request)
     {
 
-        
+    
         $request->validate([
             'FacultyCode' => 'required',
             'CourceCode' => 'required',
             'SubjectCode' => 'required',
             'EffFrom' => 'required',
-            'EffUpto' => 'required',
+            // 'EffUpto' => 'required',
             ]);
-
+            // dd($request->SubjectCode);
         if(!empty($request->SubjectCode))
         {
             foreach($request->SubjectCode as  $d)
@@ -60,8 +63,9 @@ class FacultySubjectController extends Controller
                     'FacultyCode' => $request->FacultyCode,
                     'CourseCode' => $request->CourceCode,
                     'SubjectCode' =>$d,
+                    "Location"=>$request->Location,
                     'EffFrom' => $request->EffFrom,
-                    'EffUpto' => $request->EffUpto,
+                    // 'EffUpto' => $request->EffUpto,
                 ]);
             }
             return redirect()->route('facultySubject.index')->with('msg','Created Successfuly');
@@ -100,10 +104,12 @@ class FacultySubjectController extends Controller
 
         $facultys = Faculty::where('Status','OnRoll')->get();
         $Coursedata = ParameterMaster::where('Parameter','CourseList')->get(); 
+        dd($edit_facultysub->SubjectCode);
          $SubjectCode = ParameterMaster::whereIn('ParaDescription',explode(",",$edit_facultysub->SubjectCode))->get(['ParaID','ParaDescription']); 
+         $Location = ParameterMaster::where('Parameter',"Location")->get(['ParaID','ParaDescription']);
 
       
-        return view('FacultySubject.create',compact('edit_facultysub','facultys','Coursedata','SubjectCode'));
+        return view('FacultySubject.create',compact('Location','edit_facultysub','facultys','Coursedata','SubjectCode'));
     }
 
     /**
@@ -120,7 +126,7 @@ class FacultySubjectController extends Controller
             'CourceCode' => 'required',
             'SubjectCode' => 'required',
             'EffFrom' => 'required',
-            'EffUpto' => 'required',
+            // 'EffUpto' => 'required',
 
         ]);
 
@@ -138,8 +144,10 @@ class FacultySubjectController extends Controller
                     'FacultyCode' => $request->FacultyCode,
                     'CourseCode' => $request->CourceCode,
                     'SubjectCode' =>$d,
+                    
+                    "Location"=>$request->Location,
                     'EffFrom' => $request->EffFrom,
-                    'EffUpto' => $request->EffUpto,
+                    // 'EffUpto' => $request->EffUpto,
                 ]);
             }
             return redirect()->route('facultySubject.index')->with('msg','Created Successfuly');
@@ -171,8 +179,11 @@ class FacultySubjectController extends Controller
     }
     public function GetsubjectCode(Request $request)
     {
-          $ParaFilter1= $request->id;
-         return $Coursedata = ParameterMaster::where('Parameter',"SubjectsList")->where('ParaFilter1',$ParaFilter1)->get(); 
+          $ParaFilter2= $request->id;
+         $ParaFilter1 =$request->MainLocation;
+         return $Coursedata = ParameterMaster::where('Parameter',"SubjectsList")
+         ->where('ParaFilter1',$ParaFilter1)
+         ->where('ParaFilter2',$ParaFilter2)->get(); 
 
          
     }

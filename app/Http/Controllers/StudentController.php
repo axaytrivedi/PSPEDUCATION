@@ -28,8 +28,10 @@ class StudentController extends Controller
         $students = Student::latest();
         $batchCode = ParameterMaster::where('Parameter','BatchList')->get(['ParaCode','ParaDescription']); 
         $CourseList = ParameterMaster::where('Parameter','CourseList')->get(['ParaCode','ParaDescription']); 
-
-        return view('Student.create',compact('students','batchCode','CourseList'));
+        $Location = ParameterMaster::where('Parameter',"Location")->get(['ParaID','ParaDescription']);
+        $CourseList=[];
+        $batchCode=[];
+        return view('Student.create',compact('CourseList','batchCode','students',"Location"));
     }
 
     /**
@@ -77,6 +79,7 @@ class StudentController extends Controller
             'DOB' => $request->DOB,
             'DateOfJoining' => $request->DateOfJoining,
             'Gender' => $request->Gender,
+            "Location"=>$request->Location,
             'CourceCode' => $request->CourceCode,
             'BatchCode' => $request->BatchCode,
             'AcademinSession' => $request->AcademinSession,
@@ -123,8 +126,9 @@ class StudentController extends Controller
         $edit_students = Student::find($id);
         $batchCode = ParameterMaster::where('Parameter','BatchList')->get(['ParaCode','ParaDescription']); 
         $CourseList = ParameterMaster::where('Parameter','CourseList')->get(['ParaCode','ParaDescription']); 
+        $Location = ParameterMaster::where('Parameter',"Location")->get(['ParaID','ParaDescription']);
 
-        return view('Student.create',compact('edit_students','batchCode','CourseList'));
+        return view('Student.create',compact("Location",'edit_students','batchCode','CourseList'));
     }
 
     /**
@@ -162,12 +166,13 @@ class StudentController extends Controller
 
         ]);
         $students = Student::find($id);
-        // $students->StudentCode = $request->StudentCode;
+       
         $students->RollNo = $request->RollNo;
         $students->StudentName = $request->StudentName;
         $students->DOB = $request->DOB;
         $students->DateOfJoining = $request->DateOfJoining;
         $students->Gender = $request->Gender;
+        $students->Location = $request->Location;
         $students->CourceCode = $request->CourceCode;
         $students->BatchCode = $request->BatchCode;
         $students->AcademinSession = $request->AcademinSession;

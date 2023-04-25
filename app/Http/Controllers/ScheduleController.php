@@ -34,8 +34,10 @@ class ScheduleController extends Controller
         $SubjectsList =ParameterMaster::where("Parameter","SubjectsList")->where('Validity',"Active")->get(); 
         $Location =ParameterMaster::where("Parameter","VenueList")->where('Validity',"Active")->get(); 
         $BatchList=[];
+        $MainLocation = ParameterMaster::where('Parameter',"Location")->get(['ParaID','ParaDescription']);
+
         $schedule = Schedule::latest();
-        return view('Schedule.create',compact('BatchList','schedule','SubjectsList','CourseList','Location'));
+        return view('Schedule.create',compact('MainLocation','BatchList','schedule','SubjectsList','CourseList','Location'));
     }
 
     /**
@@ -47,7 +49,8 @@ class ScheduleController extends Controller
     public function store(Request $request)
     {  
 
-        
+
+  
         $storeLocation =  $request->storeLocation;
         $location = $request->location;
    
@@ -60,8 +63,8 @@ class ScheduleController extends Controller
         
         $subject  = $request->subject;
         $faculty  = $request->faculty;
-
-  
+        $Topic = $request->Topic;
+        $MainLocation= $request->MainLocation;
         $keydate=0;
 
                
@@ -72,6 +75,7 @@ class ScheduleController extends Controller
             $SchedulerHeader->BatchCode=$BatchList;
             $SchedulerHeader->Date=date('Y-m-d');
             $SchedulerHeader->Status="Active";
+            $SchedulerHeader->MainLocation=$MainLocation;
             $SchedulerHeader->save();
 
             $LineNo = $SchedulerHeader->LineNo;
@@ -86,6 +90,7 @@ class ScheduleController extends Controller
             foreach($HeaderDay as $j=>$dayname) // Total Column
             {
 
+            
                   $storlocationString[]=$storeLocation[$i][$k];
                     $create =new  Schedule;
                     $create->CourceCode=$CourceCode;
@@ -98,12 +103,15 @@ class ScheduleController extends Controller
                     $create->SubjectCode=(array_key_exists($i,$subject) && array_key_exists($k,$subject[$i])) ? $subject[$i][$k] : null;
                     $create->FacultyCode=(array_key_exists($i,$faculty) && array_key_exists($k,$faculty[$i])) ? $faculty[$i][$k] : null;
                     $create->Venue=(array_key_exists($i,$location) && array_key_exists($k,$location[$i])) ? $location[$i][$k] : null;
-                    $create->location=(array_key_exists($i,$storeLocation) && array_key_exists($k,$storeLocation[$i])) ? $storeLocation[$i][$k] : null; // which filed are your store location
+                    $create->location=(array_key_exists($i,$storeLocation) && array_key_exists($k,$storeLocation[$i])) ? $storeLocation[$i][$k] : null; // which filed are your store location (POINT 1_1 Like)
+                    $create->Topic=(array_key_exists($i,$Topic) && array_key_exists($k,$Topic[$i])) ? $Topic[$i][$k] : null; 
+                    
                     $create->save();
              $k++;
             }
            
         }
+        
       
         return redirect()->route('schedule.index')->with('msg','Created Successfuly');
     }
@@ -132,9 +140,11 @@ class ScheduleController extends Controller
         $edit_schedule = Schedule::where("LectureCode",$SchedulerHeader->LineNo)->get();
 
         $CourseList =ParameterMaster::where("Parameter","CourseList")->where('Validity',"Active")->get(); 
-        $SubjectsList =ParameterMaster::where("Parameter","SubjectsList")->where("ParaFilter1",  $SchedulerHeader->CourceCode)->where('Validity',"Active")->get(); 
+
+        $SubjectsList =ParameterMaster::where("Parameter","SubjectsList")->where("ParaFilter2",  $SchedulerHeader->CourceCode)->where('Validity',"Active")->get(); 
         $Location =ParameterMaster::where("Parameter","VenueList")->where('Validity',"Active")->get(); 
 
+        $MainLocation = ParameterMaster::where('Parameter',"Location")->get(['ParaID','ParaDescription']);
 
      
 
@@ -166,6 +176,7 @@ class ScheduleController extends Controller
                     "TimingUpto"=>$d->TimingUpto,
                     "SubjectCode"=>$d->SubjectCode,
                     "FacultyCode"=>$d->FacultyCode,
+                    "Topic"=>$d->Topic,
                     "dayname"=>$d->dayname,
                     "Venue"=>$d->Venue,
                 ];
@@ -182,7 +193,7 @@ class ScheduleController extends Controller
            $BatchList =ParameterMaster::where("Parameter","BatchList")->where("ParaDescription",$SchedulerHeader->BatchCode)->where('Validity',"Active")->get(); 
 
    
-        return view('Schedule.create',compact('SchedulerHeader','edit_schedule','CourseList','SubjectsList','Location','BatchList','collection'));
+        return view('Schedule.create',compact('MainLocation','SchedulerHeader','edit_schedule','CourseList','SubjectsList','Location','BatchList','collection'));
     }
 
     /**
@@ -289,10 +300,11 @@ class ScheduleController extends Controller
 
     public function GetCourseWiseBatch(Request $request)
     {
-        $value = $request->value;
-         $CourseList =ParameterMaster::where("Parameter","BatchList")->where("ParaFilter1",$value)->get(); 
 
-         $subject =ParameterMaster::where("Parameter","SubjectsList")->where("ParaFilter1",$value)->get(); 
+          $value = $request->value;
+          $CourseList =ParameterMaster::where("Parameter","BatchList")->where("ParaFilter2",$value)->get(); 
+        
+         $subject =ParameterMaster::where("Parameter","SubjectsList")->where("ParaFilter2",$value)->get(); 
 
          return response()->json(['msg'=>0,'CourseList'=>$CourseList,'subject'=>$subject,]);
     }
@@ -300,6 +312,8 @@ class ScheduleController extends Controller
     {
         $SubjectCode = $request->value;
         $CourseCode= $request->CourseCode;
+
+        
         $facultysubject = DB::table('facultysubject as t1')
         ->join("faculty as t2",'t2.FacultyCode','=','t1.FacultyCode')
         ->where("CourseCode",$CourseCode)
@@ -345,6 +359,7 @@ class ScheduleController extends Controller
                     "SubjectCode"=>$d->SubjectCode,
                     "FacultyCode"=>$d->FacultyCode,
                     "dayname"=>$d->dayname,
+                    "Topic"=>$d->Topic,
                     "Venue"=>$d->Venue,
                 ];
         }

@@ -24,7 +24,9 @@ class CreateScheduleTable extends Migration
             $table->string('dayname')->nullable()->length(50);
 
             $table->string('Session')->nullable()->length(12);
-            $table->string('TimingFrom')->nullable();
+            $table->string('Topic')->nullable()->length(250);
+
+             $table->string('TimingFrom')->nullable();
             
             $table->string('TimingUpto')->nullable();
             $table->string('SubjectCode')->nullable()->length(12);
