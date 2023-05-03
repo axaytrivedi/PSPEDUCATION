@@ -106,8 +106,10 @@
                                 <li><a class="ms-link {{ (request()->is('facultyWorkingHours') || request()->is('facultyWorkingHours/*')) ? 'active' : '' }}" href="{{ url("facultyWorkingHours") }}">Faculty Total Working Hours</a></li>
                                 <!-- <li><a class="ms-link" href="">Student Attendance</a></li> -->
                                 <!-- <li><a class="ms-link" href="">Lecture Attendance</a></li> -->
+
                                 <li><a class="ms-link {{ (request()->is('monthly') || request()->is('monthly/*')) ? 'active' : '' }}" href='{{ route("monthly.index") }}'>Faculty Monthly Hours</a></li>
                               
+
                             </ul>
                     </li>
                     @endif

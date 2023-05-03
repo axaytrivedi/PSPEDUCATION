@@ -66,9 +66,11 @@ Route::group(['middleware'=>'auth'], function()
         Route::resource('parameter', ParameterMasterController::class);
         Route::post('newparameter', [ParameterMasterController::class,'newparameter'])->name('newparameter');
         Route::post('getDepenedentFilters', [ParameterMasterController::class,'getDepenedentFilters'])->name('getDepenedentFilters');
+
         Route::post('GetLocationWieseCourse', [ParameterMasterController::class,'GetLocationWieseCourse'])->name('GetLocationWieseCourse');
         
         Route::post('GetCourseWiseBatch', [ParameterMasterController::class,'GetCourseWiseBatch'])->name('GetCourseWiseBatch');
+
 
         Route::get('logout', '\App\Http\Controllers\Auth\LoginController@logout');
         Route::resource('/role','App\Http\Controllers\Admin\RoleController');
@@ -111,6 +113,7 @@ Route::group(['middleware'=>'auth'], function()
                 Route::resource('facultyList',App\Http\Controllers\Reports\FacltyListReportController::class);
                 Route::post('/facultyList/getFacultyData', [App\Http\Controllers\Reports\FacltyListReportController::class,'getFacultyData'])->name('facultyList.getFacultyData');
 
+
                 Route::resource('facultyWorkingHours',App\Http\Controllers\Reports\FacltyWorkingHoursReportController::class);
                 Route::post('/facultyWorkingHours/getFacultyWorkingHours', [App\Http\Controllers\Reports\FacltyWorkingHoursReportController::class,'getFacultyWorkingHours'])->name('facultyWorkingHours.getFacultyWorkingHours');
 
@@ -118,4 +121,9 @@ Route::group(['middleware'=>'auth'], function()
                 Route::post('/GetMonthlyFacultyWiseReport', [App\Http\Controllers\Reports\FacultyMonthlyReportController::class,'GetMonthlyFacultyWiseReport'])->name('GetMonthlyFacultyWiseReport');
 
 });
+
+
+                Route::resource('facultyWorkingHours',App\Http\Controllers\Reports\FacltyWorkingHoursReportController::class);
+                Route::post('/facultyWorkingHours/getFacultyWorkingHours', [App\Http\Controllers\Reports\FacltyWorkingHoursReportController::class,'getFacultyWorkingHours'])->name('facultyWorkingHours.getFacultyWorkingHours');
+
 

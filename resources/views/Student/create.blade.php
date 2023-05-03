@@ -83,6 +83,7 @@
                                                     <option value="">Select Gender</option>
                                                     <option value="Male"  @if(isset($edit_students->Gender) && $edit_students->Gender == 'Male') selected @endif >Male</option>
                                                     <option value="Female"@if(isset($edit_students->Gender) && $edit_students->Gender == 'Female') selected @endif >Female</option>
+<<<<<<< HEAD
                                                 </select>
                                             </div>
 
@@ -99,6 +100,8 @@
                                                             {{ old('Location', isset($edit_students->Location) ? $edit_students->Location : '')==$l->ParaDescription ? 'selected' : '' }}> {{$l->ParaDescription}}</option>
                                                         @endforeach
                                                     @endif
+=======
+>>>>>>> f0f3fe8dc611ca86a0fe3af9a2b986dca9fad970
                                                 </select>
                                             </div>
                                             <div class="col-md-6 form-group">
@@ -127,22 +130,38 @@
                                                 </select>
                                             </div>
                                             <div class="col-md-6 form-group">
+<<<<<<< HEAD
                                                 <label  class="form-label">Academic Session</label>
+=======
+                                                <label  class="form-label">Academin Session</label>
+>>>>>>> f0f3fe8dc611ca86a0fe3af9a2b986dca9fad970
                                                 <input type="text" class="form-control" id="AcademinSession"  placeholder= "Enter Admission Session"
                                                 name="AcademinSession" value="{{ old('AcademinSession', isset($edit_students->AcademinSession) ?  $edit_students->AcademinSession  : '' ) }}">
                                             </div>
                                             <div class="col-md-6 form-group">
+<<<<<<< HEAD
                                                 <label  class="form-label">Address Line 1</label>
+=======
+                                                <label  class="form-label">AddressLine 1</label>
+>>>>>>> f0f3fe8dc611ca86a0fe3af9a2b986dca9fad970
                                                 <input type="text" class="form-control" id="AddressLine1" placeholder= "Enter Address1"
                                                 name="AddressLine1" value="{{ old('AddressLine1', isset($edit_students->AddressLine1) ?  $edit_students->AddressLine1  : '' ) }}">
                                             </div>
                                             <div class="col-md-6 form-group">
+<<<<<<< HEAD
                                                 <label  class="form-label">Address Line  2</label>
+=======
+                                                <label  class="form-label">AddressLine  2</label>
+>>>>>>> f0f3fe8dc611ca86a0fe3af9a2b986dca9fad970
                                                 <input type="text" class="form-control" id="AddressLine2" placeholder= "Enter Address2"
                                                 name="AddressLine2" value="{{ old('AddressLine2', isset($edit_students->AddressLine2) ?  $edit_students->AddressLine2  : '' ) }}">
                                             </div>
                                             <div class="col-md-6 form-group">
+<<<<<<< HEAD
                                                 <label  class="form-label">Address Line  3</label>
+=======
+                                                <label  class="form-label">AddressLine  3</label>
+>>>>>>> f0f3fe8dc611ca86a0fe3af9a2b986dca9fad970
                                                 <input type="text" class="form-control" id="AddressLine3" placeholder= "Enter Address 3"
                                                 name="AddressLine3" value="{{ old('AddressLine3', isset($edit_students->AddressLine3) ?  $edit_students->AddressLine3  : '' ) }}">
                                             </div>
@@ -229,6 +248,7 @@
                                 </div>
                             </div>
 <script>
+<<<<<<< HEAD
             $("#Location").on("change",function(){
               $.post("{{route('GetLocationWieseCourse')}}",{id:$(this).val(),'_token':"{{csrf_token()}}"},function(suc){
                 var row=" ";
@@ -274,6 +294,8 @@
              
               });
             }); 
+=======
+>>>>>>> f0f3fe8dc611ca86a0fe3af9a2b986dca9fad970
 $("#CourceCode").select2({ placeholder: "Select a Cource Code ",allowClear: true});
 $("#BatchCode").select2({ placeholder: "Select a Batch Code ",allowClear: true});
 $("#classinfo").select({ placeholder: "Select an Option ",allowClear: true});

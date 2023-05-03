@@ -186,7 +186,11 @@
                                                                                                         @foreach($SubjectsList as $subject)
 
                                                                                                             @for($Mn=0;$Mn<=41; $Mn++)
+<<<<<<< HEAD
                                                                                                            
+=======
+                                                                                                               
+>>>>>>> f0f3fe8dc611ca86a0fe3af9a2b986dca9fad970
                                                                                                                 @if(!in_array($collection['tableData'][$Mn]['SubjectCode'],$subjectarray) && !empty($collection['tableData'][$Mn]['SubjectCode']) &&  $collection['tableData'][$Mn]['location'] == $i."_".$row1)
                                                                                                                     <option  selected value="{{$collection['tableData'][$Mn]['SubjectCode']}}">{{$collection['tableData'][$Mn]['SubjectCode']}}</option>
                                                                                                                     <?php  $subjectarray[]=$collection['tableData'][$Mn]['SubjectCode']; ?>
@@ -262,7 +266,11 @@
                                                                                     </tr>
                                                                                    
                                                                                     <tr style="border-bottom:3px solid black">
+<<<<<<< HEAD
                                                                                         <td><strong> Room Number Coming</strong></td>
+=======
+                                                                                        <td><strong>LOCATION</strong></td>
+>>>>>>> f0f3fe8dc611ca86a0fe3af9a2b986dca9fad970
                                                                                         <?php $row3=1;  ?>
                                                                                         @for($j=0;$j<=6; $j++)
                                                                                         <?php $location=[]; ?>
@@ -334,9 +342,14 @@
                                                                                         }
                                                                                         elseif($day1 =="Thu")
                                                                                         {
+<<<<<<< HEAD
                                                                                             $date1 = date('d-M',strtotime($day1. ' +4 days'));
                                                                                             $day1 = date('D',strtotime($day1. ' +4 days'));  
                                                                                           
+=======
+                                                                                            $date1 = date('d-M',strtotime($day1. ' +5 days'));
+                                                                                            $day1 = date('D',strtotime($day1. ' +5 days'));  
+>>>>>>> f0f3fe8dc611ca86a0fe3af9a2b986dca9fad970
                                                                                         }
                                                                                         elseif($day1 =="Fri")
                                                                                         {
