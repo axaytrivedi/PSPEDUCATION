@@ -42,7 +42,10 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 
 Route::group(['middleware'=>'auth'], function()  
 {  
+    Route::post('/AppendAdminDash', [App\Http\Controllers\HomeController::class, 'AppendAdminDash'])->name('AppendAdminDash');
 
+
+    
     Route::resource('/details',SchoolDetailsController::class);
     Route::resource('/faculty',FacultyController::class);
 

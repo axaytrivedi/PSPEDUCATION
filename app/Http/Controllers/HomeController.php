@@ -35,10 +35,9 @@ class HomeController extends Controller
     {
 
          $email = Auth::user()->email;
-          
-          $id= Auth::user()->id;
-          $roleId= Auth::user()->Role;
-           $Role= Role::where("id",$roleId)->first();
+         $id= Auth::user()->id;
+         $roleId= Auth::user()->Role;
+         $Role= Role::where("id",$roleId)->first();
 
         
           $Faculty=Faculty::where("email",$email)->first('FacultyCode');
@@ -69,9 +68,7 @@ class HomeController extends Controller
                 {   
                     foreach($Todayschedule as $child)
                     {
-                        
-        
-                        if($day && $hader->LineNo == $child->LectureCode && $child->Venue !=  null )
+                       if($day && $hader->LineNo == $child->LectureCode && $child->Venue !=  null )
                         {              
                                 $newcollection[]=[
                                                 "lineNo"=>$hader->LineNo,
@@ -88,6 +85,7 @@ class HomeController extends Controller
                     }
                 }
               
+            
                           
             $collection =['datearray'=>[],"dayarray"=>[],"tableData"=>[]];
         }
@@ -96,9 +94,12 @@ class HomeController extends Controller
 
        
             $edit_schedule = Schedule::where("FacultyCode",$Faculty->FacultyCode)->get();
+
+            
             $datearray=[];
             $dayarray=[];
             $date='';
+            // dd( $edit_schedule);
             foreach($edit_schedule as $key=>$d)
             {   
                         if(!in_array($d->date, $datearray))
@@ -125,6 +126,8 @@ class HomeController extends Controller
            
                 
             }
+
+            // dd($tableData);
             $collection =['datearray'=>$datearray,"dayarray"=>$dayarray,"tableData"=>$tableData];
 
             $FacultyAbsenceAttendance=0;
@@ -137,8 +140,65 @@ class HomeController extends Controller
         
 
 
+        $MainLocation = ParameterMaster::where('Parameter',"Location")->get(['ParaID','ParaDescription']);
+
        
 
-        return view('home',compact('newcollection','rooms','totalFaculty','FacultyAbsenceAttendance','CurrentStudent','edit_schedule','collection'));
+        return view('home',compact('MainLocation','newcollection','rooms','totalFaculty','FacultyAbsenceAttendance','CurrentStudent','edit_schedule','collection'));
+    }
+
+    public function AppendAdminDash(Request $request)
+    {
+
+        $location = $request->id;
+       
+        $FacultyAbsenceAttendance= FacultyAttendance::where('AttendanceStatus',"Absence")->count();
+        $totalFaculty = Faculty::count();
+        $CurrentStudent= Student::where('Status',"OnRoll")->count();
+        $edit_schedule=[];
+
+
+
+        $date= date("Y-m-d");
+        
+        $day=date("D");
+
+            $schedulerheader = schedulerheader::get();
+        $Todayschedule = Schedule::where("dayname", $day)->get();
+        // $rooms = ParameterMaster::where("Parameter","VenueList")->where('Validity',"Active")->get(); 
+        $rooms = ParameterMaster::where('Parameter',"Room")->where('ParaFilter1',$location)->get();
+
+        $newcollection=[];
+       
+            foreach($schedulerheader as $hader)
+            {   
+                foreach($Todayschedule as $child)
+                {
+                   if($day && $hader->LineNo == $child->LectureCode && $child->Venue !=  null )
+                    {              
+                            $newcollection[]=[
+                                            "lineNo"=>$hader->LineNo,
+                                            "Location"=>$child->location ,
+                                            "StartTime"=>$child->TimingFrom,
+                                            "EndTime"=>$child->TimingUpto,
+                                            "FacultyCode"=>$child->FacultyCode,
+                                            "SubjectCode"=>$child->SubjectCode,
+                                            "BatchCode"=>$child->BatchCode,
+                                            "CourceCode"=>$child->CourceCode,
+                                            "Room"=>$child->Venue
+                                        ];
+                    }
+                }
+            }
+          
+        
+                      
+        $collection =['datearray'=>[],"dayarray"=>[],"tableData"=>[]];
+
+                                         
+        $html = view('appendadminDash',compact('newcollection','rooms','totalFaculty','FacultyAbsenceAttendance','CurrentStudent','edit_schedule','collection'))->render();
+ 
+        return response()->json(array('success'=> true,'html'=>$html)); 
+    
     }
 }

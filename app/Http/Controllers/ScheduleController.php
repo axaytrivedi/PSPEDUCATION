@@ -63,13 +63,10 @@ class ScheduleController extends Controller
         
         $subject  = $request->subject;
         $faculty  = $request->faculty;
-<<<<<<< HEAD
+
         $Topic = $request->Topic;
         $MainLocation= $request->MainLocation;
-=======
-     
-  
->>>>>>> f0f3fe8dc611ca86a0fe3af9a2b986dca9fad970
+
         $keydate=0;
 
                

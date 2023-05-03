@@ -65,7 +65,7 @@
                                             <span class="d-flex justify-content-between align-items-center">
                                                 Password
                                                 @if (Route::has('password.request'))
-                                                <a class="text-secondary" href="">
+                                                <a class="text-secondary" href="{{ route('password.request') }}">
                                                     {{ __('Forgot Your Password?') }}
                                                 </a>
                                                 @endif

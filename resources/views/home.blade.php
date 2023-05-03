@@ -91,183 +91,152 @@
 
                     <div class="row g-3">
                         <div class="col-lg-12 col-md-12">
-                        @if(Auth::user()->Role ==2 )
-                             <table class="table table-hover align-middle mb-0 printThis" >
-                            <thead>
-                            <tr style="border-top:3px solid black;text-align: center;background: #dff0f5;" >
-                                <th>DATE</th>
+                                @if(Auth::user()->Role ==2 )
+                                    <table class="table table-hover align-middle mb-0 printThis" >
+                                    <thead>
+                                    <tr style="border-top:3px solid black;text-align: center;background: #dff0f5;" >
+                                        <th>DATE</th>
 
-                           
-                                @foreach($collection['datearray'] as $date)
-                                <th>{{$date}}</th>
-                                @endforeach
-                            </tr>
-                            <tr style="border-top:3px solid black;text-align: center;background: #dff0f5;" >
-                                <th>Day</th>
-                                @foreach($collection['dayarray'] as $DAY)
-                                <th>{{$DAY}}
-                                </th>
-                                @endforeach
-                            </tr>
-                            </thead>
-                            <tbody>
-                            <!-- Main Loop -->
-                       
-                            @for($i=1;$i<=6; $i++)
-                            <tr>
-                                <td><strong>TIME</strong></td>
-                                <?php $row=1; ?>
-                                @for($j=0;$j<=6; $j++)
-                                <td style="text-align:center" class="time" >
-                                    <div class="d-flex">
-                                        <div class="col-md-6">
-                                        @for($Mn=0;$Mn<=sizeof($collection['tableData']); $Mn++)
-                                            @if(!empty($collection['tableData'][$Mn]['TimingFrom']) &&  $collection['tableData'][$Mn]['location'] == $i."_".$row)
-                                            <b>{{$collection['tableData'][$Mn]['TimingFrom']}}</b>
+                                    <?php $date1=0; $day1=""; ?>
+                                        @foreach($collection['datearray'] as $k=>$date)
+                                            @if($k == 0)
+                                            <?php $date1 = $date; ?>
                                             @endif
-                                        @endfor
-                                        </div>
-                                        @for($Mn=0;$Mn<=41; $Mn++)
-                                        @if(!empty($collection['tableData'][$Mn]['TimingUpto']) &&  $collection['tableData'][$Mn]['location'] == $i."_".$row)
-                                        <p><b>To</b></p>
-                                        @endif
-                                        @endfor
-                                        <div class="col-md-6 " >
-                                        @for($Mn=0;$Mn<=41; $Mn++)
-                                        @if(!empty($collection['tableData'][$Mn]['TimingUpto']) &&  $collection['tableData'][$Mn]['location'] == $i."_".$row)
-                                        <b>{{$collection['tableData'][$Mn]['TimingUpto']}}</b> 
-                                        @endif
-                                        @endfor
-                                        </div>
-                                    </div>
-                                </td>
-                                <?php $row++; ?>
-                                @endfor
-                            </tr>
-                            <tr>
-                                <td><strong>SUB</strong></td>
-                                <?php $row1=1; $subjectarray=[]; ?>
-                                @for($j=0;$j<=6; $j++)
-                                <td style="text-align:center">
-                                    @for($Mn=0;$Mn<=sizeof($collection['tableData']); $Mn++)
-                                    @if(!empty($collection['tableData'][$Mn]['SubjectCode']) &&  $collection['tableData'][$Mn]['location'] == $i."_".$row1)
-                                    <b>{{$collection['tableData'][$Mn]['SubjectCode']}}</b>
-                                    @endif
-                                    @endfor
-                                </td>
-                                <?php $row1++; ?>
-                                @endfor
-                            </tr>
-                            <tr>
-                                <td><strong>COURSE / BATCH </strong></td>
-                                <?php $row2=1; ?>
-                                @for($j=0;$j<=6; $j++)
-                                <td style="text-align:center">
-                                    @for($Mn=0;$Mn<=sizeof($collection['tableData']); $Mn++)
-                                    @if(!empty($collection['tableData'][$Mn]['CourceCode']) &&  $collection['tableData'][$Mn]['location'] == $i."_".$row2)
-                                    <b>{{$collection['tableData'][$Mn]['CourceCode']}} / {{$collection['tableData'][$Mn]['BatchCode']}}</b>
-                                    @endif
-                                    @endfor
-                                </td>
-                                <?php $row2++; ?>
-                                @endfor
-                            </tr>
-                            <tr style="border-bottom:3px solid black">
-                                <td><strong>LOCATION</strong></td>
-                                <?php $row3=1;  ?>
-                                @for($j=0;$j<=6; $j++)
-                                <td style="text-align:center">
-                                    @for($Mn=0;$Mn<=sizeof($collection['tableData']); $Mn++)
-                                    @if(!empty($collection['tableData'][$Mn]['Venue']) &&  $collection['tableData'][$Mn]['location'] == $i."_".$row3)
-                                    <b>{{$collection['tableData'][$Mn]['Venue']}}</b>
-                                    @endif
-                                    @endfor
-                                    </select>
-                                </td>
-                                <?php $row3++; ?>
-                                @endfor
-                            </tr>
-                            @endfor                                                                     
-                            </tbody>
-                            <table>
-                        @endif
-                        </div>
-                        <div class="table-responsive">
-                            <table class="table table-hover align-middle mb-0" >
-                            <thead>
-                                    <hr>
-                                    <tr ><h4 style="text-align:center;font-weight: bold;">{{ date("Y-m-d")}}</h4></tr>
-                                    <hr>
-                                <tr>
-                                    <th></th>   
-                                    @if(!empty($rooms))
-                                        @foreach($rooms as $r)
-                                        <th> {{$r->ParaDescription}}</th>
                                         @endforeach
-                                    @endif
-                                </tr>
-                            </thead>
-                                <tbody>
+                                        <td><b>{{$date1}}</b></td> 
+                                        @for($i=1;$i<=6;$i++)
+                                        <td> <b>{{  date('d-M', strtotime($date1. ' + '.$i.' days'))}}</b></td> 
 
+                                        @endfor
+                                    </tr>
+                                    <tr style="border-top:3px solid black;text-align: center;background: #dff0f5;" >
+                                        <th>Day</th>
+                                        @foreach($collection['dayarray'] as $j=>$DAY)
+                                                @if($j == 0)
+                                                    <?php $day1 = $DAY; ?>
+                                                @endif
+                                    
+                                        @endforeach
 
-                                @for($i=0;$i<=6;$i++)
+                                        <td><b>{{$day1}}</b></td> 
+                                            @for($i=1;$i<=6;$i++)
+                                                <td><b> {{  date('D', strtotime($date1. ' + '.$i.' days'))}}</b></td> 
+                                            @endfor
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <!-- Main Loop -->
+                            
+                                    @for($i=1;$i<=6; $i++)
                                     <tr>
-                                         
-                                 
-                                                <td>
-                                                    <div>
-                                                    <strong>Time</strong> 
-                                                    <div>
-                                                
-                                                    <div><strong>Subject</strong></div>
-                                                    <div><strong>Course - Batch</div>
-                                                    <div><strong>Faculty Name</strong></div>
-                                                </td>
-                                               
-                                            @if(!empty($rooms))
-                                            <?php $row=1; ?>
-                                                @foreach($rooms as $r)
-                                                <?php  $inarray=[];?>
-                                                    <td>
-                                                    @foreach($newcollection as $key=>$data)
-                                                    
-                                                        @if(!in_array($data['FacultyCode'], $inarray)  && $data['Room'] == $r->ParaDescription)
-                                                        <div style>{{$data['StartTime']}} - {{$data['EndTime']}}</div>
-                                                       
-                                                        
-                                                        <div>{{$data['SubjectCode']}}</div>
-                                                        <div><B>{{$data['CourceCode']}} /  {{$data['BatchCode']}}</B></div>
-                                                        <div>{{ucfirst(FacultyName($data['FacultyCode']))}}</div>
-
-                                                       @endif
-                                                         <?php $inarray[]=$data['FacultyCode']; ?>
-                                                       
-                                                    @endforeach
-                                                    </td>
-                                              
-                                                  
-                                                @endforeach
-
-                                                <?php $row++; ?>
-                                    @endif
-                              
-                                        
-                                     
-                                      
-                                       
-                                         
-                                  
-                                @endfor
-                                </tr>
-                                </tbody>
-                            </table>
+                                        <td><strong>TIME</strong></td>
+                                        <?php $row=1; ?>
+                                        @for($j=0;$j<=6; $j++)
+                                        <td style="text-align:center" class="time" >
+                                            <div class="d-flex">
+                                                <div class="col-md-6">
+                                                @for($Mn=0;$Mn<=sizeof($collection['tableData']); $Mn++)
+                                                    @if(!empty($collection['tableData'][$Mn]['TimingFrom']) &&  $collection['tableData'][$Mn]['location'] == $i."_".$row)
+                                                    <b>{{$collection['tableData'][$Mn]['TimingFrom']}}</b>
+                                                    @endif
+                                                @endfor
+                                                </div>
+                                                @for($Mn=0;$Mn<=41; $Mn++)
+                                                @if(!empty($collection['tableData'][$Mn]['TimingUpto']) &&  $collection['tableData'][$Mn]['location'] == $i."_".$row)
+                                                <p><b>To</b></p>
+                                                @endif
+                                                @endfor
+                                                <div class="col-md-6 " >
+                                                @for($Mn=0;$Mn<=41; $Mn++)
+                                                @if(!empty($collection['tableData'][$Mn]['TimingUpto']) &&  $collection['tableData'][$Mn]['location'] == $i."_".$row)
+                                                <b>{{$collection['tableData'][$Mn]['TimingUpto']}}</b> 
+                                                @endif
+                                                @endfor
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <?php $row++; ?>
+                                        @endfor
+                                    </tr>
+                                    <tr>
+                                        <td><strong>SUB</strong></td>
+                                        <?php $row1=1; $subjectarray=[]; ?>
+                                        @for($j=0;$j<=6; $j++)
+                                        <td style="text-align:center">
+                                            @for($Mn=0;$Mn<=sizeof($collection['tableData']); $Mn++)
+                                            @if(!empty($collection['tableData'][$Mn]['SubjectCode']) &&  $collection['tableData'][$Mn]['location'] == $i."_".$row1)
+                                            <b>{{$collection['tableData'][$Mn]['SubjectCode']}}</b>
+                                            @endif
+                                            @endfor
+                                        </td>
+                                        <?php $row1++; ?>
+                                        @endfor
+                                    </tr>
+                                    <tr>
+                                        <td><strong>COURSE / BATCH </strong></td>
+                                        <?php $row2=1; ?>
+                                        @for($j=0;$j<=6; $j++)
+                                        <td style="text-align:center">
+                                            @for($Mn=0;$Mn<=sizeof($collection['tableData']); $Mn++)
+                                            @if(!empty($collection['tableData'][$Mn]['CourceCode']) &&  $collection['tableData'][$Mn]['location'] == $i."_".$row2)
+                                            <b>{{$collection['tableData'][$Mn]['CourceCode']}} / {{$collection['tableData'][$Mn]['BatchCode']}}</b>
+                                            @endif
+                                            @endfor
+                                        </td>
+                                        <?php $row2++; ?>
+                                        @endfor
+                                    </tr>
+                                    <tr style="border-bottom:3px solid black">
+                                        <td><strong>LOCATION</strong></td>
+                                        <?php $row3=1;  ?>
+                                        @for($j=0;$j<=6; $j++)
+                                        <td style="text-align:center">
+                                            @for($Mn=0;$Mn<=sizeof($collection['tableData']); $Mn++)
+                                            @if(!empty($collection['tableData'][$Mn]['Venue']) &&  $collection['tableData'][$Mn]['location'] == $i."_".$row3)
+                                            <b>{{$collection['tableData'][$Mn]['Venue']}}</b>
+                                            @endif
+                                            @endfor
+                                            </select>
+                                        </td>
+                                        <?php $row3++; ?>
+                                        @endfor
+                                    </tr>
+                                    @endfor                                                                     
+                                    </tbody>
+                                    <table>
+                                @endif
                         </div>
                     </div><!-- Row end  -->
-                </div>
+                    @if(Auth::user()->Role ==1 )
+                        <div class="row">
+                            <div class="col-md-3">
+                                <label for="CourseList" class="form-label">Select Location </label>
+                                <select class="form-select  MainLocation" name="MainLocation"  id="MainLocation" aria-label="Default select example">
+                                        <option selected="">--Select Location --</option>
+                                            @if(!empty($MainLocation) )
+                                                @foreach($MainLocation as $location)
+                                                    <option value="{{$location->ParaDescription}}"
+                                                        @if(isset($SchedulerHeader->MainLocation) && $SchedulerHeader->MainLocation == $location->ParaDescription)  selected @endif>{{$location->ParaDescription}}</option>
+                                                @endforeach
+                                            @endif         
+                                </select>
+                            </div>
+
+                            <div class="appendData">
+
+                                </div>
+                        </div>
+                    @endif
             </div>
 
             <script src="{{ URL::asset('assets/js/print.min.js') }}"></script>
 <script>
+    $("#MainLocation").on("change",function(){
+            
+              $.post("{{route('AppendAdminDash')}}",{id:$(this).val(),'_token':"{{csrf_token()}}"},function(suc){
+                    $(".appendData").html(suc.html);
+              });
+}); 
 $(".printmeClick").click(function(){
 
 
