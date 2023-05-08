@@ -26,14 +26,13 @@
                         <div class="col-lg-6 d-none d-lg-flex justify-content-center align-items-center rounded-lg auth-h100">
                             <div style="max-width: 25rem;">
                                 <div class="text-center mb-5">
-                                    <i class="bi bi-bag-check-fill  text-primary" style="font-size: 90px;"></i>
                                 </div>
                                 <div class="mb-5">
-                                    <h2 class="color-900 text-center">A few clicks is all it takes.</h2>
                                 </div>
                                 <!-- Image block -->
                                 <div class="">
-                                    <img src="../assets/images/login-img.svg" alt="login-img">
+                                <img src="{{URL::asset('PSP_image.png')}}" alt="login-img">
+
                                 </div>
                             </div>
                         </div>
@@ -61,11 +60,14 @@
                                     <div class=" mb-3">
                                       
                                       <h1>{{ __('Reset Password') }}</h1>
-                                  </div>
-                                        <div class="mb-2">
-
-                                    
-    
+                                    </div>
+                                    <div class="mb-5">
+                                        @if (session('status'))
+                                            <div class="alert alert-success" role="alert">
+                                                {{ session('status') }}
+                                            </div>
+                                        @endif
+                                    </div>
                                         <div class="mb-2">
                                             <label class="form-label">Email address</label>
                                             <input type="email" id="email"name="email" class="form-control @error('email') is-invalid @enderror form-control-lg" required autocomplete="email" autofocus  value="{{ $email ?? old('email') }}" placeholder="name@example.com">

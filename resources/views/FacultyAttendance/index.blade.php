@@ -128,8 +128,26 @@
                                     </div>
                                 </form>
                             </div>
-
+                            <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.5/additional-methods.min.js" integrity="sha512-6S5LYNn3ZJCIm0f9L6BCerqFlQ4f5MwNKq+EthDXabtaJvg3TuFLhpno9pcm+5Ynm6jdA9xfpQoMz2fcjVMk9g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script>
+
+$(document).ready(function() {
+    $('#facultyattform').validate({
+        rules: {
+            'InTime[]': {
+                required: true
+            },
+        },
+        messages: {
+            'InTime[]': {
+                required: "Please enter In Time "
+            },
+        
+        
+        },
+    
+    });
+});
     $(".outTime").on("change",function(){
       var target_id = $(this).data('id');
       var outTime = $(this).val();

@@ -82,8 +82,10 @@ class FacultyController extends Controller
             $img->move(public_path('Admin/Users'),$filename);
         }
 
+
+        
         $request->validate([
-            'email' => 'required|unique:faculty,email,deleted_at',
+            'email' => 'required|unique:faculty,email',
             
             'Title' => 'required',
 

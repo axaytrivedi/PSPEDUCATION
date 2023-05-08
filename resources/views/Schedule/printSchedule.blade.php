@@ -92,9 +92,9 @@
                                                     @endfor
                                                     <div >
                                                         @for($Mn=0;$Mn<=41; $Mn++)
-                                                        @if(!empty($collection['tableData'][$Mn]['TimingUpto']) &&  $collection['tableData'][$Mn]['location'] == $i."_".$row)
-                                                        <b>{{$collection['tableData'][$Mn]['TimingUpto']}}</b> 
-                                                        @endif
+                                                            @if(!empty($collection['tableData'][$Mn]['TimingUpto']) &&  $collection['tableData'][$Mn]['location'] == $i."_".$row)
+                                                            <b>{{$collection['tableData'][$Mn]['TimingUpto']}}</b> 
+                                                            @endif
                                                         @endfor
                                                     </div>
                                                 </div>
@@ -108,9 +108,9 @@
                                             @for($j=0;$j<=6; $j++)
                                             <td >
                                                 @for($Mn=0;$Mn<=41; $Mn++)
-                                                @if(!in_array($collection['tableData'][$Mn]['SubjectCode'],$subjectarray) && !empty($collection['tableData'][$Mn]['SubjectCode']) &&  $collection['tableData'][$Mn]['location'] == $i."_".$row1)
-                                                <b>{{$collection['tableData'][$Mn]['SubjectCode']}}</b>
-                                                @endif
+                                                    @if(!in_array($collection['tableData'][$Mn]['SubjectCode'],$subjectarray) && !empty($collection['tableData'][$Mn]['SubjectCode']) &&  $collection['tableData'][$Mn]['location'] == $i."_".$row1)
+                                                    <b>{{$collection['tableData'][$Mn]['SubjectCode']}}</b>
+                                                    @endif
                                                 @endfor
                                             </td>
                                             <?php $row1++; ?>
@@ -130,7 +130,7 @@
                                                 </td>
                                                 <?php $row4++; ?>
                                                 @endfor
-                                            </tr>s
+                                            </tr>
                                             <tr>
                                             <td style="text-align:left;"><strong>FACULTY</strong></td>
                                             <?php $row2=1; ?>

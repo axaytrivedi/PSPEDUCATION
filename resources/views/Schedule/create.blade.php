@@ -40,35 +40,39 @@
                                                       @if(!empty($SchedulerHeader->id)) @method('PATCH') @endif @csrf
                                                         <div class="row">
                                             
-                                                         <div class="col-md-3">
+                                                         <div class="col-md-3 form-group">
                                                             
 
-                                                                <label for="CourseList" class="form-label">Select Location </label>
+                                                                <label for="CourseList " class="form-label">Select Location </label>
                                                                 <select class="form-select  MainLocation" name="MainLocation"  id="MainLocation" aria-label="Default select example">
-                                                                    <option selected="">--Select Location --</option>
+                                                                    <option selected="" disabled>--Select Location --</option>
                                                                     @if(!empty($MainLocation) )
                                                                             @foreach($MainLocation as $location)
                                                                             <option value="{{$location->ParaDescription}}"
-                                                                                        @if(isset($SchedulerHeader->MainLocation) && $SchedulerHeader->MainLocation == $location->ParaDescription)  selected @endif>{{$location->ParaDescription}}</option>
+
+                                                                            {{ old('MainLocation', isset($SchedulerHeader->MainLocation) ? $SchedulerHeader->MainLocation : '')==$location->ParaDescription ? 'selected' : '' }}>{{$location->ParaDescription}}</option>
                                                                             @endforeach
                                                                         @endif         
                                                                 </select>
                                                             </div>
-                                                            <div class="col-md-3">
+                                                            <div class="col-md-3 form-group">
                                                             
                                                                 <label for="CourseList" class="form-label">Select Course </label>
+                                                                <input type="hidden" name="HiddenCourseData"  id="HiddenCourseData" value="{{old('HiddenCourseData')}}">
                                                                 <select class="form-select  CourseList" name="CourseList"  id="CourseList" aria-label="Default select example">
                                                                         @if(!empty($SchedulerHeader->CourceCode) )
-                                                                    <option value="{{$SchedulerHeader->CourceCode}}"selected >{{$SchedulerHeader->CourceCode}}</option>
+                                                                    <option value="{{$SchedulerHeader->CourceCode}}" selected >{{$SchedulerHeader->CourceCode}}</option>
                                                                         @else
-                                                                        <option selected="">--Course List--</option>
+                                                                        <option selected="" disabled>--Course List--</option>
 
                                                                         @endif            
                                                                 </select>
                                                             </div>
-                                                            <div class="col-md-3">
+                                                            <div class="col-md-3 form-group">
                                                             
                                                                 <label for="CourseList" class="form-label">Select Batch </label>
+                                                                <input type="hidden" name="HiddenBatchList"  id="HiddenBatchList" value="{{old('HiddenBatchList')}}">
+
                                                                 <select class="form-select BatchList" name="BatchList" id="BatchList"aria-label="Default select example">
                                                                         <option disabled selected="">--Batch List--</option>
                                                                          @if(!empty($BatchList) && isset($SchedulerHeader->BatchCode))
@@ -338,18 +342,19 @@
                                                                                             $date1 = date('d-M', strtotime($date1. ' +6 days'));
                                                                                           
                                                                                         }
-                                                                                        elseif($day1 =="Thu")
-                                                                                        {
-
-                                                                                            $date1 = date('d-M',strtotime($day1. ' +4 days'));
-                                                                                            $day1 = date('D',strtotime($day1. ' +4 days'));  
-                                                                                        }  
+                  
                                                                                         elseif($day1 =="Wed")
                                                                                           {
                                                                                             $date1 = date('d-M',strtotime($day1. ' +5 days'));
                                                                                             $day1 = date('D',strtotime($day1. ' +5 days'));  
 
                                                                                         }
+                                                                                        elseif($day1 =="Thu")
+                                                                                        {
+
+                                                                                            $date1 = date('d-M',strtotime($day1. ' +4 days'));
+                                                                                            $day1 = date('D',strtotime($day1. ' +4 days'));  
+                                                                                        } 
                                                                                         elseif($day1 =="Fri")
                                                                                         {
                                                                                             $date1 = date('d-M',strtotime($day1. ' +3 days'));
@@ -360,10 +365,20 @@
                                                                                             $date1 = date('d-M',strtotime($day1. ' +2 days'));
                                                                                             $day1 = date('D',strtotime($day1. ' +2 days')); 
                                                                                         }
+                                                                                        elseif($day1 =="Sun")
+                                                                                        {
+                                                                                            $date1 = date('d-M',strtotime($day1. ' +1 days'));
+                                                                                            $day1 = date('D',strtotime($day1. ' +1 days')); 
+                                                                                        }
                                                                                         elseif($day1 =="Mon")
                                                                                         {
                                                                                             $day1 = date('D', strtotime($day1. ' + 0 days'));
                                                                                             $date1 = date('d-M', strtotime($date1. ' +0 days'));
+                                                                                        }
+                                                                                        else
+                                                                                        {
+                                                                                            $day1 = date('D', strtotime($day1. ' + 0 days'));
+                                                                                            $date1 = date('d-M', strtotime($date1. ' +0 days'));  
                                                                                         }
                      
 
@@ -522,18 +537,48 @@
  });
  
 $("#MainLocation").on("change",function(){
-              $.post("{{route('GetLocationWieseCourse')}}",{id:$(this).val(),'_token':"{{csrf_token()}}"},function(suc){
+    // var id =$(this).val();
+    $("#HiddenCourseData").val(" ");
+    
+    $("#HiddenBatchList").val(" ");
+    
+
+
+    MainLocation(); 
+}); 
+MainLocation();
+function MainLocation()
+{
+
+
+    
+    var id =$("#MainLocation").val();
+         
+        $.post("{{route('GetLocationWieseCourse')}}",{id:id,'_token':"{{csrf_token()}}"},function(suc){
                 var row=" ";
                 var row1=" ";
                 var row3=" ";
-                console.log(suc.CommingRoom);
+          
                 if(isNaN(suc.data))
-                {        row="<option selected disabled> Location </option>";
+                {       
+                    
+                    
+                    var HiddenCourseData =  $("#HiddenCourseData").val();
+                    row="<option selected disabled> Course </option>";
+                   var checkcourse="";
                     $.each(suc.data,function(i,v){
-                    row+="<option value='"+v.ParaDescription+"'>"+v.ParaDescription+"</option>";
-                  
-                    row1="<option selected disabled> Select Batch </option>";
+                        if(isNaN(HiddenCourseData))
+                        {
+                            checkcourse="selected";
+                        }
+                        else{
+                            checkcourse='';
+                        }
+                        row+="<option  "+checkcourse+" value='"+v.ParaDescription+"'>"+v.ParaDescription+"</option>";
+                    
+                        
                     });
+                    row1="<option selected disabled> Select Batch </option>";
                 }
                 else
                 {
@@ -555,29 +600,57 @@ $("#MainLocation").on("change",function(){
                     row3="<option selected> No  Rooms  Found For this Location </option>";
 
                 }
-                console.log(suc.CommingRoom,row3);
+                // console.log(suc.CommingRoom,row3);
                 $(".CourseList").html(row);
                 $(".RoomNo").html(row3);
                 $("#BatchList").html(row1);
-              });
-}); 
- 
+        });
+}
+
 $(".CourseList").on("change",function(){
  
+    $("#HiddenCourseData").val($(this).val());
+    GetCourse();
+    
+ });
+    $(".BatchList").on("change",function(){
+    
+        $("#HiddenBatchList").val($(this).val());
+    });
 
-   var value = $(this).val();
+ 
+GetCourse();
+ function GetCourse()
+ {
+    var value = $(".CourseList").val();
      var row='';
      var  row1='';
+     var  row23='';
+     
+
+     if(isNaN(value) ==false )
+    {
+        value = $("#HiddenCourseData").val();
+    }
      row='<option selected disabled>-- Select Batch --</option>';
      $("#BatchList").html(row);
-        
+
+     
+
      $.post("{{route('getCourseWiseBatch')}}",{"value":value,_token:"{{csrf_token()}}"},function(success){
+            
          if(isNaN(success.CourseList))
          {
-            
-           
-             $.each(success.CourseList,function(i,v){
-                 row+='<option value="'+v.ParaDescription+'">'+v.ParaDescription+'</option>';
+                var HiddenBatchList=  $("#HiddenBatchList").val();
+               
+                var batchSelect="";
+            $.each(success.CourseList,function(i,v){
+                    if(isNaN(HiddenBatchList))
+                    {
+                        batchSelect="Selected";
+                    }
+                    else{batchSelect="";}
+                 row+='<option '+batchSelect+'  value="'+v.ParaDescription+'">'+v.ParaDescription+'</option>';
              });
          }
          else
@@ -591,6 +664,8 @@ $(".CourseList").on("change",function(){
              row23='<option selected disabled>-- Select Subject --</option>';
              $.each(success.subject,function(i,v){
           
+                  
+    
                 row23+='<option value="'+v.ParaDescription+'">'+v.ParaDescription+'</option>';
              });
          }
@@ -599,19 +674,19 @@ $(".CourseList").on("change",function(){
             row23+='<option selected disabled>--No Subject Found --</option>';
          }
  
-        
-        
+      
+         
          $("#BatchList").html(row);
          $(".subject").html(row23);
      });
- });
+ }
 $(document).on('change', '.subject', function() {
  
    
      var CourseCode =  $(".CourseList").val();
      var value = $(this).val();
      var data= $(this).data("id");
-     alert(data);
+
      var row2='';
      $.post("{{route('getSubjectWiseFacultyinShedule')}}",{"value":value,"CourseCode":CourseCode,_token:"{{csrf_token()}}"},function(success){
         if(isNaN(success.facultysubject))
@@ -631,102 +706,7 @@ $(document).on('change', '.subject', function() {
     });
 
    
-   
  });
- $('#schedule').validate({
-     rules: {
-         LectureCode: {
-             required: true
-         },
-         CourceCode: {
-             required: true
-         },
-         BatchCode: {
-             required: true
-         },
-         DateOfWeek: {
-             required: true
-         },
-         session: {
-             required: true
-         },
-         TimingFrom: {
-             required: true
-         },
-         TimingUpto: {
-             required: true
-         },
-         EffUpto: {
-             required: true
-         },
-         SubjectCode: {
-             required: true
-         },
-         FacultyCode: {
-             required: true
-         },
-         Venue: {
-             required: true
-         },
-         EffFrom: {
-             required: true
-         },
-         EffUpto: {
-             required: true
-         },
-     },
-     messages: {
-         LectureCode: {
-             required: "Please enter LectureCode "
-         },
-         CourceCode: {
-             required: "Please enter CourceCode "
-         },
-         BatchCode: {
-             required: "Please enter BatchCode "
-         },
-         DateOfWeek: {
-             required: "Please enter DateOfWeek "
-         },
-         session: {
-             required: "Please enter EffUpto "
-         },
-         TimingFrom: {
-             required: "Please enter TimingFrom "
-         },
-         TimingUpto: {
-             required: "Please enter TimingFrom "
-         },
-         EffUpto: {
-             required: "Please enter EffUpto "
-         },
-         SubjectCode: {
-             required: "Please enter SubjectCode "
-         },
-         FacultyCode: {
-             required: "Please enter FacultyCode "
-         },
-         Venue: {
-             required: "Please enter Venue "
-         },
-         EffFromFrom: {
-             required: "Please enter EffFrom "
-         },
-         EffUpto: {
-             required: "Please enter EffUpto "
-         },
-     },
-     errorElement: 'span',
-     errorPlacement: function(error, element) {
-         error.addClass('invalid-feedback');
-         element.closest('.form-group').append(error);
-     },
-     highlight: function(element, errorClass, validClass) {
-         $(element).addClass('is-invalid');
-     },
-     unhighlight: function(element, errorClass, validClass) {
-         $(element).removeClass('is-invalid');
-     }
- });
+
  </script>
  @endsection

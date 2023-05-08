@@ -221,6 +221,8 @@
 
         $('.allowCharcterOnly').bind('keyup blur',function(){ var node = $(this); node.val(node.val().replace(/[^a-zA-Z ]/g,'') ); } );
         $("#update").fadeOut(8000);
+        $("#errors_all_page").fadeOut(8000);
+        
     </script>
 </body>
 

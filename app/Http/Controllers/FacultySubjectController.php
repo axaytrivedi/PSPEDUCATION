@@ -104,7 +104,7 @@ class FacultySubjectController extends Controller
 
         $facultys = Faculty::where('Status','OnRoll')->get();
         $Coursedata = ParameterMaster::where('Parameter','CourseList')->get(); 
-        dd($edit_facultysub->SubjectCode);
+        // dd($edit_facultysub->SubjectCode);
          $SubjectCode = ParameterMaster::whereIn('ParaDescription',explode(",",$edit_facultysub->SubjectCode))->get(['ParaID','ParaDescription']); 
          $Location = ParameterMaster::where('Parameter',"Location")->get(['ParaID','ParaDescription']);
 

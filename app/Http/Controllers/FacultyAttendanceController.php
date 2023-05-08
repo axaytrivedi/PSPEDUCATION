@@ -27,7 +27,7 @@ class FacultyAttendanceController extends Controller
      */
     public function create()
     {
-        $facultyatt = FacultyAttendance::latest();
+          $facultyatt = FacultyAttendance::latest();
         return view('FacultyAttendance.create',compact('facultyatt'));
     }
 
@@ -39,6 +39,12 @@ class FacultyAttendanceController extends Controller
      */
     public function store(Request $request)
     {
+
+
+        $request->validate([
+            'InTime.*' => 'required',
+            'AttendanceStatus.*' => 'required',
+        ]);
         $attendance_id= $request->attendance_id;
 
 
@@ -50,19 +56,6 @@ class FacultyAttendanceController extends Controller
         $AttendanceStatus = $request->AttendanceStatus;
 
      
-        // for ($i=0; $i < sizeof($checkId); $i++) { 
-
-
-           
-        //     dd(sizeof($checkId));
-        //         $create = FacultyAttendance::create([
-        //         'FacultyCode' => $FacultyCode[$i],
-        //         'CalanderDate' => $CalanderDate,
-        //         'InTime' => $InTime[$i],
-        //         'OutTime' => $OutTime[$i],
-        //         'AttendanceStatus' => $AttendanceStatus[$i]
-        //     ]);
-        // }
 
             
 

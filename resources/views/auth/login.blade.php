@@ -26,14 +26,14 @@
                         <div class="col-lg-6 d-none d-lg-flex justify-content-center align-items-center rounded-lg auth-h100">
                             <div style="max-width: 25rem;">
                                 <div class="text-center mb-5">
-                                    <i class="bi bi-bag-check-fill  text-primary" style="font-size: 90px;"></i>
+                              
                                 </div>
                                 <div class="mb-5">
-                                    <h2 class="color-900 text-center">A few clicks is all it takes.</h2>
+
                                 </div>
                                 <!-- Image block -->
                                 <div class="">
-                                    <img src="{{URL::asset('/assets/images/login-img.svg')}}" alt="login-img">
+                                    <img src="{{URL::asset('PSP_image.png')}}" alt="login-img">
                                 </div>
                             </div>
                         </div>

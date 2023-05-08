@@ -1,8 +1,9 @@
 <div class="table-responsive">
-                            <table class="table table-hover align-middle mb-0" >
+    @if(count($rooms)!=0)
+        <table class="table table-hover align-middle mb-0" >
                             <thead>
                                     <hr>
-                                    <tr ><h4 style="text-align:center;font-weight: bold;">{{ date("Y-m-d")}}</h4></tr>
+                                    <tr ><h4 style="text-align:center;font-weight: bold;">{{ date("d-m-Y")}}</h4></tr>
                                     <hr>
                                 <tr>
                                     <th></th>   
@@ -71,5 +72,10 @@
                                 @endfor
                                 </tr>
                                 </tbody>
+        </table>
+    @else
+    <table class="table table-hover align-middle mb-0" >
+        <tr><th><h4 style="text-align:center"> Room not Found for this Location</h4></th></tr>
     </table>
+    @endif
 </div>

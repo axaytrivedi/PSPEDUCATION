@@ -50,7 +50,15 @@ class ScheduleController extends Controller
     {  
 
 
-  
+        $request->validate([
+            'CourseList' => 'required',
+            'BatchList' => 'required',
+            //'HeaderDate.*' => 'required|array',
+            //"HeaderDay.*"=>'required|array',
+            // "dayend.*"=>'required|array',
+        ]);
+
+   
         $storeLocation =  $request->storeLocation;
         $location = $request->location;
    
@@ -65,8 +73,9 @@ class ScheduleController extends Controller
         $faculty  = $request->faculty;
 
         $Topic = $request->Topic;
-        $MainLocation= $request->MainLocation;
 
+      
+        $MainLocation= $request->MainLocation;
         $keydate=0;
 
                

@@ -23,8 +23,8 @@
                                     @if(!empty($edit_facultys->id)) @method('PATCH') @endif @csrf
                                         <div class="row g-3 align-items-center">
                                         <div class="card-header">
-                                            <h3 class="card-title">{{isset($edit_facultys)?'Edit':"Add"}} Item</h3>
-                                            <a href="{{route('faculty.index')}}" class=" btn  my_btn  ml-auto"> Back</a>
+                                            <!-- <h3 class="card-title">{{isset($edit_facultys)?'Edit':"Add"}} Item</h3>
+                                            <a href="{{route('faculty.index')}}" class=" btn  my_btn  ml-auto"> Back</a> -->
                                         </div>
                                             <div class="col-md-6 form-group ">
                                                 <label for="FacultyCode" class=" form-label">FacultyCode</label>
@@ -188,7 +188,7 @@
 
     $("#DOB" ).datepicker({
 
-        minDate: new Date(),
+        // minDate: new Date(),
     });
     
 $('#facultyform').validate({
