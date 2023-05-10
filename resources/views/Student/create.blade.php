@@ -16,7 +16,7 @@
                                     </ul>
                                 </div>
                                 @endif
-                                <form id="studentform" method="post"
+                                <form id="studentfrm" method="post"
                                     action=" @if(!empty($edit_students->id)!=0)  {{route('student.update',$edit_students->id)}}   @else {{route('student.store')}}@endif"
                                     enctype="multipart/form-data">
 
@@ -238,7 +238,6 @@
                                 </div>
                             </div>
 <script>
-<<<<<<< HEAD
             $("#Location").on("change",function(){
               $.post("{{route('GetLocationWieseCourse')}}",{id:$(this).val(),'_token':"{{csrf_token()}}"},function(suc){
                 var row=" ";
@@ -284,8 +283,6 @@
              
               });
             }); 
-=======
->>>>>>> f0f3fe8dc611ca86a0fe3af9a2b986dca9fad970
 $("#CourceCode").select2({ placeholder: "Select a Cource Code ",allowClear: true});
 $("#BatchCode").select2({ placeholder: "Select a Batch Code ",allowClear: true});
 $("#classinfo").select({ placeholder: "Select an Option ",allowClear: true});
@@ -295,7 +292,7 @@ $("#Title").select({ placeholder: "Select Title ",allowClear: true});
 $("#Gender").select({ placeholder: "Select Gender ",allowClear: true});
 
 
-$('#studentform').validate({
+$('#studentfrm').validate({
     rules: {
         // StudentCode: {
         //     required: true

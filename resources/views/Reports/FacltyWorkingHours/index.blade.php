@@ -267,7 +267,7 @@
 <script src="{{ URL::asset('assets/js/html2canvas.min.js') }}"></script>
 <script type="text/javascript">
     $('#PDF').click(function () {
-        html2canvas($('#StudentListReport')[0], {
+        html2canvas($('#StudentListReport')[0], {          
             onrendered: function (canvas) {
                 var data = canvas.toDataURL();
                 var docDefinition = {
@@ -280,6 +280,7 @@
             }
         });
     });
+ 
 </script>
 
 <!-- PrintTableData -->
