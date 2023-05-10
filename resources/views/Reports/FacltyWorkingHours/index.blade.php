@@ -17,13 +17,13 @@
                     <div class="col-md-4">
                         <div class="form-group">
                             <label><strong>From Date :</strong><span class="text-danger pl-1">*</span></label>
-                            <input type="date" class="form-control" name="from_date" id="from_date">
+                            <input type="date" class="form-control" name="from_date" id="from_date" value="{{date('Y-m-01')}}" >
                         </div>
                     </div>
                     <div class="col-md-4">
                         <div class="form-group">
                             <label><strong>To Date :</strong><span class="text-danger pl-1">*</span></label>
-                            <input type="date" class="form-control" name="to_date" id="to_date">
+                            <input type="date" class="form-control" name="to_date" id="to_date" value="{{date('Y-m-t')}}">
                         </div>
                     </div>
                     <div class="col-md-4">

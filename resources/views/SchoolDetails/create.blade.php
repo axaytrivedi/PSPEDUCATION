@@ -176,6 +176,24 @@ $(document).ready(function () {
             Email: {
                 required: true
             },
+            Phone1: {
+                required: true,
+            minlength: 10,
+            maxlength: 10,
+            number:true
+        },
+        Phone2: {
+            required: true,
+            minlength: 10,
+            maxlength: 10,
+            number:true
+        },
+        WhatsAppNo: {
+            required: true,
+            minlength: 10,
+            maxlength: 10,
+            number:true
+        },
            
         },
         messages: {
@@ -210,6 +228,24 @@ $(document).ready(function () {
             Email: {
                 required: "Please enter Email "
             },
+            Phone1: {
+            required: "Please enter mobile no. ",
+            minlength: "Please altist 10 digits. ",
+            maxlength: "More than 10 digits ",
+            number: "Enter valid Number"
+        },
+        Phone2: {
+            required: "Please enter mobile no. ",
+            minlength: "Please altist 10 digits. ",
+            maxlength: "More than 10 digits ",
+            number: "Enter valid Number"
+        },
+        WhatsAppNo: {
+            required: "Please enter mobile no. ",
+            minlength: "Please altist 10 digits. ",
+            maxlength: "More than 10 digits ",
+            number: "Enter valid Number"
+        },
            
         },
         errorElement: 'span',

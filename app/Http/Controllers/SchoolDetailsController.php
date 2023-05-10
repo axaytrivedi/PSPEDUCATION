@@ -50,9 +50,9 @@ class SchoolDetailsController extends Controller
             'Pin' => 'required',
             'ContactPerson' => 'required',
             'Email' => 'required',
-            'Phone1' => 'required|regex:/^([+]\d{2})? \d{10}$/',
-            'Phone2' => 'required|regex:/^([+]\d{2})? \d{10}$/',
-            'WhatsAppNo' => 'required|regex:/^([+]\d{2})? \d{10}$/',
+            'Phone1' => 'required',
+            'Phone2' => 'required',
+            'WhatsAppNo' => 'required',
             'WebsiteLink' =>'required',
             ]);
         $create = SchoolDetails::create([

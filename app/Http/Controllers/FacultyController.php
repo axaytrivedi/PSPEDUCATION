@@ -86,9 +86,10 @@ class FacultyController extends Controller
         
         $request->validate([
             'email' => 'required|unique:faculty,email',
-            
+            'Gender' => 'required',
+            'firstName' => 'required',
             'Title' => 'required',
-
+            'Gender' => 'required',
             'DOB' => 'required',
             'DateOfJoining' => 'required',
             'Gender' => 'required',
@@ -128,7 +129,8 @@ class FacultyController extends Controller
             
         
                 try{
-                    $User= User::create([  'firstName' => $request->firstName,
+                    $User= User::create([  
+                                        'firstName' => $request->firstName,
                                         'lastName' => $request->lastName,
                                         'Role'=>$create->Role,
                                         'email'=>$request->email,

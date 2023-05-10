@@ -23,8 +23,8 @@
                                     @if(!empty($edit_facultys->id)) @method('PATCH') @endif @csrf
                                         <div class="row g-3 align-items-center">
                                         <div class="card-header">
-                                            <!-- <h3 class="card-title">{{isset($edit_facultys)?'Edit':"Add"}} Item</h3>
-                                            <a href="{{route('faculty.index')}}" class=" btn  my_btn  ml-auto"> Back</a> -->
+                                        <!-- <h3 class="card-title">{{isset($edit_facultys)?'Edit':"Add"}} Item</h3>
+                                    	<a href="{{route('faculty.index')}}" class=" btn my_btn ml-auto"> Back</a> -->
                                         </div>
                                             <div class="col-md-6 form-group ">
                                                 <label for="FacultyCode" class=" form-label">FacultyCode</label>
@@ -42,13 +42,13 @@
                                                 </select>
                                             </div>
                                             <div class="col-md-6 form-group">
-                                                <label  class="form-label">First Name</label>
+                                                <label  class="form-label ">First Name</label>
                                                 <input type="text" class="form-control allowCharcterOnly" id="firstName" 
                                                 name="firstName" value="{{ old('firstName', isset($edit_facultys->firstName) ?  $edit_facultys->firstName  : '' ) }}">
 
                                             </div>
                                             <div class="col-md-6 form-group">
-                                                <label  class="form-label">Last Name</label>
+                                                <label  class="form-label ">Last Name</label>
                                                 <input type="text" class="form-control allowCharcterOnly" id="lastName" 
                                                 name="lastName" value="{{ old('lastName', isset($edit_facultys->lastName) ?  $edit_facultys->lastName  : '' ) }}">
 
@@ -183,24 +183,45 @@
 <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.5/dist/additional-methods.js">></script>
 
 <script>
-
-    var minDate= new Date();
-
-    $("#DOB" ).datepicker({
-
-        // minDate: new Date(),
-    });
-    
+var minDate= new Date();
+$("#DOB" ).datepicker({
+	// minDate: new Date(),
+	});
 $('#facultyform').validate({
     rules: {
         // FacultyCode: {
         //     required: true
         // },
+        AddressLine1: {
+            required: true
+        },
+        AddressLine2: {
+            required: true
+        },
+        AddressLine3: {
+            required: true
+        },
+
+        MobileNo: {
+            required: true,
+            minlength: 10,
+                maxlength: 10,
+                number:true
+        },
+        Role: {
+            required: true
+        },
+        firstName: {
+            required: true,
+        },
+        lastName: {
+            required: true,
+        },
         Title: {
             required: true
         },
         FacultyName: {
-            required: true
+            required: true,
         },
         DOB: {
             required: true
@@ -228,54 +249,47 @@ $('#facultyform').validate({
         },
         retypePassword: {
             equalTo: "#password"
-        },
-        MobileNo: {
-            required: true,
-            minlength: 10,
-            maxlength: 10,
-            number:true
-        },
+        }
     },
     messages: {
-        // FacultyCode: {
-        //     required: "Please enter FacultyCode "
-        // },
-        Title: {
-            required: "Please enter Title "
+//     firstName: {
+// required: "Please enter First Name"
+// 	}
+	Title: {
+	required: "Please enter Title "
+	},
+	FacultyName: {
+	required: "Please enter Faculty Name "
+	},	
+	DOB: {
+	required: "Please enter DOB "
+	},
+	DateOfJoining: {
+	required: "Please enter Date Of Joining "
+	},
+	Gender: {
+	required: "Please enter Gender "
+	},
+	Qualification: {
+	required: "Please enter Qualification "
+	},
+	WorkingStartTime: {
+	required: "Please enter Working Start Time "
+	},
+	WorkingEndTime: {
+	required: "Please enter Working End Time "
+	},
+	Status: {
+	required: "Please enter Status "
+	},
+	retypePassword:{
+	equalTo: "Password and Re Enter Password Not Same"
         },
-        FacultyName: {
-            required: "Please enter FacultyName "
-        },
-
-        DOB: {
-            required: "Please enter DOB "
-        },
-        DateOfJoining: {
-            required: "Please enter DateOfJoining "
-        },
-        Gender: {
-            required: "Please enter Gender "
-        },
-        Qualification: {
-            required: "Please enter Qualification "
-        },
-        WorkingStartTime: {
-            required: "Please enter WorkingStartTime "
-        },
-        WorkingEndTime: {
-            required: "Please enter WorkingEndTime "
-        },
-       Status: {
-            required: "Please enter Status "
-        },
-        retypePassword:{
-            equalTo: "Password and Re Enter Password Not Same"
-        },
-        MobileNo: {
-            required: "Please enter mobile no. ",
-            minlength: "Please altist 10 digits. ",
-            maxlength: "More than 10 digits ",
-            number: "Enter valid Number"
+    MobileNo: {
+    required: "Please enter mobile no. ",
+                minlength: "Please altist 10 digits. ",
+                maxlength: "More than 10 digits ",
+                number: "Enter valid Number"
         },
         
     },

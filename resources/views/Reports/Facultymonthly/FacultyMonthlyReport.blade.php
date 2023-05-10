@@ -10,23 +10,17 @@
                 <div class="row">
                     <div class="col-md-3">
                         <div class="form-group">
-                            <label><strong>From Date :</strong><span class="text-danger pl-1">*</span></label>
-                            <input type="text" class="form-control" placeholder="MM/DD/YYYY" name="from_date" id="from_date" value="{{Date('d-m-Y')}}">
-                        </div>
+                        <label><strong>From Date :</strong><span class="text-danger pl-1">*</span></label> 
+                            <input type="date" class="form-control" placeholder="MM/DD/YYYY" name="from_date" id="from_date" value="{{date('Y-m-01')}}">                        </div>
                     </div>
                     <div class="col-md-3">
                         <div class="form-group">
                             <label><strong>To Date :</strong><span class="text-danger pl-1">*</span></label>
                             <?php
                                 $date = new DateTime();
-
-                               
                                 $date->modify("last day of this month");
-
-                                
-               
                             ?>
-                            <input type="text" class="form-control" placeholder="MM/DD/YYYY" name="to_date" id="to_date" value="{{$date->format('d-m-Y')}}">
+                            <input type="date" class="form-control" placeholder="MM/DD/YYYY" name="to_date" id="to_date" value="{{date('Y-m-t')}}">
                         </div>
                     </div>
                     <div class="col-md-3">
@@ -65,6 +59,10 @@
         <div class="table-responsive" id="printThis">
             <div class="date_txt" id="reportDate" style="display: none;">
                 <p>
+                <?php
+                    $start_date=date_create("01-05-2023");
+                    echo date_format($date,"d/m/Y");
+                    ?>
                     <b>From Date : </b>
                     <span id="start_date"></span>
                 </p>
@@ -117,12 +115,12 @@
     $(document).ready(function() {
 
 
-        $( "#to_date" ).datepicker({
-            dateFormat: 'dd-m-yy'
-        });
-        $( "#from_date" ).datepicker({
-            dateFormat: 'dd-m-yy'
-        });
+        // $( "#to_date" ).datepicker({
+        //     dateFormat: 'dd-m-yy'
+        // });
+        // $( "#from_date" ).datepicker({
+        //     dateFormat: 'dd-m-yy'
+        // });
 
         $.ajaxSetup({
             headers: {
@@ -359,7 +357,7 @@
 <script src="{{ URL::asset('assets/js/html2canvas.min.js') }}"></script>
 <script type="text/javascript">
     $('#PDF').click(function () {
-        html2canvas($('#StudentListReport')["GetData"], {
+        html2canvas($('#StudentListReport')[0], {
             onrendered: function (canvas) {
                 var data = canvas.toDataURL();
                 var docDefinition = {

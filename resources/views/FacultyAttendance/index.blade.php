@@ -58,16 +58,16 @@
                                     </ul>
                                 </div>
                                 @endif
-                                <form id="facultyattForm" method="post" action="{{route('facultyAttendance.store')}}" enctype="multipart/form-data">
+                                <form id="aattf" method="post" action="{{route('facultyAttendance.store')}}" enctype="multipart/form-data">
                                     @csrf
                                     <div class="row mb-3 ms-1">
-                                        <div class="col-md-3">
+                                        <div class="col-md-3 form-group">
                                             <label for="lastname" class="form-label">CalanderDate</label>
                                             <input type="date" class="form-control" id="CalanderDate"  name="CalanderDate" value="">
                                         </div>
                                     </div>
                                     <div class="row g-3 mb-3">
-                                        <div class="col-md-12">
+                                        <div class="col-md-12 form-group">
                                             <div class="card">
                                                 <div class="card-body">
                                                     
@@ -89,9 +89,9 @@
                                                              @if(isset(FacultyAttendanceget($values->FacultyCode,date('Y-m-d'))->Att_id))  value="{{FacultyAttendanceget($values->FacultyCode,date('Y-m-d'))->Att_id}}" @endif>
                                                                 <!-- <td><input type="checkbox" class="checkbox getCheckBox{{$k}}" data-id="{{$values->id}}" name="checks[{{$k}}][]"></td> -->
                                                                 <td>{{ $loop->iteration }}</td>
-                                                                <td><strong><input type="hidden" class="form-control" id="FacultyCode" name="FacultyCode[]" value="{{ $values->FacultyCode }}">{{ $values->FacultyCode }} - {{ $values->firstName }}</strong></td>
+                                                                <td><strong><input type="hidden" class="form-control form-group" id="FacultyCode" name="FacultyCode[]" value="{{ $values->FacultyCode }}">{{ $values->FacultyCode }} - {{ $values->firstName }}</strong></td>
                                                                 <td>
-                                                                    <select class="form-select" aria-label="Default select example" id="AttendanceStatus" name="AttendanceStatus[]">
+                                                                    <select class="form-select form-control" aria-label="Default select example" id="AttendanceStatus" name="AttendanceStatus[]">
                                                                         <option selected value="">--Attandance Status--</option>
                                                                         <option value="Half Day" 
                                                                         {{ old('AttendanceStatus', isset($values)  && isset(FacultyAttendanceget($values->FacultyCode,date('Y-m-d'))->AttendanceStatus) ?  FacultyAttendanceget($values->FacultyCode,date('Y-m-d'))->AttendanceStatus  : '')=='Half Day' ? 'selected' : '' }} 
@@ -101,21 +101,23 @@
                                                                         >Full Day</option>
                                                                         <option value="Absence"
                                                                         
-                                                                        {{ old('AttendanceStatus', isset($values)  && isset(FacultyAttendanceget($values->FacultyCode,date('Y-m-d'))->AttendanceStatus) ?  FacultyAttendanceget($values->FacultyCode,date('Y-m-d'))->AttendanceStatus  : '')=='Absence' ? 'selected' : '' }} 
+                                                                        {{ old('AttendanceStatus', isset($values)  && isset(FacultyAttendanceget($values->FacultyCode,date('Y-m-d'))->AttendanceStatus) ?  FacultyAttendanceget($values->FacultyCode,date('Y-m-d'))->AttendanceStatus  : '')=='Absence' ? 'selected' : '' }}
                                                                         >Absence</option>
 
                                                                     </select>
                                                                 </td>
-                                                                <td><input type="time" class="form-control inTime" id="InTime{{$k}}" data-id="{{$k}}" name="InTime[]" @if(isset(FacultyAttendanceget($values->FacultyCode,date('Y-m-d'))->InTime))  value="{{FacultyAttendanceget($values->FacultyCode,date('Y-m-d'))->InTime}}" @else value="" @endif> 
-                                                                <customePUTDATA1 id="customePUTDATAs{{$k}}"> </customePUTDATA1></td>
+                                                                <div class="time" id="time">
+                                                                <td><div class="form-group"><input type="time" class="form-control inTime " id="InTime{{$k}}" data-id="{{$k}}" name="InTime[]" @if(isset(FacultyAttendanceget($values->FacultyCode,date('Y-m-d'))->InTime))  value="{{FacultyAttendanceget($values->FacultyCode,date('Y-m-d'))->InTime}}" @else value="" @endif> 
+                                                                <customePUTDATA1 id="customePUTDATAs{{$k}}"> </customePUTDATA1>
+                                                                    </div></td>
                                                                 <td>
                                                                     <input type="time" class="form-control outTime" id="OutTime{{$k}}"   data-id="{{$k}}" name="OutTime[]" value="@if(isset(FacultyAttendanceget($values->FacultyCode,date('Y-m-d'))->OutTime)){{FacultyAttendanceget($values->FacultyCode,date('Y-m-d'))->OutTime}}@endif">
                                                                     <customePUTDATA id="customePUTDATA{{$k}}"> </customePUTDATA>
                                                                 </td>
-
+                                                                </div>
+                                                                
                                                             </tr>
                                                             @endforeach
-                                                        
                                                         </tbody>
                                                     </table>
                                                     <button type="submit" class="btn btn-success mt-4 stopWorking">@if(!empty($edit_facultyatt->id))
@@ -129,24 +131,26 @@
                                 </form>
                             </div>
                             <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.5/additional-methods.min.js" integrity="sha512-6S5LYNn3ZJCIm0f9L6BCerqFlQ4f5MwNKq+EthDXabtaJvg3TuFLhpno9pcm+5Ynm6jdA9xfpQoMz2fcjVMk9g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+                            <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.5/dist/additional-methods.js">></script>
 <script>
+$('#aattf').validate({
+    rules: {
 
-$(document).ready(function() {
-    $('#facultyattform').validate({
-        rules: {
             'InTime[]': {
                 required: true
             },
-        },
-        messages: {
+    },
+    messages: {
             'InTime[]': {
-                required: "Please enter In Time "
+                required: "Please Enter In Time "
             },
         
-        
-        },
-    
-    });
+    },
+    errorElement: 'span',
+    errorPlacement: function(error, element) {
+        error.addClass('invalid-feedback');
+        element.closest('.form-group').append(error);
+    },
 });
     $(".outTime").on("change",function(){
       var target_id = $(this).data('id');
@@ -182,7 +186,7 @@ $(document).ready(function() {
           
         }
 
- 
+
 
 
     });
@@ -217,4 +221,7 @@ $(document).ready(function() {
     $('#CalanderDate').val(today);
 
 </script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.5/js/bootstrap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/jquery.validate.js"></script>
+    <script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/additional-methods.js"></script>
 @endsection
